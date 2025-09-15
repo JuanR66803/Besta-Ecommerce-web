@@ -8,3 +8,14 @@ El código fuente y toda la documentación asociada son propiedad exclusiva de l
 No se concede permiso para usar, copiar, modificar, distribuir o explotar este software sin autorización expresa y por escrito del equipo de desarrollo.
 
 Para más detalles consulta el archivo LICENSE.
+
+👥 Autores
+
+Proyecto desarrollado por el Equipo Besta (2025):
+- Andrés Camilo Fernández.
+- Andrés Felipe Portillo.
+- Cristian Camilo Pavas.
+- Wilmer Yulian Ulcue.
+- Samuel Alexis Lozano.
+- Andrick Buitrago Piedraita.
+- Juan Reinosa.
