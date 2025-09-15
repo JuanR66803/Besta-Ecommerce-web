@@ -17,6 +17,7 @@ En el proyecto Besta nos comprometemos a crear un entorno amable, respetuoso e i
 
 ## Cómo reportar
 Si eres testigo o víctima de un comportamiento no deseado, por favor contacta a los responsables del proyecto de forma privada:
+- Correo para reportes: anca0software@gmail.com.
 
 Incluye en el reporte:
 - Descripción breve del incidente
