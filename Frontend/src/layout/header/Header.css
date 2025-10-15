@@ -1,0 +1,222 @@
+.nav__bar {
+  display: flex;
+  margin-top: 20px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo__container {
+  display: flex;
+  margin-left: 10px;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.logo__container img {
+  position: relative;
+  width: 60px;
+  height: 50px;
+  top: -5px;
+  object-fit: cover;
+}
+
+.search__bar {
+  display: flex;
+  gap: 10px;
+  border: 1px solid #0004;
+  padding: 10px 8px;
+  border-radius: 10px;
+  margin-right: 40px;
+  outline: none;
+  transition: outline 0.3s ease;
+  flex-grow: 1;
+  position: relative;
+}
+
+.search__bar input {
+  outline: none;
+  border: none;
+}
+
+.search__bar:has(input:focus) {
+  outline: 1px solid black;
+  outline-offset: 2px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos para las sugerencias */
+.search-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  z-index: 1000;
+  max-height: 400px;
+  overflow-y: auto;
+  margin-top: 10px;
+  padding: 8px 0;
+}
+
+/* Estilos mejorados para búsquedas populares */
+.popular-searches-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.popular-search-pill {
+  background: linear-gradient(135deg, #f6f6f6 0%, #e9e9e9 100%);
+  border: 1px solid #e0e0e0;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.popular-search-pill:hover {
+  background: linear-gradient(135deg, #efefef 0%, #d9d9d9 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  color: #000;
+}
+
+/* Mejorar estilo de los títulos de sugerencias */
+.suggestion-title {
+  color: #555;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #eee;
+  display: block;
+}
+
+/* Estilo general para los contenedores de sugerencias */
+.suggestion-group {
+  padding: 12px 16px;
+}
+
+/* Estilo para los items de sugerencia */
+.suggestion-item {
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.suggestion-item:hover {
+  background-color: #f5f5f5;
+}
+
+.menu_button {
+  background-color: transparent;
+  border: none;
+  margin-right: 10px;
+}
+
+.mobile__menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 80%;
+  height: 100vh;
+  background-color: rgba(15, 15, 15, 0.95);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  transform: translateX(100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.4s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+/* Estado visible: deslizado dentro de la pantalla */
+.mobile__menu.show {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: all;
+}
+
+.mobile__menu ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 40px;
+  text-align: center;
+}
+
+.mobile__menu li {
+  margin: 20px 0;
+}
+
+.mobile__menu a {
+  color: white;
+  font-size: 18px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.mobile__menu a:hover {
+  padding: 10px 20px;
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.651);
+  border-radius: 2px;
+}
+
+.close_button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+@media (max-width: 719px) {
+  .nav_list {
+    display: none;
+  }
+}
+
+@media (min-width: 720px) {
+  .nav__bar {
+    justify-content: space-between;
+  }
+  .nav_list {
+    display: block;
+    order: 2;
+  }
+  .search__bar {
+    order: 3;
+  }
+  .menu_button {
+    display: none;
+  }
+}
+.nav_list {
+  margin-right: 30px;
+  flex-grow: 2;
+}
+.__list {
+  display: flex;
+  gap: 60px;
+  list-style: none;
+  justify-content: end;
+  margin-right: 20px;
+}
+.list__item .item {
+  color: #000;
+  text-decoration: none;
+  font-size: 1rem;
+}
