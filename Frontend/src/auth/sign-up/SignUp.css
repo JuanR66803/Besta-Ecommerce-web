@@ -1,0 +1,198 @@
+:root{
+    --bg: #f6f7fb;
+    --card: #ffffff;
+    --accent: #111111;
+    --accent-2: #333333;
+    --muted: #7a7a7a;
+    --radius: 14px;
+    --transition: 180ms ease;
+    --max-width: 1100px;
+    --form-width: 460px;
+}
+
+/* Container */
+.sign-up-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 36px;
+    margin: 40px auto;
+    padding: 24px;
+    max-width: var(--max-width);
+    background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(246,247,251,0.6));
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(20,20,40,0.08);
+}
+
+/* Image section */
+.image-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url("/background-signup.jpg");
+    background-size: cover;         
+    background-position: center;   
+    padding: 8px;
+    position: relative;
+    border-radius: var(--radius);
+    width: 420px;
+    min-width: 320px;
+    min-height: 520px;             
+    overflow: hidden;
+    z-index: 1;
+}
+.image-section::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(4,128,115,0.80), rgba(4,128,115,0.65));
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    transition: opacity var(--transition);
+}
+
+/* Form card */
+.form-section{
+    display: flex;
+    flex-direction: column;
+    padding: 28px;
+    margin: 0 0 0 60px; /* desplaza el form más a la derecha para evitar solapamiento */
+    gap: 12px;
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: 0 8px 24px rgba(16,16,48,0.06);
+    width: min(var(--form-width), 100vw);
+    position: relative; /* para el pseudo-elemento curvo */
+    z-index: 3;
+    overflow: visible;
+}
+/* curva blanca entre imagen y form (menos ancha y detrás del contenido) */
+.form-section::before{
+    content: "";
+    position: absolute;
+    left: 70px;   
+    top: 10px;  
+    height: 100%;
+    background: var(--card);
+    border-radius: 48% / 100%;
+    box-shadow: -6px 0 18px rgba(16,16,48,0.06);
+    pointer-events: none;
+    z-index: 1;     
+}
+
+/* Form layout */
+.sign-up-form{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;    
+    width: 100%;
+    font-family: Inter, Roboto, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* Labels & inputs */
+.sign-up-form label{
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-top: 6px;
+    color: var(--accent-2);
+    text-align: left;
+}
+.sign-up-form input{
+    width: 90%;
+    padding: 12px 14px;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 10px;
+    outline: none;
+    transition: box-shadow var(--transition), border-color var(--transition);
+    background: linear-gradient(#fff, #fbfdff);
+    color: var(--accent-2);
+    font-size: 0.95rem;
+}
+.sign-up-form input::placeholder{
+    color: var(--muted);
+    opacity: 0.9;
+}
+.sign-up-form input:focus{
+    border-color: rgba(0,0,0,0.18);
+    box-shadow: 0 6px 18px rgba(17,17,17,0.06), 0 0 0 4px rgba(0,0,0,0.04);
+}
+
+/* Button */
+.sign-up-form button{
+    margin: 18px 0 0 0;
+    padding: 12px 18px;
+    width: 60%;
+    align-self: center;
+    background-color: var(--accent);
+    border: none;
+    color: #fff;
+    border-radius: 999px;
+    cursor: pointer;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    transition: transform var(--transition), box-shadow var(--transition), background-color var(--transition);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+.sign-up-form button:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.14);
+    background-color: #0b0b0b;
+}
+
+/* Small helpers */
+.helper-text{
+    font-size: 0.85rem;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 8px;
+}
+
+/* Responsive */
+@media (max-width: 1000px){
+    .sign-up-container{
+        position: relative;
+        padding: 18px;
+        gap: 18px;
+    }
+    .image-section{
+        display: none;
+        
+    }
+    .image-section img{
+        width: 340px;
+        height: 560px;
+    }
+    .sign-up-form button{
+        width: 70%;
+    }
+}
+
+@media (max-width: 720px){
+    .sign-up-container{
+        flex-direction: column;
+        margin: 20px;
+    }
+    .image-section{
+        display: none;
+    }
+    .image-section img{
+        width: 100%;
+        height: 260px;
+        border-radius: 12px;
+        object-position: center;
+    }
+    .form-section{
+        width: 100%;
+        padding: 20px;
+        margin-left: 0;
+    }
+    .form-section::before{
+        display: none;
+    }
+    .sign-up-form button{
+        width: 100%;
+    }
+}
