@@ -17,7 +17,7 @@ export const updateProductById = async(id_product, id_sub_category, product_name
 }
 
 //funcion que me permite eliminar un producto
-export const deleteProductByID = async(id_product) =>{
+export const deleteProductById = async(id_product) =>{
     const query = `DELETE FROM product where id_product= $1`;
     const values= [id_product];
     const result = await pool.query(query,values);
