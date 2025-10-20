@@ -67,17 +67,17 @@ const SignUp = () =>{
                     <p>Regístrate para estar enterado de lo mejor del deporte</p>
                     <form className="sign-up-form" onSubmit={handleSubmit}>
                         <label htmlFor="fullName">Nombre completo</label>
-                        <input type="text" value={form.fullname} onChange={handleChange} placeholder="Juan C . perez" required />
+                        <input name="fullname" type="text" value={form.fullname} onChange={handleChange} placeholder="Juan C . perez" required />
                         <label htmlFor="email">Correo electrónico</label>
-                        <input type="email" value = {form.email} onChange={handleChange} placeholder="example@example.com" required />
+                        <input name="email" type="email" value = {form.email} onChange={handleChange} placeholder="example@example.com" required />
                         <label htmlFor="password">Contraseña</label>
-                        <input type="password" value={form.password} onChange={handleChange} placeholder="********" required />
+                        <input name="password" type="password" value={form.password} onChange={handleChange} placeholder="********" required />
                         <label htmlFor="confirmPassword">Confirmar contraseña</label>
-                        <input type="password" value={form.confirmPassword} onChange={handleChange} placeholder="********" required />
+                        <input name="confirmpassword" type="password" value={form.confirmPassword} onChange={handleChange} placeholder="********" required />
                         <label htmlFor="Age">Fecha de nacimiento</label>
-                        <input type="date" value={form.birthDate} onChange={handleChange} required />
+                        <input name="date" type="date" value={form.birthDate} onChange={handleChange} required />
                         <label htmlFor="phone">Número de teléfono</label>
-                        <input type="tel" value={form.phone} onChange={handleChange} placeholder="+57 300 123 4567" required />
+                        <input name="tel" type="tel" value={form.phone} onChange={handleChange} placeholder="+57 300 123 4567" required />
                         <button type="submit" className="sign-up-button">Crear cuenta</button>
                     </form>
                 </section>
