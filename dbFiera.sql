@@ -31,24 +31,14 @@ crete table color{
 id_color bigSerial PRIMARY KEY,
 hexagecimal_code varchar(16) NOT NULL
 }
--------------------tabla publico objetivo-----------------
-create table public_objetive{
-id_public_objetive bigSerial PRIMARY KEY,
-public_objetive_name varchar(30) NOT NULL
-}
--------------------tabla experticia-----------------
-create table expertice{
-id_expetice bigSerial PRIMARY KEY,
-expertice_name varchar(30) NOT NULL
-}
 -------------------tabla detalles de producto-----------------
 create table product_details(
 id_product_details bigSerial PRIMARY KEY,
 id_product bigInt NOT NULL REFERENCES product(id_product) ON DELETE CASCADE,
 id_product_state bigInt NOT NULL REFERENCES product_state(id_product_state) ON DELETE CASCADE,
 id_color bigInt NOT NULL REFERENCES color(id_color) ON DELETE CASCADE,
-id_public_objetive bigInt NOT NULL REFERENCES public_objetive(id_public_objetive) ON DELETE CASCADE,
-id_expertice bigInt NOT NULL REFERENCES expertice(id_expertice) ON DELETE CASCADE,
+id_public_objetive varchar(50) NOT NULL,
+id_expertice varchar(50) NOT NULL ,
 product_price bigInt NOT NULL,
 stock bigInt NOT NULL,
 product_size varchar(50) NOT NULL
