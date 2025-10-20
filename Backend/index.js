@@ -2,7 +2,7 @@ import "./config/db.js";
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import productRouter from "./routes/productRoutes.js"
+import categoryRoutes from "./routes/categoryRoutes.js"
 
 dotenv.config();
 
@@ -22,7 +22,7 @@ app.use(cors({
 }));
 app.use(express.json());
 //rutas
-app.use("/api", productRouter)
+app.use("/api/category", categoryRoutes)//enrutamiento a las categorias
 app.get("/", (req, res) => {
     res.json({ message: "backend funcionando correctamente" });
 });

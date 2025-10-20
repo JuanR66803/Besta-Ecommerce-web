@@ -1,6 +1,6 @@
 
-import { findProducts, CreateProducts, UpdateProductsId, findProductById, deleteProducts } from "../models/productModel.js";
-import { createDetailsProduct, UpdateDetailsProduct } from "../models/productDetailModel.js";
+import { findProducts, CreateProducts, UpdateProductsId, findProductById, deleteProducts } from "../models/productModelExample.js";
+import { createDetailsProduct, UpdateDetailsProduct } from "../models/productDetailModelExample.js";
 import cloudinary from "../config/cloudinaryConfig.js";
 import multer from 'multer';
 import pool from "../config/db.js";
