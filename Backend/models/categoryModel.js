@@ -21,8 +21,7 @@ export class CategoryModel{
     //Metodo que me permite eliminar una categoria
     async deleteCategoryById (id_category){
     const query = `DELETE FROM category where id_category= $1`;
-    const values= [id_category];
-    const result = await pool.query(query,values);
+    const result = await pool.query(query,[id_category]);
     return result.rows[0]
 
 }
@@ -30,8 +29,7 @@ export class CategoryModel{
 //Metodo que me permite obtener una categoria por su id
     async getCategoryById (id_category){
     const query = `SELECT * FROM category where id_category= $1`;
-    const values= [id_category];
-    const result = await pool.query(query,values);
+    const result = await pool.query(query,[id_category]);
     return result.rows[0]
 
 }
