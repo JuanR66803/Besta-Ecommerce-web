@@ -1,0 +1,99 @@
+/* Panel general */
+.panel__admin {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    background: #f8f9fb;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+}
+
+/* Barra lateral izquierda */
+.admin__options {
+    width: 25%;
+    height: 100vh;
+    background: #ffffff;
+    border-right: 1px solid rgba(185, 181, 181, 0.3);
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    transition: all 0.3s ease;
+}
+
+/* Contenido principal */
+.admin__content {
+    flex: 1;
+    padding: 30px;
+    background-color: #f4f6f8;
+    overflow-y: auto;
+}
+
+/* Encabezado del panel lateral */
+.header__options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 10px 20px 10px;
+    border-bottom: 1px solid rgba(185, 181, 181, 0.3);
+    color: #000000;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 4px 10px rgba(49, 49, 49, 0.2);
+}
+
+.header__options h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    letter-spacing: 0.5px;
+}
+
+/* Lista de botones */
+.options__list {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 15px;
+}
+
+/* Botones del panel */
+.btn__option {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: #444;
+    transition: all 0.25s ease;
+}
+
+.btn__option:hover {
+    background-color: #e8f0fe;
+    color: #525252;
+    transform: translateX(5px);
+}
+
+.btn__option.active {
+    background-color: #dbe8ff;
+    color: #000000;
+    font-weight: 600;
+    box-shadow: inset 2px 0 0 #47494b;
+}
+
+/* Íconos en los botones (si los hay) */
+.btn__option i {
+    font-size: 1.2rem;
+    opacity: 0.8;
+    transition: all 0.2s;
+}
+
+.btn__option:hover i {
+    opacity: 1;
+    transform: scale(1.1);
+}
