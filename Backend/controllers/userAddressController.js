@@ -1,4 +1,4 @@
-import { UserAddressService } from "../services/userAddressServices";
+import { UserAddressService } from "../services/userAddressServices.js";
 
     const userAddressService = new UserAddressService();
 

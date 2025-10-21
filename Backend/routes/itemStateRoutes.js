@@ -1,13 +1,14 @@
 import express from "express";
-import {ItemStateController} from "../controllers/item_stateController.js";
-
-const item_stateController = new ItemStateController();
+import { ItemStateController } from "../controllers/itemStateController.js";
 
 const router = express.Router();
-router.post("/createItemState", item_stateController.createItemState);
-router.put("/updateItemStateById", item_stateController.updateItemState);
-router.delete("/deleteItemStateById", item_stateController.deleteItemStateById);
-router.get("/getAllCategories", item_stateController.getAllCategories);
-router.get("/getItemStateById", item_stateController.getItemStateById);
+const itemStateController = new ItemStateController();
+
+// envolver los métodos para garantizar que sean funciones válidas y mantener el this
+router.post("/createItemState", (req, res) => itemStateController.createItemState(req, res));
+router.put("/updateItemState", (req, res) => itemStateController.updateItemState(req, res));
+router.delete("/deleteItemStateById", (req, res) => itemStateController.deleteItemStateById(req, res));
+router.get("/getItemStateById/:id", (req, res) => itemStateController.getItemStateById(req, res));
+router.get("/getAllItemStates", (req, res) => itemStateController.getAllItemStates(req, res));
 
 export default router;

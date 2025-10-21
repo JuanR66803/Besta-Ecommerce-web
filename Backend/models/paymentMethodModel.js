@@ -1,6 +1,6 @@
 import pool from "../config/db.js"
 
-export class PaymentMehodModel{
+export class PaymentMethodModel{
 
     async createPaymentMehod (method_name){
     const query = `INSERT INTO payment_method(method_name) VALUES($1) RETURNING *`;

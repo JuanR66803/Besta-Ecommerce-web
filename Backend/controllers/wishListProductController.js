@@ -1,4 +1,4 @@
-import { WishListProductService } from "../services/wishListProductServices";
+import { WishListProductService } from "../services/wishListProductServices.js";
 
     const wishListProductService = new WishListProductService();
 

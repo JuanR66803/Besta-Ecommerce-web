@@ -1,4 +1,4 @@
-import {GenderModel} from "../models/roleModel.js" ;
+import {GenderModel} from "../models/genderModel.js" ;
 
 const roleModel = new GenderModel();
 
