@@ -11,6 +11,7 @@ import productDetailsRoutes from "./routes/productDetailsRoutes.js"
 import paymentMethodRoutes from "./routes/paymentMethodRoutes.js"
 import saleOrderRoutes from "./routes/saleOrderRoutes.js" 
 import saleOrderItemRoutes from "./routes/saleOrderItemRoutes.js" 
+import roleRoutes from "./routes/roleRoutes.js" 
 
 dotenv.config();
 
@@ -39,6 +40,7 @@ app.use("/api/productDetails", productDetailsRoutes)//enrutamiento a los detalle
 pp.use("/api/paymentMethod", paymentMethodRoutes)//enrutamiento a metodos de pago
 pp.use("/api/saleOrder", saleOrderRoutes)//enrutamiento a los items de las ordenes de venta
 pp.use("/api/saleOrderItem", saleOrderItemRoutes)//enrutamiento a los items de las ordenes de venta
+pp.use("/api/roleItem", roleRoutes)//enrutamiento a los roles
 app.get("/", (req, res) => {
     res.json({ message: "backend funcionando correctamente" });
 });
