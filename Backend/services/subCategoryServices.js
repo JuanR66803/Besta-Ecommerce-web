@@ -1,33 +1,33 @@
-import {SubCategoryModel} from "../models/categoryModel.js" ;
+import {SubCategoryModel} from "../models/subCategoryModel.js" ;
 
-const categoryModel = new CategoryModel();
+const subCategoryModel = new SubCategoryModel();
 
-export class CategoryService{
+export class SubCategoryService{
     
-    //metodo para crear una categoria
-    async createCategory(category_name){
+    //metodo para crear una sub categoria
+    async createSubCategory(sub_category_name){
         // se crea la categoría sin comprobar si ya existe, hay que agregar un condicional
-        return (await categoryModel.createCategory(category_name));
+        return (await subCategoryModel.createSubCategory(sub_category_name));
     };
 
-    //metodo para acrualizar una categoria
-    async updateCategory(id_category,category_name){
-        return (await categoryModel.updateCategoryById(id_category, category_name));
+    //metodo para acrualizar una sub categoria
+    async updateSubCategory(id_sub_category,sub_category_name){
+        return (await subCategoryModel.updateSubCategoryById(id_sub_category, sub_category_name));
     };
 
-    //metodo para eliminar una categoria
-    async deleteCategoryById(id_category){
-        return (await categoryModel.deleteCategoryById(id_category));
+    //metodo para eliminar una sub categoria
+    async deleteSubCategoryById(id_sub_category){
+        return (await subCategoryModel.deleteSubCategoryById(id_sub_category));
     };
 
-    //metodo para obtener una categoria con su id
-    async getCategoryById(id_category){
-        return (await categoryModel.getCategoryById(id_category));
+    //metodo para obtener una sub categoria con su id
+    async getSubCategoryById(id_sub_category){
+        return (await subCategoryModel.getSubCategoryById(id_sub_category));
     };
 
-    //metodo para obtener todas las categorias
-    async getAllCategories(){
-        return (await categoryModel.getaAllCategories())
+    //metodo para obtener todas las sub categorias
+    async getAllSubCategories(){
+        return (await subCategoryModel.getaAllCategories())
     };
 }
 
