@@ -3,7 +3,7 @@ import { useState } from "react";
 
 
 const SignUp = () =>{
-
+    const API_URL = `${import.meta.env.VITE_API_URL}/api/auth/register` || "http://localhost:4000/api/auth/register";
     const [form, setForm] = useState({
         fullname:'',
         email:'',
@@ -31,7 +31,7 @@ const SignUp = () =>{
         if(!validatePassword()) return;
         setSubmitting(true);
         try{
-            const res = await fetch("api",{
+            const res = await fetch(API_URL,{
                 method:"POST",
                 headers:{"content-type":"application/json"},
                 body: JSON.stringify({
