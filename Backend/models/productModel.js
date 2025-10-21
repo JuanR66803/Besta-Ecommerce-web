@@ -19,24 +19,22 @@ export const updateProductById = async(id_product, id_sub_category, product_name
 //funcion que me permite eliminar un producto
 export const deleteProductById = async(id_product) =>{
     const query = `DELETE FROM product where id_product= $1`;
-    const values= [id_product];
-    const result = await pool.query(query,values);
+    const result = await pool.query(query,[id_product]);
     return result.rows[0]
 
 }
 
 //funcion que me permite obtener un producto por su id
-export const getProductByID = async(id_product) =>{
+export const getProductById = async(id_product) =>{
     const query = `SELECT * FROM category where id_product= $1`;
-    const values= [id_product];
-    const result = await pool.query(query,values);
+    const result = await pool.query(query,[id_product]);
     return result.rows[0]
 
 }
 
 //funcion que me permite obtener todos los productos
 export const getaAllProducts= async() =>{
-    const query = `SELECT * FROM product`;
+    const query = `SELECT * FROM sub_category`;
     const result = await pool.query(query);
     return result.rows[0];
 }
