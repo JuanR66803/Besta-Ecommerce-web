@@ -35,7 +35,7 @@ export class CategoryModel{
 }
 
 //Metodo que me permite obtener todas las categorias
-    async getaAllCategories(){
+    async getAllCategories(){
     const query = `SELECT * FROM category`;
     const result = await pool.query(query);
     return result.rows[0];

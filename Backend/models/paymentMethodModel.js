@@ -33,7 +33,7 @@ export class PaymentMehodModel{
 }
 
 //Metodo que me permite obtener todas las categorias
-    async getaAllPaymentMehods(){
+    async getAllPaymentMehods(){
     const query = `SELECT * FROM payment_method`;
     const result = await pool.query(query);
     return result.rows[0];

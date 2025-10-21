@@ -33,7 +33,7 @@ export class ProductStateModel{
 }
 
 //Metodo que me permite obtener todas las categorias
-    async getaAllProductStates(){
+    async getAllProductStates(){
     const query = `SELECT * FROM product_state`;
     const result = await pool.query(query);
     return result.rows[0];

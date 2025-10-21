@@ -48,7 +48,7 @@ export class ProductDetailsModel {
   }
 
   //funcion que me permite obtener todas las categorias
-  async getaAllproductDetails() {
+  async getAllproductDetails() {
     const query = `SELECT 
     pd.id_product_details,
     pd.product_price, 

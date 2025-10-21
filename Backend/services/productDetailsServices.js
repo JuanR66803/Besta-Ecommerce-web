@@ -26,6 +26,6 @@ export class ProductDetailsService {
 
   //metodo para obtener todas las sub categorias
   async getAllProductDetails() {
-    return await productDetailsModel.getaAllProductDetails();
+    return await productDetailsModel.getAllProductDetails();
   }
 }

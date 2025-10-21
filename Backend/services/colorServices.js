@@ -27,6 +27,6 @@ export class ColorService{
 
     //metodo para obtener todos los colores
     async getAllColors(){
-        return (await colorModel.getaAllColors())
+        return (await colorModel.getAllColors())
     };
 }

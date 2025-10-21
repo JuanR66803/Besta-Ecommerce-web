@@ -35,7 +35,7 @@ export class ProductModel{
 }
 
 //funcion que me permite obtener todos los productos
-    async getaAllProducts(){
+    async getAllProducts(){
         const query = `SELECT * FROM product`;
         const result = await pool.query(query);
         return result.rows[0];

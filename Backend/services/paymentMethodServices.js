@@ -27,6 +27,6 @@ export class PaymentMethodService{
 
     //metodo para obtener todos los metodos de pago
     async getAllPaymentMethods(){
-        return (await paymentMethodModel.getaAllPaymentMethods())
+        return (await paymentMethodModel.getAllPaymentMethods())
     };
 }

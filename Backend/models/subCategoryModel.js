@@ -33,7 +33,7 @@ export class SubCategoryModel{
 }
 
 //funcion que me permite obtener todas las categorias
-    async getaAllSubCategories(){
+    async getAllSubCategories(){
     const query = `SELECT * FROM sub_category`;
     const result = await pool.query(query);
     return result.rows[0];

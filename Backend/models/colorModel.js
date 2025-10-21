@@ -33,7 +33,7 @@ export class ColorModel{
 }
 
 //Metodo que me permite obtener todas las categorias
-    async getaAllColors(){
+    async getAllColors(){
     const query = `SELECT * FROM color`;
     const result = await pool.query(query);
     return result.rows[0];
