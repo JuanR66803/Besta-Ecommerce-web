@@ -12,6 +12,9 @@ import paymentMethodRoutes from "./routes/paymentMethodRoutes.js"
 import saleOrderRoutes from "./routes/saleOrderRoutes.js" 
 import saleOrderItemRoutes from "./routes/saleOrderItemRoutes.js" 
 import roleRoutes from "./routes/roleRoutes.js" 
+import genderRoutes from "./routes/genderRoutes.js" 
+import userAddressRoutes from "./routes/userAddressRoutes.js" 
+import wishListProductRoutes from "./routes/wishListProductRoutes.js" 
 
 dotenv.config();
 
@@ -41,6 +44,10 @@ pp.use("/api/paymentMethod", paymentMethodRoutes)//enrutamiento a metodos de pag
 pp.use("/api/saleOrder", saleOrderRoutes)//enrutamiento a los items de las ordenes de venta
 pp.use("/api/saleOrderItem", saleOrderItemRoutes)//enrutamiento a los items de las ordenes de venta
 pp.use("/api/roleItem", roleRoutes)//enrutamiento a los roles
+pp.use("/api/genderItem", genderRoutes)//enrutamiento a los generos
+pp.use("/api/userAddressItem", userAddressRoutes)//enrutamiento a las direcciones del usuario
+pp.use("/api/wishListProduct", wishListProductRoutes)//enrutamiento a los productos en la lista de deseados
+
 app.get("/", (req, res) => {
     res.json({ message: "backend funcionando correctamente" });
 });

@@ -1,4 +1,5 @@
 
+
 ------------------Crear base de datos--------------
 create database db_fiera
 
@@ -121,6 +122,7 @@ quantity int NOT NULL
 -------------------tabla wish list_products-----------------
 create table wish_list_products(
 id_wish_list_products bigSerial PRIMARY KEY,
+id_product_details bigInt NOT NULL REFERENCES product_details(id_product_details)
 id_users bigInt NOT NULL REFERENCES users(id_users)
 )
 
