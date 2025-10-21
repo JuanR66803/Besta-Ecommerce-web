@@ -4,7 +4,7 @@ export class UserAddressModel{
     
     //Metodo que me permite crear una categoria
     async createUserAddress (address_name, address, city, postal_code, details){
-    const query = `INSERT INTO role(address_name, address, city, postal_code, details) VALUES($1,$2,$3,$4,$5) RETURNING *`;
+    const query = `INSERT INTO user_address(address_name, address, city, postal_code, details) VALUES($1,$2,$3,$4,$5) RETURNING *`;
     const values= [address_name, address, city, postal_code, details];
     const result = await pool.query(query,values);
     return result.rows[0];
