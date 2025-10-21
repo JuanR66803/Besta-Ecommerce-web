@@ -6,7 +6,8 @@ import categoryRoutes from "./routes/categoryRoutes.js"
 import subCategoryRoutes from "./routes/subCategoryRoutes.js"
 import productStateRoutes from "./routes/productStateRoutes.js" 
 import productDetailsRoutes from "./routes/productDetailsRoutes.js" 
-import paymentMethodRoutes from "./routes/paymentMethodRoutes.js" 
+import paymentMethodRoutes from "./routes/paymentMethodRoutes.js"
+import saleOrderItemRoutes from "./routes/saleOrderItemRoutes.js" 
 
 dotenv.config();
 
@@ -31,6 +32,7 @@ app.use("/api/subCategory", subCategoryRoutes)//enrutamiento a las sub categoria
 app.use("/api/productState", productStateRoutes)//enrutamiento a los estados del producto
 app.use("/api/productDetails", productDetailsRoutes)//enrutamiento a los detalles de los productos
 pp.use("/api/paymentMethod", paymentMethodRoutes)//enrutamiento a metodos de pago
+pp.use("/api/saleOrderItem", saleOrderItemRoutes)//enrutamiento a los items de las ordenes de venta
 app.get("/", (req, res) => {
     res.json({ message: "backend funcionando correctamente" });
 });
