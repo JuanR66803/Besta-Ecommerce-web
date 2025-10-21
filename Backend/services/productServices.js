@@ -27,7 +27,7 @@ export class ProductService{
 
     //metodo para obtener todos los productos
     async getAllProducts(){
-        return (await productModel.getaAllProducts())
+        return (await productModel.getAllProducts())
     };
 }
 

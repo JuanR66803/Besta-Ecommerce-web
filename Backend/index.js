@@ -3,10 +3,26 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import categoryRoutes from "./routes/categoryRoutes.js"
+<<<<<<< HEAD
 import authRoutes from "./routes/authRoutes.js";
 
 
 
+=======
+import subCategoryRoutes from "./routes/subCategoryRoutes.js"
+import productStateRoutes from "./routes/productStateRoutes.js" 
+import colorRoutes from "./routes/colorRoutes.js" 
+import productRoutes from "./routes/productRoutes.js" 
+import productDetailsRoutes from "./routes/productDetailsRoutes.js" 
+import paymentMethodRoutes from "./routes/paymentMethodRoutes.js"
+import saleOrderRoutes from "./routes/saleOrderRoutes.js" 
+import saleOrderItemRoutes from "./routes/saleOrderItemRoutes.js" 
+import roleRoutes from "./routes/roleRoutes.js" 
+import genderRoutes from "./routes/genderRoutes.js" 
+import userAddressRoutes from "./routes/userAddressRoutes.js" 
+import wishListProductRoutes from "./routes/wishListProductRoutes.js" 
+import itemStateRoutes from "./routes/itemStateRoutes.js" 
+>>>>>>> 104dd579033ff5be0a86f5159082b407dc56d7ab
 
 dotenv.config();
 
@@ -29,7 +45,23 @@ app.use(express.json());
 
 
 app.use("/api/category", categoryRoutes)//enrutamiento a las categorias
+<<<<<<< HEAD
 app.use("/api/auth", authRoutes);//enrutamiento a la autenticacion
+=======
+app.use("/api/subCategory", subCategoryRoutes)//enrutamiento a las sub categorias
+app.use("/api/productState", productStateRoutes)//enrutamiento a los estados del producto
+app.use("/api/color", colorRoutes)//enrutamiento a los colores
+app.use("/api/product", productRoutes)//enrutamiento a los productos
+app.use("/api/productDetails", productDetailsRoutes)//enrutamiento a los detalles de los productos
+pp.use("/api/paymentMethod", paymentMethodRoutes)//enrutamiento a metodos de pago
+pp.use("/api/saleOrder", saleOrderRoutes)//enrutamiento a los items de las ordenes de venta
+pp.use("/api/saleOrderItem", saleOrderItemRoutes)//enrutamiento a los items de las ordenes de venta
+pp.use("/api/roleItem", roleRoutes)//enrutamiento a los roles
+pp.use("/api/genderItem", genderRoutes)//enrutamiento a los generos
+pp.use("/api/userAddressItem", userAddressRoutes)//enrutamiento a las direcciones del usuario
+pp.use("/api/wishListProduct", wishListProductRoutes)//enrutamiento a los productos en la lista de deseados
+pp.use("/api/itemState", itemStateRoutes)//enrutamiento a los estados de los items
+>>>>>>> 104dd579033ff5be0a86f5159082b407dc56d7ab
 
 app.get("/", (req, res) => {
     res.json({ message: "backend funcionando correctamente" });

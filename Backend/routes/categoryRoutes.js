@@ -8,6 +8,6 @@ router.post("/createCategory", categoryController.createCategory);
 router.put("/updateCategoryById", categoryController.updateCategory);
 router.delete("/deleteCategoryById", categoryController.deleteCategoryById);
 router.get("/getAllCategories", categoryController.getAllCategories);
-router.get("/getCategoryById", categoryController.getAllCategories);
+router.get("/getCategoryById", categoryController.getCategoryById);
 
 export default router;

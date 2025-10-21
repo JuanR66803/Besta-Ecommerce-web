@@ -45,8 +45,8 @@ export class SubCategoryController{
     };
 
     //metodo para obtener todas las sub categorias
-    async getAllCategories(req,res){
-        const getAllCategories = await subCategoryService.getAllCategories();
-        res.status(200).json(getAllCategories)
+    async getAllSubCategories(req,res){
+        const getAllSubCategories = await subCategoryService.getAllSubCategories();
+        res.status(200).json(getAllSubCategories)
     };
 }

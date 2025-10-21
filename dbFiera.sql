@@ -1,4 +1,5 @@
 
+
 ------------------Crear base de datos--------------
 create database db_fiera
 
@@ -37,11 +38,11 @@ id_product_details bigSerial PRIMARY KEY,
 id_product bigInt NOT NULL REFERENCES product(id_product) ON DELETE CASCADE,
 id_product_state bigInt NOT NULL REFERENCES product_state(id_product_state) ON DELETE CASCADE,
 id_color bigInt NOT NULL REFERENCES color(id_color) ON DELETE CASCADE,
-id_public_objetive varchar(50) NOT NULL,
-id_expertice varchar(50) NOT NULL ,
 product_price bigInt NOT NULL,
 stock bigInt NOT NULL,
-product_size varchar(50) NOT NULL
+product_size varchar(50) NOT NULL,
+public_objetive varchar(50) NOT NULL,
+expertice varchar(50) NOT NULL
 )
 -------------------tabla metodo de pago-----------------
 create table payment_method(
@@ -92,7 +93,7 @@ id_gender bigInt NOT NULL REFERENCES gender(id_gender),
 id_role bigInt NOT NULL REFERENCES role(id_role),
 full_name varchar(150) NOT NULL,
 email varchar(150) NOT NULL,
-user_password varchar(20) NOT NULL,
+user_password varchar(300) NOT NULL,
 phone_number varchar(20) NOT NULL,
 register_dare timeStamp WITHOUT TIME ZONE NOT NULL,
 modification_date timeStamp WITHOUT TIME ZONE NOT NULL,
@@ -121,6 +122,7 @@ quantity int NOT NULL
 -------------------tabla wish list_products-----------------
 create table wish_list_products(
 id_wish_list_products bigSerial PRIMARY KEY,
+id_product_details bigInt NOT NULL REFERENCES product_details(id_product_details)
 id_users bigInt NOT NULL REFERENCES users(id_users)
 )
 
