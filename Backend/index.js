@@ -15,6 +15,7 @@ import roleRoutes from "./routes/roleRoutes.js"
 import genderRoutes from "./routes/genderRoutes.js" 
 import userAddressRoutes from "./routes/userAddressRoutes.js" 
 import wishListProductRoutes from "./routes/wishListProductRoutes.js" 
+import itemStateRoutes from "./routes/itemStateRoutes.js" 
 
 dotenv.config();
 
@@ -47,6 +48,7 @@ pp.use("/api/roleItem", roleRoutes)//enrutamiento a los roles
 pp.use("/api/genderItem", genderRoutes)//enrutamiento a los generos
 pp.use("/api/userAddressItem", userAddressRoutes)//enrutamiento a las direcciones del usuario
 pp.use("/api/wishListProduct", wishListProductRoutes)//enrutamiento a los productos en la lista de deseados
+pp.use("/api/itemState", itemStateRoutes)//enrutamiento a los estados de los items
 
 app.get("/", (req, res) => {
     res.json({ message: "backend funcionando correctamente" });
