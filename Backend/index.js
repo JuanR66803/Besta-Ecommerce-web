@@ -5,8 +5,11 @@ import dotenv from "dotenv";
 import categoryRoutes from "./routes/categoryRoutes.js"
 import subCategoryRoutes from "./routes/subCategoryRoutes.js"
 import productStateRoutes from "./routes/productStateRoutes.js" 
+import colorRoutes from "./routes/colorRoutes.js" 
+import productRoutes from "./routes/productRoutes.js" 
 import productDetailsRoutes from "./routes/productDetailsRoutes.js" 
 import paymentMethodRoutes from "./routes/paymentMethodRoutes.js"
+import saleOrderRoutes from "./routes/saleOrderRoutes.js" 
 import saleOrderItemRoutes from "./routes/saleOrderItemRoutes.js" 
 
 dotenv.config();
@@ -30,8 +33,11 @@ app.use(express.json());
 app.use("/api/category", categoryRoutes)//enrutamiento a las categorias
 app.use("/api/subCategory", subCategoryRoutes)//enrutamiento a las sub categorias
 app.use("/api/productState", productStateRoutes)//enrutamiento a los estados del producto
+app.use("/api/color", colorRoutes)//enrutamiento a los colores
+app.use("/api/product", productRoutes)//enrutamiento a los productos
 app.use("/api/productDetails", productDetailsRoutes)//enrutamiento a los detalles de los productos
 pp.use("/api/paymentMethod", paymentMethodRoutes)//enrutamiento a metodos de pago
+pp.use("/api/saleOrder", saleOrderRoutes)//enrutamiento a los items de las ordenes de venta
 pp.use("/api/saleOrderItem", saleOrderItemRoutes)//enrutamiento a los items de las ordenes de venta
 app.get("/", (req, res) => {
     res.json({ message: "backend funcionando correctamente" });

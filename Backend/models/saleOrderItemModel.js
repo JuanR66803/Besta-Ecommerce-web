@@ -33,9 +33,7 @@ export class SaleOrderItemModel{
     soi.partial_price,
     soi.quantity,
     soi.id_sale_order,
-
     pd.product_size,
-
     p.product_name,
     p.url_image
     FROM sale_order_item soi
