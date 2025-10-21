@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import categoryRoutes from "./routes/categoryRoutes.js"
 import subCategoryRoutes from "./routes/subCategoryRoutes.js"
 import productStateRoutes from "./routes/productStateRoutes.js" 
+import productDetailsRoutes from "./routes/productDetailsRoutes.js" 
 
 dotenv.config();
 
@@ -25,8 +26,9 @@ app.use(cors({
 app.use(express.json());
 //rutas
 app.use("/api/category", categoryRoutes)//enrutamiento a las categorias
-app.use("/api/subCategory", subCategoryRoutes)//enrutamiento a las categorias
-app.use("/api/productState", productStateRoutes)//enrutamiento a las categorias
+app.use("/api/subCategory", subCategoryRoutes)//enrutamiento a las sub categorias
+app.use("/api/productState", productStateRoutes)//enrutamiento a los estados del producto
+app.use("/api/productDetails", productDetailsRoutes)//enrutamiento a los detalles de los productos
 app.get("/", (req, res) => {
     res.json({ message: "backend funcionando correctamente" });
 });
