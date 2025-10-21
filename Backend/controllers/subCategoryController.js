@@ -1,4 +1,4 @@
-import { SubCategoryService } from "../services/subCategoryService";
+import { SubCategoryService } from "../services/subCategoryServices";
 
     const subCategoryService = new SubCategoryService();
 
