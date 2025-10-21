@@ -1,8 +1,8 @@
-import { UserModel } from "../models/userModel";
+import { UserModel } from "../models/userModel.js";
 
 const userModel = new UserModel();
 
-export class AuthService {
+export default class AuthService {
     //metodo para registrar un usuario
     async registerUser(fullname, email, password, birthDate, phone) {
         // se crea el usuario sin comprobar si ya existe, hay que agregar un condicional

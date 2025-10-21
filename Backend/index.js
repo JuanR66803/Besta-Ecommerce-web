@@ -6,6 +6,8 @@ import categoryRoutes from "./routes/categoryRoutes.js"
 import authRoutes from "./routes/authRoutes.js";
 
 
+
+
 dotenv.config();
 
 const app = express();
@@ -24,6 +26,7 @@ app.use(cors({
 }));
 app.use(express.json());
 //rutas
+
 
 app.use("/api/category", categoryRoutes)//enrutamiento a las categorias
 app.use("/api/auth", authRoutes);//enrutamiento a la autenticacion

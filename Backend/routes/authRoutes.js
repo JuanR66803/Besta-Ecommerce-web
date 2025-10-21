@@ -1,4 +1,4 @@
-import { AuthController } from "../controllers/authController";
+import AuthController from "../controllers/authController.js";
 import express from "express";
 
 const authController = new AuthController();

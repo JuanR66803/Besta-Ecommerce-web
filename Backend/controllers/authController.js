@@ -1,9 +1,9 @@
-import AuthService from "../services/authService";
+import AuthService from "../services/authService.js";
 import bcrypt from "bcryptjs";
 
 const authService = new AuthService();
 
-export class AuthController {
+export default class AuthController {
     // método para registrar un usuario
     async registerUser(req, res) {
         try {
