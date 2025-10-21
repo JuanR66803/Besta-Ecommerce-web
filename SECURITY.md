@@ -5,8 +5,6 @@ Gracias por preocuparte por la seguridad del proyecto. Si encuentras una vulnera
 ## Contacto para reportes de seguridad
 - Enviar por email a: **anca0software@gmail.com**  
 
-**Asunto del email:** [SECURITY] Breve descripción
-
 ## Qué incluir en el reporte
 1. Resumen corto del problema (una o dos líneas).  
 2. Pasos para reproducirlo (paso a paso).  
