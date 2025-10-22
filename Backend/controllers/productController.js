@@ -1,4 +1,4 @@
-import { ProductService } from "../services/productServices";
+import { ProductService } from "../services/productServices.js";
 
     const productService = new ProductService();
 
@@ -45,8 +45,8 @@ export class ProductController{
     };
 
     //metodo para obtener todas las categorias
-    async getAllCategories(req,res){
-        const getAllCategories = await productService.getAllProducts();
-        res.status(200).json(getAllCategories)
+    async getAllProducts(req,res){
+        const getAllProducts = await productService.getAllProducts();
+        res.status(200).json(getAllProducts)
     };
 }

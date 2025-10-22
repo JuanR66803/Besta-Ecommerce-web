@@ -1,8 +1,12 @@
+import { NavLink } from "react-router-dom";
 import "./SignUp.css"
 import { useState } from "react";
 
 
 const SignUp = () =>{
+    // usa el BASE del backend (ajusta el puerto si tu server corre en otro)
+    const API_URL_BASE = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
+    const API_URL = `${API_URL_BASE}/api/auth/register`;
 
     const [form, setForm] = useState({
         fullname:'',
@@ -19,7 +23,6 @@ const SignUp = () =>{
     };
 
     const validatePassword =()=>{
-        // Lógica para confirmar la contraseña
         if (form.password !== form.confirmPassword) {
             alert("Las contraseñas no coinciden");
             return false;
@@ -31,7 +34,7 @@ const SignUp = () =>{
         if(!validatePassword()) return;
         setSubmitting(true);
         try{
-            const res = await fetch("api",{
+            const res = await fetch(API_URL,{
                 method:"POST",
                 headers:{"content-type":"application/json"},
                 body: JSON.stringify({
@@ -42,12 +45,24 @@ const SignUp = () =>{
                     phone: form.phone
                 })
             });
+
             if(!res.ok){
-                const err = await res.json();
-                throw new Error(err.message || "Error en el registro de datos");
+                // intenta parsear mensaje de error si viene JSON, si no, usar statusText
+                let errMsg = res.statusText || "Error en el registro";
+                try {
+                    const errJson = await res.json();
+                    errMsg = errJson.message || JSON.stringify(errJson);
+                } catch {}
+                throw new Error(errMsg);
             }
-            const data = await res.json();
-            console.log("Registrado: ",data);
+
+            // algunos endpoints responden sin cuerpo (204); proteger contra parseo inválido
+            let data = null;
+            const contentType = res.headers.get("content-type") || "";
+            if (contentType.includes("application/json")) {
+                data = await res.json();
+            }
+            console.log("Registrado: ", data);
         }catch(err){
             console.error("Error en el envío del formulario: ", err);
             alert(err.message);
@@ -73,13 +88,14 @@ const SignUp = () =>{
                         <label htmlFor="password">Contraseña</label>
                         <input name="password" type="password" value={form.password} onChange={handleChange} placeholder="********" required />
                         <label htmlFor="confirmPassword">Confirmar contraseña</label>
-                        <input name="confirmpassword" type="password" value={form.confirmPassword} onChange={handleChange} placeholder="********" required />
+                        <input name="confirmPassword" type="password" value={form.confirmPassword} onChange={handleChange} placeholder="********" required />
                         <label htmlFor="Age">Fecha de nacimiento</label>
-                        <input name="date" type="date" value={form.birthDate} onChange={handleChange} required />
+                        <input name="birthDate" type="date" value={form.birthDate} onChange={handleChange} required />
                         <label htmlFor="phone">Número de teléfono</label>
-                        <input name="tel" type="tel" value={form.phone} onChange={handleChange} placeholder="+57 300 123 4567" required />
-                        <button type="submit" className="sign-up-button">Crear cuenta</button>
+                        <input name="phone" type="tel" value={form.phone} onChange={handleChange} placeholder="+57 300 123 4567" required />
+                        <button type="submit" className="sign-up-button" disabled={submitting}>{submitting ? "Creando..." : "Crear cuenta"}</button>
                     </form>
+                    <p>¿No tienes cuenta? <NavLink to={"/sign-in"}>Inicia Sesión</NavLink></p>
                 </section>
                 
             </div>

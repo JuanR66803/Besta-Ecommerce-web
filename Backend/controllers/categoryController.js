@@ -1,6 +1,8 @@
+
 import {CategoryService} from "../services/categoryServices.js";
 
-    const categoryService = new CategoryService();
+
+const categoryService = new CategoryService();
 
 export class CategoryController{
 

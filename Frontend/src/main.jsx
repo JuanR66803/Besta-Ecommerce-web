@@ -4,17 +4,24 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './layout/Layout';
 import SignUp from './pages/auth/sign-up/SignUp';
 import PanelAdmin from './pages/admin/PanelAdmin';
-import Catalog from './pages/catalog/Catalog';
+import SignIn from './pages/auth/sign-in/SignIn';
+import { AuthProvider } from './context/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
+import Home from './pages/home/Home';
+
 
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/panel-admin/*" element={<PanelAdmin />} />
-        <Route path="/catalog/*" element={<Catalog />} />
-      </Route>
-    </Routes>
+    <AuthProvider>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route path='/sign-up' element={<SignUp />} />
+            <Route path='/sign-in' element={<SignIn/>}/>
+            <Route path='/home' element={<ProtectedRoute> <Home/> </ProtectedRoute>}/>
+            <Route path='/panel-admin/*' element={<PanelAdmin />} />
+          </Route>
+        </Routes>
+    </AuthProvider>
   </BrowserRouter>
 );

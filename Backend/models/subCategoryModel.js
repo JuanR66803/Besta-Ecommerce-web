@@ -14,7 +14,7 @@ export class SubCategoryModel{
     async updateSubCategoryById (id_sub_category, id_category, sub_category_name){
     const query = "UPDATE sub_category SET id_category_=$2, sub_category_name=$3 WHERE id_sub_category=$1";
     const values = [id_sub_category, id_category, sub_category_name];
-    const result = await pool.query(query,[id_sub_category]);
+    const result = await pool.query(query,values);
     return result.rows[0];
 }
 
@@ -33,7 +33,7 @@ export class SubCategoryModel{
 }
 
 //funcion que me permite obtener todas las categorias
-    async getaAllSubCategories(){
+    async getAllSubCategories(){
     const query = `SELECT * FROM sub_category`;
     const result = await pool.query(query);
     return result.rows[0];
