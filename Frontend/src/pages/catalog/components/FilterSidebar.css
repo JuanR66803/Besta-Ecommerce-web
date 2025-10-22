@@ -7,7 +7,7 @@
   max-width: 350px;
   height: 100vh;
   background-color: white;
-  z-index: 1000;
+  z-index: 900;
   padding: 1rem;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
   transform: translateX(-100%);
@@ -26,12 +26,16 @@
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
   border-bottom: 2px solid #eee;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 10;
 }
 
 .sidebar-header h2 {
   margin: 0;
   font-size: 1.3rem;
-  color: #333;
+  color: #1a1a1a;
   font-weight: 700;
 }
 
@@ -49,7 +53,7 @@
 }
 
 .close-filter-btn:hover {
-  color: #000;
+  color: #1a1a1a;
   transform: rotate(90deg);
 }
 
@@ -70,25 +74,26 @@
 .filter-header h3 {
   margin: 0;
   font-size: 1rem;
-  color: #333;
+  color: #1a1a1a;
   font-weight: 600;
 }
 
 .clear-filters-btn {
   background: none;
   border: none;
-  color: #667eea;
+  color: #1a1a1a;
   cursor: pointer;
   font-size: 0.85rem;
   font-weight: 600;
-  transition: color 0.2s ease;
+  transition: all 0.2s ease;
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
+  text-decoration: underline;
 }
 
 .clear-filters-btn:hover {
-  color: #5568d3;
-  background-color: rgba(102, 126, 234, 0.1);
+  color: #666;
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .filter-error {
@@ -128,14 +133,15 @@
 }
 
 .category-button:hover {
-  background-color: rgba(102, 126, 234, 0.05);
-  color: #667eea;
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #1a1a1a;
+  font-weight: 600;
 }
 
 .category-button.active {
-  color: #667eea;
+  color: #1a1a1a;
   font-weight: 700;
-  background-color: rgba(102, 126, 234, 0.1);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .category-name {
@@ -151,7 +157,7 @@
 }
 
 .category-button:hover .category-toggle {
-  color: #667eea;
+  color: #1a1a1a;
 }
 
 .category-toggle:hover {
@@ -196,15 +202,15 @@
 }
 
 .subcategory-button:hover {
-  color: #667eea;
-  background-color: rgba(102, 126, 234, 0.05);
+  color: #1a1a1a;
+  background-color: rgba(0, 0, 0, 0.05);
   padding-left: 0.75rem;
 }
 
 .subcategory-button.active {
-  color: #667eea;
+  color: #1a1a1a;
   font-weight: 600;
-  background-color: rgba(102, 126, 234, 0.15);
+  background-color: rgba(0, 0, 0, 0.15);
 }
 
 /* Overlay para móvil */
@@ -215,7 +221,7 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
+  z-index: 899;
   animation: fadeIn 0.3s ease;
 }
 
@@ -231,13 +237,22 @@
 /* Tablet y Desktop */
 @media (min-width: 768px) {
   .catalog-sidebar {
-    position: static;
+    position: sticky;
+    top: 100px;
+    left: 0;
     width: 250px;
-    height: auto;
+    max-width: none;
+    height: calc(100vh - 120px);
     transform: none;
     box-shadow: none;
     border-right: 1px solid #eee;
     background-color: white;
+    z-index: 1;
+    overflow-y: auto;
+  }
+
+  .sidebar-header {
+    position: static;
   }
 
   .close-filter-btn {
