@@ -1,0 +1,123 @@
+/* Contenedor de paginación */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+  padding: 1rem 0;
+}
+
+.pagination-button,
+.pagination-number {
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid #ddd;
+  background-color: white;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination-button {
+  background-color: #f9f9f9;
+  font-size: 13px;
+  padding: 0 16px;
+}
+
+.pagination-button:hover:not(:disabled),
+.pagination-number:hover:not(.active) {
+  background-color: #667eea;
+  color: white;
+  border-color: #667eea;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.pagination-number.active {
+  background-color: #667eea;
+  color: white;
+  border-color: #667eea;
+  font-weight: bold;
+  cursor: default;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.pagination-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background-color: #f0f0f0;
+}
+
+.pagination-button:disabled:hover {
+  transform: none;
+  box-shadow: none;
+  background-color: #f0f0f0;
+  border-color: #ddd;
+  color: #333;
+}
+
+.pagination-button:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.pagination-numbers {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pagination-ellipsis {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 40px;
+  height: 40px;
+  color: #666;
+  font-weight: bold;
+}
+
+@media (max-width: 480px) {
+  .pagination {
+    gap: 0.25rem;
+  }
+
+  .pagination-button {
+    font-size: 12px;
+    padding: 0 10px;
+    min-width: 35px;
+    height: 35px;
+  }
+
+  .pagination-number {
+    min-width: 35px;
+    height: 35px;
+    font-size: 13px;
+  }
+
+  .pagination-ellipsis {
+    min-width: 30px;
+    height: 35px;
+  }
+}
+
+@media (min-width: 768px) {
+  .pagination-button,
+  .pagination-number {
+    min-width: 45px;
+    height: 45px;
+  }
+
+  .pagination-button {
+    padding: 0 20px;
+  }
+}
