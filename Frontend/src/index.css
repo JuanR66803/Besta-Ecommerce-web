@@ -18,3 +18,12 @@
   --font-size-base: 1rem;
   --font-size-title: 1.5rem;
 }
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+*{
+  box-sizing: inherit;
+}
