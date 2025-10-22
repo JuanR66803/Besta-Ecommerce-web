@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import "./SignUp.css"
 import { useState } from "react";
 
@@ -94,6 +95,7 @@ const SignUp = () =>{
                         <input name="phone" type="tel" value={form.phone} onChange={handleChange} placeholder="+57 300 123 4567" required />
                         <button type="submit" className="sign-up-button" disabled={submitting}>{submitting ? "Creando..." : "Crear cuenta"}</button>
                     </form>
+                    <p>¿No tienes cuenta? <NavLink to={"/sign-in"}>Inicia Sesión</NavLink></p>
                 </section>
                 
             </div>
