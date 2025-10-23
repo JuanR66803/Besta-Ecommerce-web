@@ -29,5 +29,8 @@ export class SubCategoryService{
     async getAllSubCategories(){
         return (await subCategoryModel.getAllSubCategories())
     };
+    async getSubCategoriesByName(name){
+        return (await subCategoryModel.getSubacategoriesByName(name));
+    }
 }
 

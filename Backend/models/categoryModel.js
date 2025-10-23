@@ -38,7 +38,7 @@ export class CategoryModel{
     async getAllCategories(){
     const query = `SELECT * FROM category`;
     const result = await pool.query(query);
-    return result.rows[0];
+    return result.rows;
 }
 }
 
