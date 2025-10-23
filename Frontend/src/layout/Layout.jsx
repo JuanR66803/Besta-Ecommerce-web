@@ -1,4 +1,4 @@
-
+import React from "react";
 import "./layout.css";
 import Footer from "./footer/Footer";
 import Header from "./header/Header";
@@ -15,4 +15,4 @@ const Layout = () => {
     )
 }
 
-export default Layout
+export default Layout;

@@ -1,0 +1,37 @@
+.contenedor-tallas {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+.grupo-tallas h3 {
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.lista-tallas {
+  display: flex;
+  gap: 10px;
+}
+
+.talla {
+  border: 1px solid #aaa;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  background-color: #f9f9f9;
+  transition: all 0.2s ease;
+}
+
+.talla:hover {
+  background-color: #e0e0e0;
+}
+
+.talla.seleccionada {
+  background-color: #5c6bc0;
+  color: white;
+  border-color: #3949ab;
+  transform: scale(1.05);
+}

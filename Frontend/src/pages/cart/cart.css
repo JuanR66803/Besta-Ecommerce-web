@@ -1,0 +1,54 @@
+.header-fijo {
+  position: grid;
+  top: 120px; /* Ajusta este valor según la altura de tu header */
+  left: 0;
+  width: 100%;
+  z-index: 999; /* Un z-index menor que el de tu header */
+  background-color: green; /* o el color que necesites */
+  border: 5px solid black;
+}
+.cart-container{
+  border: 10px solid blue;
+  width: 100%;
+  height: calc(100vh - 100px); /* 💡 100px = altura del header */
+  margin-top: 10px;           /* se separa del header */
+  box-sizing: border-box;
+}
+.contenido-producto-titulo {
+  display: grid;
+  grid-template-columns: 5% 35% 15% 15% 15% 15%; /* 📐 proporciones */
+  align-items: center;
+  text-align: center;
+  gap: 5px;
+    /* 💡 NUEVO: controla tamaño y posición */
+  width: 90%;              /* ocupa el 90% del ancho de la pantalla */
+  margin: 20px auto 0;     /* centrado horizontal, separado del de arriba */
+  padding: 10px;
+
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.div-pago {
+  border: 2px solid blueviolet;
+}
+.check {
+  width: 100%;
+  height: 20px;
+}
+
+.nombre {
+  text-align: left;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.campo {
+  text-align: center;
+  font-weight: 500;
+  gap : 10px;
+  padding: 0 15px;
+}

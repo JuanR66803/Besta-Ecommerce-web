@@ -1,3 +1,4 @@
+import React from "react";
 import "./Footer.css";
 import { FaInstagram, FaWhatsapp, FaFacebook } from "react-icons/fa";
 import { FaLocationDot, FaPhone } from "react-icons/fa6";

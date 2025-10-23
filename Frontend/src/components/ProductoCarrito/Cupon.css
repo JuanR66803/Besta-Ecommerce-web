@@ -1,0 +1,63 @@
+.contenedor-cupon-individual{
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 12px;
+  width: 90%;
+  max-width: 800px;
+  background-color: #fff;
+  margin: 0 auto;
+}
+
+.parte-superior {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 2px solid rgba(0, 255, 85, 0.975);
+  width: 100%;
+}
+
+/* Imagen izquierda */
+.imagen-contenedor {
+  flex: 0 0 30%; /* 30% del espacio total */
+  display: flex;
+  justify-content: center;
+  align-items: left;
+  text-align: left;
+  border: 2px solid blue;
+}
+
+.imagen-producto {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 2px solid yellow;
+}
+
+/* Texto derecho */
+.texto-derecha {
+  flex: 1; /* ocupa el resto del espacio */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.linea-texto {
+  font-size: 15px;
+  color: #333;
+  line-height: 1.4;
+  text-align: left;
+}
+
+/* Parte inferior */
+.texto-inferior {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+  text-align: justify;
+  border: 2px solid yellow;
+  
+}

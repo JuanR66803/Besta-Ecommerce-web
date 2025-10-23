@@ -1,0 +1,64 @@
+
+
+.cupones-lista {
+  width: 100%;
+  height: 100%;
+  min-height: 250px;
+  border: 1px dashed #aaa;
+  border-radius: 8px;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #777;
+}
+
+.raya {
+  width: 90%;
+  height: 1px;
+  background-color: black;
+  margin: 10px 0;
+  align-items: center;
+  text-align: center;
+}
+
+.busqueda-cupones {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  border: 2px solid red;
+  padding: 8px;
+  color: black;
+}
+
+.texto-busqueda {
+  font-weight: 500;
+}
+
+.input-busqueda {
+  flex: 1;
+  padding: 6px 10px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+
+.boton-buscar {
+  padding: 6px 12px;
+  background-color: #aaa;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.boton-buscar:hover {
+  background-color: #43a047;
+}
+.titulo-cupones{
+  font-size: 18px;
+  font-weight: bold;
+  border: 2px solid black;
+  padding: 6px;
+  color: black;
+}
