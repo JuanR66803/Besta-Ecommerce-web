@@ -12,6 +12,6 @@ export class ProductStateService{
 
     //metodo para obtener todas las categorias
     async getProductStateByName(state_name){
-        return (await productStateModel.getProductStateByNames(state_name))
+        return (await productStateModel.getProductStateByName(state_name))
     };
 }

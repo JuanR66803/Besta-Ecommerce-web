@@ -55,4 +55,5 @@ export class CategoryController{
         console.log("Respuesta backend:", getAllCategories);
         res.status(200).json(getAllCategories)
     };
+    
 }

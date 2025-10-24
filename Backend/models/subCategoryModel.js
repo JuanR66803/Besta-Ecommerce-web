@@ -36,7 +36,7 @@ export class SubCategoryModel {
     async getAllSubCategories() {
         const query = `SELECT * FROM sub_category`;
         const result = await pool.query(query);
-        return result.rows[0];
+        return result.rows;
     }
     async getSubacategoriesByName(name){
         const query =`SELECT id_sub_category FROM sub_category WHERE sub_category_name = $1`

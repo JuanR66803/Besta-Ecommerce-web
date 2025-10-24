@@ -2,9 +2,9 @@ import pool from "../config/db.js";
 
 export class ProductDetailsModel {
   //funcion que me permite crear una sub categoria
-  async createProductDetails(id_product, id_product_state, id_color, product_price, stock, product_size, public_objetive, expertise ) {
-    const query = `INSERT INTO product_details(id_product, id_product_state, id_color, product_price, stock, product_size, public_objetive, expertise) VALUES($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *`;
-    const values = [id_product, id_product_state, id_color, product_price, stock, product_size, public_objetive, expertise,];
+  async createProductDetails(id_product, id_product_state, id_color, product_price, stock, product_size, public_objetive, expertice ) {
+    const query = `INSERT INTO product_details(id_product, id_product_state, id_color, product_price, stock, product_size, public_objetive, expertice) VALUES($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *`;
+    const values = [id_product, id_product_state, id_color, product_price, stock, product_size, public_objetive, expertice,];
     const result = await pool.query(query, values);
     return result.rows[0];
   }
