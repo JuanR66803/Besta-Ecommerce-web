@@ -6,11 +6,12 @@ export class SubCategoryController{
 
     //metodo para crear una sub categoria
     async createSubCategory(req,res){
-        const {sub_category_name}= req.body;
-        if (!sub_category_name ) {
+        console.log(req.body)
+        const {sub_category_name, id_category}= req.body;
+        if (!sub_category_name || !id_category) {
         return res.status(400).json({ message: "el nombre de la sub categoria es obligatoria" });
         }
-        const newSubCategory= await subCategoryService.createSubCategory(sub_category_name);
+        const newSubCategory= await subCategoryService.createSubCategory(id_category,sub_category_name);
         res.status(201).json(newSubCategory)
     };
 
