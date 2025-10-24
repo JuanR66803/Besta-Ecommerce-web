@@ -3,6 +3,9 @@ import { useState } from "react";
 import "./ModalProducts.css";
 import { CiCirclePlus } from "react-icons/ci";
 import ModalCategory from "../modal-categories/ModalCategory";
+import ModalSubCategory from "../modal-categories/ModalSubcategory";
+import ComboBoxCategory from "../ComboBox/ComboBoxCategory";
+import ComboBoxSubCategory from "../ComboBox/ComboBoxSubCategory";
 
 
 
@@ -12,15 +15,16 @@ const ModalProducts = ({ onClose }) => {
   const [currentColor, setCurrentColor] = useState("#ff0000");
   const [colors, setColors] = useState([]);
   const [openModalCategory, setOpenModalCategory] = useState(false)
+  const [openModalSubCategory, setOpenModalSubCategory] = useState(false);
   const [imageFile, setImageFile] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     productName: "",
-    price: "",
+    product_price: "",
     stock: "",
     description: "",
     category: "",
-    state: "",
+    state: "activo",
     subcategory: "",
     size: "",
     targetAudience: "",
@@ -68,30 +72,36 @@ const ModalProducts = ({ onClose }) => {
     }
 
     try {
-      const res = await fetch(API_URL, {//es un fecth por controlador general de Productos
+      const res = await fetch(API_URL, {
         method: "POST",
         body: formPayload,
       });
 
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.message || "Error al guardar el producto");
+      // Intentamos leer JSON solo si el servidor lo devuelve correctamente
+      let data;
+      try {
+        data = await res.json();
+      } catch (parseError) {
+        throw new Error("El servidor devolvió una respuesta no válida (no es JSON).");
       }
 
-      const data = await res.json();
+      if (!res.ok) {
+        // Si el servidor respondió con error, mostramos el mensaje que envía
+        throw new Error(data?.message || "Error al guardar el producto.");
+      }
+
       console.log("Producto guardado:", data);
       alert("Producto guardado correctamente");
       onClose && onClose();
+
     } catch (err) {
       console.error("Error al enviar el formulario:", err);
-      alert(err.message);
+      alert(err.message || "Ocurrió un error al guardar el producto.");
     } finally {
       setSubmitting(false);
     }
   };
-  const toggleModal = () => {
-    setOpenModalCategory(prev => !prev);
-  }
+
 
 
   return (
@@ -118,7 +128,7 @@ const ModalProducts = ({ onClose }) => {
             <label>Precio</label>
             <input
               type="number"
-              name="price"
+              name="product_price"
               placeholder="Precio"
               value={formData.price}
               onChange={handleChange}
@@ -155,33 +165,37 @@ const ModalProducts = ({ onClose }) => {
 
           <section className="section__right-modal">
             <label>Categoría</label>
-            <select
+            <ComboBoxCategory
               name="category"
               value={formData.category}
               onChange={handleChange}
-              required
+              apiUrlBase={API_URL_BASE}
+            />
+            <button
+              type="button"
+              onClick={() => setOpenModalCategory(true)}
+              className="btn__category-more"
             >
-              <option value="">Seleccione una categoría</option>
-              <option value="categoria1">Categoría 1</option>
-              <option value="categoria2">Categoría 2</option>
-              <option value="categoria3">Categoría 3</option>
-            </select>
-            <button onClick={toggleModal} className="btn__category-more"> <CiCirclePlus style={{ fontSize: "28px" }} /><p>Agregar una nueva categoria</p></button>
+              <CiCirclePlus style={{ fontSize: "28px" }} />
+              <p>Agregar una nueva categoría</p>
+            </button>
 
             <label>Subcategoría</label>
-            <select
+            <ComboBoxSubCategory
               name="subcategory"
               value={formData.subcategory}
               onChange={handleChange}
-              required
+              apiUrlBase={API_URL_BASE}
+              idCategory={formData.category}
+            />
+            <button
+              type="button"
+              onClick={() => setOpenModalSubCategory(true)}
+              className="btn__category-more"
             >
-              <option value="">Seleccione una subcategoría</option>
-              <option value="subcategoria1">Subcategoría 1</option>
-              <option value="subcategoria2">Subcategoría 2</option>
-              <option value="subcategoria3">Subcategoría 3</option>
-            </select>
-            <button className="btn__category-more"> <CiCirclePlus style={{ fontSize: "28px" }} /><p>Agregar una nueva subcategoria</p></button>
-
+              <CiCirclePlus style={{ fontSize: "28px" }} />
+              <p>Agregar una nueva subcategoría</p>
+            </button>
             <label>Talla</label>
             <input
               type="text"
@@ -266,7 +280,13 @@ const ModalProducts = ({ onClose }) => {
           </button>
         </div>
       </div>
-      {openModalCategory && <ModalCategory onClose={toggleModal} />}
+      {openModalCategory && (
+        <ModalCategory onClose={() => setOpenModalCategory(false)} />
+      )}
+
+      {openModalSubCategory && (
+        <ModalSubCategory onClose={() => setOpenModalSubCategory(false)} />
+      )}
     </div>
   );
 };

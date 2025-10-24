@@ -26,7 +26,7 @@ const ModalCategory = ({ onClose }) => {
 
                 const data = await res.json();
                 console.log("Categorías cargadas:", data);
-                setCategories(data); // ✅ ya es un array directo
+                setCategories(data); 
             } catch (err) {
                 console.error(err);
                 alert("No se pudieron cargar las categorías");
