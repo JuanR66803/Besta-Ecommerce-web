@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { FaFilter } from 'react-icons/fa';
+import { useEffect } from 'react';
 import './Catalog.css';
 
 // Importar hooks personalizados
@@ -13,6 +14,7 @@ import FilterSidebar from './components/FilterSidebar';
 import ActiveFilters from './components/ActiveFilters';
 import ProductGrid from './components/ProductGrid';
 import Pagination from './components/Pagination';
+import { useSearchParams } from 'react-router-dom';
 
 /**
  * Componente principal del catálogo de productos
@@ -78,9 +80,19 @@ const Catalog = () => {
    * Manejar clic en subcategoría
    * Aplica el filtro de subcategoría y resetea la página a 1
    */
-  const handleSubCategoryClick = subcategoryId => {
+  const handleSubCategoryClick = (subcategoryId) => {
+    const parentCategory = categories.find(cat =>
+      cat.subcategories?.some(sub => sub.id === subcategoryId)
+    );
+
+    if (parentCategory) {
+      if (filters.categoryId !== parentCategory.id) {
+        toggleCategory(parentCategory.id);
+      }
+    }
+
     toggleSubCategory(subcategoryId);
-    setCurrentPage(1); // Resetear a página 1 al cambiar filtro
+    setCurrentPage(1);
   };
 
   /**
@@ -154,6 +166,41 @@ const Catalog = () => {
   // ==========================================
   // RENDER
   // ==========================================
+
+  // Actualizar la URL por cada filtro
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // lee los filtros desde la URL y los aplica
+  useEffect(() => {
+    const categoryId = searchParams.get('category');
+    const subcategoryId = searchParams.get('subcategory');
+
+    if (!categoryId && !subcategoryId && (filters.categoryId || filters.subcategoryId)) {
+      clearFilters();
+      return;
+    }
+
+    // sincroniza filtros según los parámetros
+    if (categoryId && categoryId !== String(filters.categoryId)) {
+      toggleCategory(parseInt(categoryId));
+    }
+    if (subcategoryId && subcategoryId !== String(filters.subcategoryId)) {
+      toggleSubCategory(parseInt(subcategoryId));
+    }
+  }, [searchParams]);
+
+
+  // actualiza la URL cuando cambian los filtros
+  useEffect(() => {
+    const params = {};
+    if (filters.categoryId) params.category = filters.categoryId;
+    if (filters.subcategoryId) params.subcategory = filters.subcategoryId;
+
+    const current = Object.fromEntries(searchParams.entries());
+    if (JSON.stringify(current) !== JSON.stringify(params)) {
+      setSearchParams(params);
+    }
+  }, [filters]);
 
   return (
     <div className="catalog-container">
