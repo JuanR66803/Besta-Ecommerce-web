@@ -10,7 +10,7 @@ export class UserModel{
         return result.rows[0];
     }
     async getUserByEmail(email){
-        const query = `SELECT * FROM users WHERE email=$1`;
+        const query = `SELECT * FROM users INNER JOIN role ON users.id_role = role.id_role WHERE users.email=$1`;
         const result = await pool.query(query,[email]);
         return result.rows[0];
     }

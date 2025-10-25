@@ -1,42 +1,32 @@
 import React from 'react';
+import './ProductGrid.css';
 import ProductCard from './ProductCard';
 import LoadingSpinner from './LoadingSpinner';
-import './ProductGrid.css';
 
-// Componente para mostrar una cuadrícula de productos
-const ProductGrid = ({ products, loading, hasFilters, onProductClick }) => {
+const ProductGrid = ({ products, loading, onProductClick }) => {
   if (loading) {
     return (
-      <div className="products-grid">
-        <div className="loading-message">
-          <LoadingSpinner message="Cargando productos..." />
-        </div>
+      <div className="product-grid-loading">
+        <LoadingSpinner />
       </div>
     );
   }
 
   if (products.length === 0) {
     return (
-      <div className="products-grid">
-        <div className="no-products-message">
-          <div className="no-products-icon">📦</div>
-          <p>
-            {hasFilters
-              ? 'No se encontraron productos con los filtros seleccionados.'
-              : 'No hay productos disponibles en este momento.'}
-          </p>
-        </div>
+      <div className="product-grid-empty">
+        <p>No se encontraron productos con los filtros seleccionados.</p>
       </div>
     );
   }
 
   return (
     <div className="products-grid">
-      {products.map((product) => (
-        <ProductCard 
-          key={product.id} 
+      {products.map(product => (
+        <ProductCard
+          key={product.id}
           product={product}
-          onClick={onProductClick}
+          onClick={() => onProductClick(product)}
         />
       ))}
     </div>

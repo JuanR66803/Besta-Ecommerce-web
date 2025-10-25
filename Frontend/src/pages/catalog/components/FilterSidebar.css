@@ -167,22 +167,24 @@
 .subcategories {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s ease;
+  transition: max-height 0.3s ease-out;
   padding-left: 1rem;
   margin-left: 0.5rem;
   border-left: 2px solid #e0e0e0;
 }
 
 .subcategories.open {
-  max-height: 500px;
+  max-height: 1000px;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+  transition: max-height 0.5s ease-in;
 }
 
 .subcategory-wrapper {
   width: 100%;
   display: flex;
   flex-direction: column;
+  margin-bottom: 0.25rem;
 }
 
 .subcategory-button {
@@ -211,6 +213,7 @@
   color: #1a1a1a;
   font-weight: 600;
   background-color: rgba(0, 0, 0, 0.15);
+  border-left: 3px solid #1a1a1a;
 }
 
 /* Overlay para móvil */

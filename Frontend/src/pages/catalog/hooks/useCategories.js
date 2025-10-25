@@ -1,141 +1,79 @@
 import { useState, useEffect } from 'react';
 
-const MOCK_CATEGORIES = [
-  {
-    id: 1,
-    name: 'Calzado',
-    subcategories: [
-      { id: 1, name: 'Futbol' },
-      { id: 2, name: 'Running' },
-      { id: 3, name: 'Basketball' },
-      { id: 4, name: 'Tenis' },
-    ],
-  },
-  {
-    id: 2,
-    name: 'Ropa Deportiva',
-    subcategories: [
-      { id: 5, name: 'Camisetas' },
-      { id: 6, name: 'Pantalones' },
-      { id: 7, name: 'Shorts' },
-      { id: 8, name: 'Chaquetas' },
-    ],
-  },
-  {
-    id: 3,
-    name: 'Accesorios',
-    subcategories: [
-      { id: 9, name: 'Balones' },
-      { id: 10, name: 'Mochilas' },
-      { id: 11, name: 'Guantes' },
-      { id: 12, name: 'Gorras' },
-    ],
-  },
-];
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 const useCategories = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchCategories = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      console.log(
-        '[useCategories] Intentando obtener categorias del backend...'
-      );
-
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/category/getAllCategories`
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
-      }
-
-      const contentType = response.headers.get('content-type');
-
-      if (!contentType || !contentType.includes('application/json')) {
-        console.warn('[useCategories] Backend no devolvio JSON valido');
-        throw new Error('Respuesta del servidor no es JSON');
-      }
-
-      const text = await response.text();
-
-      if (!text || text.trim().length === 0) {
-        console.warn('[useCategories] Backend devolvio respuesta vacia');
-        throw new Error('Respuesta vacia del servidor');
-      }
-
-      let data;
+  useEffect(() => {
+    const fetchCategories = async () => {
       try {
-        data = JSON.parse(text);
-      } catch (parseError) {
-        console.error('[useCategories] Error al parsear JSON:', text);
-        throw new Error('Respuesta del servidor no es JSON valido');
-      }
+        setLoading(true);
+        setError(null);
 
-      console.log('[useCategories] Respuesta del backend:', data);
+        console.log(
+          '[useCategories] Intentando obtener categorias del backend...'
+        );
 
-      let isValidData = false;
-      let formattedCategories = [];
+        const response = await fetch(
+          `${API_URL}/api/category/getAllCategories`
+        );
 
-      if (Array.isArray(data) && data.length > 0) {
-        formattedCategories = data.map(cat => ({
-          id: cat.id_category || cat.id,
-          name: cat.category_name || cat.name,
-          subcategories: cat.subcategories || [],
-        }));
-        isValidData = true;
-      } else if (
-        data.success &&
-        Array.isArray(data.data) &&
-        data.data.length > 0
-      ) {
-        formattedCategories = data.data.map(cat => ({
-          id: cat.id_category || cat.id,
-          name: cat.category_name || cat.name,
-          subcategories: cat.subcategories || [],
-        }));
-        isValidData = true;
-      }
+        if (!response.ok) {
+          throw new Error(`Error HTTP: ${response.status}`);
+        }
 
-      if (isValidData) {
+        const data = await response.json();
+        console.log('[useCategories] Respuesta del backend:', data);
+
+        console.log(
+          '[DEBUG] Categorias antes de formatear:',
+          JSON.stringify(data, null, 2)
+        );
+
+        if (!Array.isArray(data)) {
+          throw new Error('La respuesta no es un array');
+        }
+
+        const formattedCategories = data.map(cat => {
+          console.log('[DEBUG] Procesando categoria:', cat);
+
+          return {
+            id: cat.id || cat.id_category,
+            name: cat.name || cat.category_name,
+            subcategories: Array.isArray(cat.subcategories)
+              ? cat.subcategories.map(sub => ({
+                  id: sub.id || sub.id_sub_category,
+                  name: sub.name || sub.sub_category_name,
+                }))
+              : [],
+          };
+        });
+
+        console.log(
+          '[DEBUG] Categorias formateadas:',
+          JSON.stringify(formattedCategories, null, 2)
+        );
+
         setCategories(formattedCategories);
         console.log(
           `[useCategories] ${formattedCategories.length} categorias del BACKEND`
         );
-      } else {
-        console.warn(
-          '[useCategories] Backend devolvio datos invalidos, usando MOCK'
-        );
-        setCategories(MOCK_CATEGORIES);
-        console.log(
-          `[useCategories] ${MOCK_CATEGORIES.length} categorias MOCK cargadas`
-        );
+      } catch (err) {
+        console.error('[useCategories] Error al obtener categorias:', err);
+        setError(err.message);
+        setCategories([]);
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      console.error('[useCategories] Error:', err.message);
-      console.warn('[useCategories] Usando datos MOCK por error');
-      setCategories(MOCK_CATEGORIES);
-      setError(null);
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
 
-  useEffect(() => {
     fetchCategories();
   }, []);
 
-  return {
-    categories,
-    loading,
-    error,
-    refetch: fetchCategories,
-  };
+  return { categories, loading, error };
 };
 
 export default useCategories;

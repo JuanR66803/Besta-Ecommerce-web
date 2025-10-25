@@ -8,21 +8,21 @@ import SignIn from './pages/auth/sign-in/SignIn';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/home/Home';
+import PublicRoute from './components/PublicRoute';
 import Catalog from './pages/catalog/Catalog';
-
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <AuthProvider>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route path='/sign-up' element={<SignUp />} />
-            <Route path='/sign-in' element={<SignIn/>}/>
-            <Route path='/home' element={<ProtectedRoute> <Home/> </ProtectedRoute>}/>
-            <Route path='/panel-admin/*' element={<PanelAdmin />} />
-            <Route path='/catalogo' element={<Catalog />} />
-          </Route>
-        </Routes>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route path='sign-up' element={<PublicRoute><SignUp /></PublicRoute>} />
+          <Route path='sign-in' element={<PublicRoute><SignIn /></PublicRoute>} />
+          <Route path='catalogo' element={<Catalog />} />
+          <Route path='home' element={<ProtectedRoute><Home /></ProtectedRoute>} />
+          <Route path='panel-admin/*' element={<ProtectedRoute><PanelAdmin /></ProtectedRoute>} />
+        </Route>
+      </Routes>
     </AuthProvider>
   </BrowserRouter>
 );

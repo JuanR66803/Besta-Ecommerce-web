@@ -1,247 +1,149 @@
 import { useState } from 'react';
-import { FaFilter } from 'react-icons/fa';
-import { useEffect } from 'react';
 import './Catalog.css';
-
-// Importar hooks personalizados
-import useProducts from './hooks/useProducts';
-import useCategories from './hooks/useCategories';
-import useFilters from './hooks/useFilters';
-
-// Importar componentes
 import CatalogBanner from './components/CatalogBanner';
 import FilterSidebar from './components/FilterSidebar';
-import ActiveFilters from './components/ActiveFilters';
 import ProductGrid from './components/ProductGrid';
+import ActiveFilters from './components/ActiveFilters';
 import Pagination from './components/Pagination';
-import { useSearchParams } from 'react-router-dom';
+import ProductModal from './components/ProductModal';
+import useFilters from './hooks/useFilters';
+import useProducts from './hooks/useProducts';
+import useCategories from './hooks/useCategories';
+import { FaFilter } from 'react-icons/fa';
 
-/**
- * Componente principal del catálogo de productos
- * Maneja la visualización de productos, filtros y paginación
- */
 const Catalog = () => {
-  // ==========================================
-  // ESTADO LOCAL
-  // ==========================================
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // ==========================================
-  // HOOKS PERSONALIZADOS
-  // ==========================================
-
-  // Hook para manejar filtros
+  // Hooks personalizados
   const {
     filters,
+    activeFilters,
     openedCategories,
     toggleCategory,
     toggleSubCategory,
+    updateFilters,
     clearFilters,
     toggleCategoryExpansion,
   } = useFilters();
 
-  // Hook para obtener categorías
   const {
     categories,
-    loading: loadingCategories,
-    error: errorCategories,
+    loading: categoriesLoading,
+    error: categoriesError,
   } = useCategories();
 
-  // Hook para obtener productos (depende de filtros y página actual)
-  const {
-    products,
-    loading: loadingProducts,
-    error: errorProducts,
-    totalPages,
-    totalProducts,
-  } = useProducts(filters, currentPage);
+  const { products, loading, error, totalPages, totalProducts } = useProducts(
+    filters,
+    currentPage
+  );
 
-  // ==========================================
-  // MANEJADORES DE EVENTOS
-  // ==========================================
-
-  /**
-   * Abrir/cerrar sidebar de filtros (móvil)
-   */
-  const toggleFilter = () => setIsFilterOpen(!isFilterOpen);
-  const closeFilter = () => setIsFilterOpen(false);
-
-  /**
-   * Manejar clic en categoría
-   * Aplica el filtro de categoría y resetea la página a 1
-   */
-  const handleCategoryClick = categoryId => {
-    toggleCategory(categoryId);
-    setCurrentPage(1); // Resetear a página 1 al cambiar filtro
+  // Funciones auxiliares
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
   };
 
-  /**
-   * Manejar clic en subcategoría
-   * Aplica el filtro de subcategoría y resetea la página a 1
-   */
-  const handleSubCategoryClick = (subcategoryId) => {
-    const parentCategory = categories.find(cat =>
-      cat.subcategories?.some(sub => sub.id === subcategoryId)
-    );
-
-    if (parentCategory) {
-      if (filters.categoryId !== parentCategory.id) {
-        toggleCategory(parentCategory.id);
-      }
-    }
-
-    toggleSubCategory(subcategoryId);
-    setCurrentPage(1);
-  };
-
-  /**
-   * Limpiar todos los filtros activos
-   */
-  const handleClearFilters = () => {
-    clearFilters();
-    setCurrentPage(1);
-  };
-
-  /**
-   * Remover filtro de categoría
-   */
-  const handleRemoveCategory = () => {
-    toggleCategory(filters.categoryId);
-    setCurrentPage(1);
-  };
-
-  /**
-   * Remover filtro de subcategoría
-   */
-  const handleRemoveSubCategory = () => {
-    toggleSubCategory(filters.subcategoryId);
-    setCurrentPage(1);
-  };
-
-  /**
-   * Cambiar de página
-   */
   const handlePageChange = page => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  /**
-   * Manejar clic en producto (para futuras funcionalidades)
-   */
   const handleProductClick = product => {
-    console.log('Producto seleccionado:', product);
-    // TODO: Navegar a página de detalle del producto
-    // navigate(`/product/${product.id}`);
+    setSelectedProduct(product);
+    setIsModalOpen(true);
   };
 
-  // ==========================================
-  // FUNCIONES AUXILIARES
-  // ==========================================
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setTimeout(() => setSelectedProduct(null), 300);
+  };
 
-  /**
-   * Obtener nombre de categoría por ID
-   */
+  const handleCategoryClick = categoryId => {
+    toggleCategory(categoryId);
+    setCurrentPage(1);
+  };
+
+  const handleSubCategoryClick = subcategoryId => {
+    toggleSubCategory(subcategoryId);
+    setCurrentPage(1);
+  };
+
+  const handleClearFilters = () => {
+    clearFilters();
+    setCurrentPage(1);
+  };
+
+  // Funciones para obtener nombres (para ActiveFilters)
   const getCategoryName = categoryId => {
     const category = categories.find(cat => cat.id === categoryId);
-    return category?.name || 'Categoría';
+    return category ? category.name : `Categoría ${categoryId}`;
   };
 
-  /**
-   * Obtener nombre de subcategoría por ID
-   */
   const getSubCategoryName = subcategoryId => {
     for (const category of categories) {
-      if (category.subcategories) {
-        const subcategory = category.subcategories.find(
-          sub => sub.id === subcategoryId
-        );
-        if (subcategory) return subcategory.name;
-      }
+      const subcategory = category.subcategories?.find(
+        sub => sub.id === subcategoryId
+      );
+      if (subcategory) return subcategory.name;
     }
-    return 'Subcategoría';
+    return `Subcategoría ${subcategoryId}`;
   };
 
-  // ==========================================
-  // RENDER
-  // ==========================================
+  const handleRemoveCategory = () => {
+    updateFilters({ categoryId: null, subcategoryId: null });
+    setCurrentPage(1);
+  };
 
-  // Actualizar la URL por cada filtro
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  // lee los filtros desde la URL y los aplica
-  useEffect(() => {
-    const categoryId = searchParams.get('category');
-    const subcategoryId = searchParams.get('subcategory');
-
-    if (!categoryId && !subcategoryId && (filters.categoryId || filters.subcategoryId)) {
-      clearFilters();
-      return;
-    }
-
-    // sincroniza filtros según los parámetros
-    if (categoryId && categoryId !== String(filters.categoryId)) {
-      toggleCategory(parseInt(categoryId));
-    }
-    if (subcategoryId && subcategoryId !== String(filters.subcategoryId)) {
-      toggleSubCategory(parseInt(subcategoryId));
-    }
-  }, [searchParams]);
-
-
-  // actualiza la URL cuando cambian los filtros
-  useEffect(() => {
-    const params = {};
-    if (filters.categoryId) params.category = filters.categoryId;
-    if (filters.subcategoryId) params.subcategory = filters.subcategoryId;
-
-    const current = Object.fromEntries(searchParams.entries());
-    if (JSON.stringify(current) !== JSON.stringify(params)) {
-      setSearchParams(params);
-    }
-  }, [filters]);
+  const handleRemoveSubCategory = () => {
+    updateFilters({ ...filters, subcategoryId: null });
+    setCurrentPage(1);
+  };
 
   return (
-    <div className="catalog-container">
-      {/* Banner principal */}
-      <CatalogBanner
-        title="Catálogo de Productos Deportivos"
-        subtitle="Encuentra el equipamiento perfecto para tu deporte"
-      />
+    <div className="catalog-page">
+      <CatalogBanner />
 
-      {/* Botón de filtros para móvil */}
-      <div className="mobile-filters">
-        <button
-          className="filter-mobile-btn"
-          onClick={toggleFilter}
-          aria-label="Abrir filtros"
-        >
-          <FaFilter />
-          <span>Filtros</span>
-        </button>
-      </div>
-
-      {/* Layout principal: Sidebar + Contenido */}
-      <div className="catalog-layout">
+      <div className="catalog-container">
         {/* Sidebar de filtros */}
         <FilterSidebar
-          isOpen={isFilterOpen}
+          isOpen={isSidebarOpen}
           categories={categories}
-          loading={loadingCategories}
-          error={errorCategories}
+          loading={categoriesLoading}
+          error={categoriesError}
           filters={filters}
           openedCategories={openedCategories}
-          onClose={closeFilter}
+          onClose={toggleSidebar}
           onCategoryClick={handleCategoryClick}
           onSubCategoryClick={handleSubCategoryClick}
           onToggleCategoryExpansion={toggleCategoryExpansion}
           onClearFilters={handleClearFilters}
         />
 
-        {/* Área principal de productos */}
+        {/* Contenido principal */}
         <main className="catalog-main">
-          {/* Mostrar filtros activos */}
+          {/* Header con botón de filtros móvil */}
+          <div className="catalog-header">
+            <button className="mobile-filter-btn" onClick={toggleSidebar}>
+              <FaFilter />
+              <span>Filtros</span>
+            </button>
+
+            <div className="catalog-results">
+              {loading ? (
+                <p>Cargando productos...</p>
+              ) : (
+                <p>
+                  {totalProducts}{' '}
+                  {totalProducts === 1 ? 'producto' : 'productos'}{' '}
+                  {activeFilters.length > 0 && 'filtrados'}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Filtros activos */}
           <ActiveFilters
             filters={filters}
             getCategoryName={getCategoryName}
@@ -250,17 +152,10 @@ const Catalog = () => {
             onRemoveSubCategory={handleRemoveSubCategory}
           />
 
-          {/* Resumen de productos */}
-          {!loadingProducts && products.length > 0 && (
-            <p className="products-summary">
-              Mostrando {products.length} de {totalProducts} productos
-            </p>
-          )}
-
-          {/* Manejo de errores */}
-          {errorProducts && (
-            <div className="error-message">
-              <p>Error al cargar productos: {errorProducts}</p>
+          {/* Mensaje de error */}
+          {error && (
+            <div className="catalog-error">
+              <p>⚠️ Error al cargar productos: {error}</p>
               <button onClick={() => window.location.reload()}>
                 Reintentar
               </button>
@@ -270,13 +165,12 @@ const Catalog = () => {
           {/* Grid de productos */}
           <ProductGrid
             products={products}
-            loading={loadingProducts}
-            hasFilters={!!(filters.categoryId || filters.subcategoryId)}
+            loading={loading}
             onProductClick={handleProductClick}
           />
 
           {/* Paginación */}
-          {!loadingProducts && products.length > 0 && (
+          {!loading && products.length > 0 && (
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
@@ -285,6 +179,18 @@ const Catalog = () => {
           )}
         </main>
       </div>
+
+      {/* Modal de detalles del producto */}
+      <ProductModal
+        product={selectedProduct}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
+
+      {/* Overlay del sidebar móvil */}
+      {isSidebarOpen && (
+        <div className="filter-overlay" onClick={toggleSidebar} />
+      )}
     </div>
   );
 };

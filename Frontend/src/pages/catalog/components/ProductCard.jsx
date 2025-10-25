@@ -3,42 +3,32 @@ import './ProductCard.css';
 
 // componente para mostrar la información de un producto en una tarjeta
 const ProductCard = ({ product, onClick }) => {
-  const handleImageError = (e) => {
-    e.target.src = '/placeholder-product.png';
-  };
-
   return (
-    <div className="product-card">
+    <div className="product-card" onClick={onClick}>
       <div className="product-image">
-        <img 
-          src={product.url_image || '/placeholder-product.png'} 
-          alt={product.name}
-          onError={handleImageError}
-          loading="lazy"
-        />
+        <img src={product.url_image} alt={product.name} loading="lazy" />
       </div>
-      
+
       <div className="product-info">
         <h3 className="product-name">{product.name}</h3>
-        
+
         <p className="product-category">
-          {product.category?.name} / {product.subcategory?.name}
+          {product.category} {product.subcategory && `• ${product.subcategory}`}
         </p>
-        
+
         {product.description && (
           <p className="product-description">
-            {product.description.length > 100 
-              ? `${product.description.substring(0, 100)}...` 
+            {product.description.length > 80
+              ? `${product.description.substring(0, 80)}...`
               : product.description}
           </p>
         )}
-        
-        <button 
-          className="add-to-cart-btn"
-          onClick={() => onClick && onClick(product)}
-        >
-          Ver detalles
-        </button>
+
+        <div className="product-price">
+          <span className="price">{product.price}</span>
+        </div>
+
+        <button className="view-details-btn">Ver Detalles</button>
       </div>
     </div>
   );
