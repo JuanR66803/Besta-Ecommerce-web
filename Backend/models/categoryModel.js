@@ -38,7 +38,31 @@ export class CategoryModel{
     async getAllCategories(){
     const query = `SELECT * FROM category`;
     const result = await pool.query(query);
-    return result.rows[0];
+    return result.rows;
 }
+
+async getAllCategoriesWithSubcategories() {
+    const query = `
+      SELECT 
+      c.id_category,
+      c.category_name,
+      COALESCE(
+        json_agg(
+          json_build_object(
+            'id_sub_category', s.id_sub_category,
+            'sub_category_name', s.sub_category_name
+          )
+        ) FILTER (WHERE s.id_sub_category IS NOT NULL),
+        '[]'
+      ) AS subcategories
+    FROM category c
+    LEFT JOIN sub_category s ON c.id_category = s.id_category
+    GROUP BY c.id_category
+    ORDER BY c.id_category;
+  `;
+
+    const result = await pool.query(query);
+    return result.rows;
+  }
 }
 
