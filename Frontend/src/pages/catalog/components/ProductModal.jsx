@@ -22,7 +22,7 @@ const ProductModal = ({ product, isOpen, onClose }) => {
           <div className="modal-image-section">
             <div className="modal-image-container">
               <img
-                src={product.url_image}
+                src={product.image}
                 alt={product.name}
                 className="modal-product-image"
               />
@@ -52,24 +52,14 @@ const ProductModal = ({ product, isOpen, onClose }) => {
                 <span>{product.subcategory}</span>
               </div>
               <div className="detail-item">
-                <strong>Referencia:</strong>
-                <span>{product.num_referencia}</span>
-              </div>
-              {product.type && (
-                <div className="detail-item">
-                  <strong>Tipo:</strong>
-                  <span>{product.type}</span>
-                </div>
-              )}
-              <div className="detail-item">
                 <strong>Tallas:</strong>
-                <span>{product.size_min} - {product.size_max}</span>
+                <span>{product.size}</span>
               </div>
               <div className="detail-item">
                 <strong>Colores:</strong>
                 <span className="color-swatches">
-                  {product.color &&
-                    product.color.split(',').map((hex, idx) => (
+                  {product.colors &&
+                    product.colors.split(',').map((hex, idx) => (
                       <span
                         key={idx}
                         className="color-swatch"
@@ -81,10 +71,10 @@ const ProductModal = ({ product, isOpen, onClose }) => {
                     ))}
                 </span>
               </div>
-              {product.total_stock > 0 && (
+              {product.stock > 0 && (
                 <div className="detail-item">
                   <strong>Stock:</strong>
-                  <span>{product.total_stock} unidades</span>
+                  <span>{product.stock} unidades</span>
                 </div>
               )}
             </div>

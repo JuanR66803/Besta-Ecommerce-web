@@ -20,7 +20,7 @@ const ActiveFilters = ({
       <div className="filter-tags">
         {filters.categoryId && (
           <span className="filter-tag">
-            <span className="filter-tag-icon">🏷️</span>
+            <span className="filter-tag-icon"></span>
             <span className="filter-tag-text">{getCategoryName(filters.categoryId)}</span>
             <button 
               className="filter-tag-remove"

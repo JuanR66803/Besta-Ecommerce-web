@@ -8,13 +8,8 @@ const upload = multer({ dest: 'uploads/' });
 
 const productDetailsController = new ProductDetailsController();
 const router = express.Router();
-router.get('/getAllProductDetails', (req, res) =>
-  productDetailsController.getAllProductDetails(req, res)
-);
 
-router.get('/getProductDetailById/:id_product', (req, res) =>
-  productDetailsController.getProductDetailById(req, res)
-);
+// 3. Ruta para Crear Producto (Manejo de la Imagen)
 // Usamos upload.single('image') como middleware:
 // - 'image' debe coincidir con la clave usada en el FormData del frontend.
 // - Multer procesará la imagen y la adjuntará a req.file antes de pasar al controlador.

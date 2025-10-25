@@ -190,67 +190,15 @@ export class ProductDetailsController {
 
   //metodo para obtener todas las sub categorias
   async getAllProductDetails(req, res) {
-    try {
-      const { id_category, id_sub_category } = req.query;
+    const { id_category, id_sub_category, page, limit } = req.query;
+    const filters = {};
+    if (id_category) filters.id_category = parseInt(id_category);
+    if (id_sub_category) filters.id_sub_category = parseInt(id_sub_category);
+    if (page) filters.page = parseInt(page);
+    if (limit) filters.limit = parseInt(limit);
 
-      console.log('[ProductDetailsController] Parámetros recibidos:', {
-        id_category,
-        id_sub_category,
-      });
-
-      const filters = {};
-      if (id_category) filters.id_category = parseInt(id_category);
-      if (id_sub_category) filters.id_sub_category = parseInt(id_sub_category);
-
-      const products = await productDetailsService.getAllProductDetails(
-        filters
-      );
-
-      console.log(
-        `[ProductDetailsController] ${products.length} productos encontrados`
-      );
-
-      res.status(200).json(products);
-    } catch (error) {
-      console.error('[ERROR] getAllProductDetails:', error);
-      res.status(500).json({
-        success: false,
-        message: 'Error al obtener productos',
-        error: error.message,
-      });
-    }
-  }
-
-  async getProductDetailById(req, res) {
-    try {
-      const { id_product } = req.params;
-
-      console.log(
-        `[ProductDetailsController] Obteniendo producto ID: ${id_product}`
-      );
-
-      const product = await productDetailsService.getProductDetailById(
-        parseInt(id_product)
-      );
-
-      if (!product || product.length === 0) {
-        return res.status(404).json({
-          success: false,
-          message: 'Producto no encontrado',
-        });
-      }
-
-      res.status(200).json({
-        success: true,
-        data: product,
-      });
-    } catch (error) {
-      console.error('[ERROR] getProductDetailById:', error);
-      res.status(500).json({
-        success: false,
-        message: 'Error al obtener producto',
-        error: error.message,
-      });
-    }
+    const getAllProductDetails =
+      await productDetailsService.getAllProductDetails(filters); // Se pasan los filtros
+    res.status(200).json(getAllProductDetails);
   }
 }

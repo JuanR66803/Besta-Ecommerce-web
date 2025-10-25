@@ -19,6 +19,8 @@ const FilterSidebar = ({
   onToggleCategoryExpansion,
   onClearFilters,
 }) => {
+  // Se mantiene esta función porque mejora la experiencia de usuario:
+  // al hacer clic en una categoría, también se expande si estaba cerrada.
   const handleCategoryClick = categoryId => {
     onCategoryClick(categoryId);
 
@@ -72,7 +74,7 @@ const FilterSidebar = ({
                       <span
                         className="category-toggle"
                         onClick={e => {
-                          e.stopPropagation();
+                          e.stopPropagation(); // Evita que el clic en la flecha también filtre
                           onToggleCategoryExpansion(category.id);
                         }}
                       >
@@ -92,9 +94,10 @@ const FilterSidebar = ({
                         openedCategories[category.id] ? 'open' : ''
                       }`}
                     >
+                      
                       {category.subcategories.map(sub => (
                         <button
-                          key={`subcategory-${sub.id}`}
+                          key={`subcategory-${sub.name}`}
                           className={`subcategory-button ${
                             filters.subcategoryId === sub.id ? 'active' : ''
                           }`}
@@ -111,6 +114,7 @@ const FilterSidebar = ({
         </div>
       </aside>
 
+      {/* Overlay para móvil */}
       {isOpen && <div className="filter-overlay" onClick={onClose}></div>}
     </>
   );

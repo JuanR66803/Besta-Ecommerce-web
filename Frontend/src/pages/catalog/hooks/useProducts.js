@@ -32,16 +32,13 @@ const useProducts = (filters, currentPage, itemsPerPage = 10) => {
         }
 
         const url = `${API_URL}/api/productDetails/getAllProductDetails?${params.toString()}`;
-        console.log('[useProducts] URL:', url);
 
         const response = await fetch(url);
+        const data = await response.json();
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-
-        const data = await response.json();
-        console.log('[useProducts] Respuesta del backend:', data);
 
         if (!Array.isArray(data)) {
           throw new Error('La respuesta del servidor no es un array');
@@ -81,6 +78,7 @@ const groupProductsByVariant = rawProducts => {
 
   const productsMap = new Map();
 
+  // Paso 1: Agrupar productos y recolectar variantes y colores
   rawProducts.forEach(item => {
     const productId = item.id_product;
 
@@ -97,12 +95,16 @@ const groupProductsByVariant = rawProducts => {
         subcategory: item.sub_category_name,
         subcategoryId: item.id_sub_category,
         stock: 0,
+        // ✅ LÍNEA AÑADIDA: Restaura la talla de la primera variante encontrada
+        size: item.product_size,
+        uniqueColors: new Set(),
         variants: [],
       });
     }
 
     const product = productsMap.get(productId);
 
+    // Añadir la variante actual
     product.variants.push({
       id: item.id_product_details,
       size: item.product_size,
@@ -113,10 +115,24 @@ const groupProductsByVariant = rawProducts => {
       expertice: item.expertice,
     });
 
+    // Sumar el stock
     product.stock += item.stock;
+
+    // Añadir el color al Set si existe
+    if (item.colors) {
+      product.uniqueColors.add(item.colors);
+    }
   });
 
-  return Array.from(productsMap.values());
+  // Paso 2: Convertir el Map a un Array y formatear los colores
+  const groupedProducts = Array.from(productsMap.values());
+
+  groupedProducts.forEach(product => {
+    product.colors = Array.from(product.uniqueColors).join(',');
+    delete product.uniqueColors;
+  });
+
+  return groupedProducts;
 };
 
 export default useProducts;

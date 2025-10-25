@@ -1,31 +1,31 @@
 import React from 'react';
 import './ProductCard.css';
 
-// componente para mostrar la información de un producto en una tarjeta
 const ProductCard = ({ product, onClick }) => {
+  // Formateador para el precio
+  const formatPrice = price => {
+    return new Intl.NumberFormat('es-CO', {
+      style: 'currency',
+      currency: 'COP',
+      minimumFractionDigits: 0,
+    }).format(price);
+  };
+
   return (
     <div className="product-card" onClick={onClick}>
       <div className="product-image">
-        <img src={product.url_image} alt={product.name} loading="lazy" />
+        <img src={product.image} alt={product.name} loading="lazy" /> //imagen del producto
       </div>
 
       <div className="product-info">
-        <h3 className="product-name">{product.name}</h3>
-
         <p className="product-category">
           {product.category} {product.subcategory && `• ${product.subcategory}`}
         </p>
 
-        {product.description && (
-          <p className="product-description">
-            {product.description.length > 80
-              ? `${product.description.substring(0, 80)}...`
-              : product.description}
-          </p>
-        )}
+        <h3 className="product-name">{product.name}</h3>
 
         <div className="product-price">
-          <span className="price">{product.price}</span>
+          <span className="price">{formatPrice(product.price)}</span>
         </div>
 
         <button className="view-details-btn">Ver Detalles</button>

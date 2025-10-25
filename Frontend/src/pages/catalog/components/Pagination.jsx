@@ -5,35 +5,6 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   if (totalPages <= 1) return null;
 
-  const getPageNumbers = () => {
-    const pageNumbers = [];
-    let startPage = Math.max(1, currentPage - 2);
-    let endPage = Math.min(totalPages, startPage + 4);
-
-    if (endPage - startPage < 4) {
-      startPage = Math.max(1, endPage - 4);
-    }
-
-    // Primera página
-    if (startPage > 1) {
-      pageNumbers.push(1);
-      if (startPage > 2) pageNumbers.push('...');
-    }
-
-    // Páginas intermedias
-    for (let i = startPage; i <= endPage; i++) {
-      pageNumbers.push(i);
-    }
-
-    // Última página
-    if (endPage < totalPages) {
-      if (endPage < totalPages - 1) pageNumbers.push('...');
-      pageNumbers.push(totalPages);
-    }
-
-    return pageNumbers;
-  };
-
   const handlePrevPage = () => {
     if (currentPage > 1) {
       onPageChange(currentPage - 1);
@@ -44,6 +15,32 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
     if (currentPage < totalPages) {
       onPageChange(currentPage + 1);
     }
+  };
+
+  const getPageNumbers = () => {
+    const pageNumbers = [];
+    let startPage = Math.max(1, currentPage - 2);
+    let endPage = Math.min(totalPages, startPage + 4);
+
+    if (endPage - startPage < 4) {
+      startPage = Math.max(1, endPage - 4);
+    }
+
+    if (startPage > 1) {
+      pageNumbers.push(1);
+      if (startPage > 2) pageNumbers.push('...');
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pageNumbers.push(i);
+    }
+
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) pageNumbers.push('...');
+      pageNumbers.push(totalPages);
+    }
+
+    return pageNumbers;
   };
 
   return (

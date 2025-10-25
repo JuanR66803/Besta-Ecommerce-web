@@ -26,9 +26,18 @@ export class CategoryService{
     };
 
     //metodo para obtener todas las categorias
-    async getAllCategories(){
-        return (await categoryModel.getAllCategories());
-    };
+    async getAllCategories() {
+    try {
+      console.log('[CategoryService] Obteniendo categorías con subcategorías...');
+      
+      const result = await categoryModel.getAllCategoriesWithSubcategories();
+      console.log(`[CategoryService] ${result?.length || 0} categorías obtenidas.`);
+      return result || [];
+    } catch (error) {
+      console.error('Error en categoryService.getAllCategories:', error);
+      throw error;
+    }
+  }
     async getCategoryByName(category_name){
         return (await categoryModel.getCategoriesByName(category_name));
     }

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import './Catalog.css';
-import CatalogBanner from './components/CatalogBanner';
 import FilterSidebar from './components/FilterSidebar';
 import ProductGrid from './components/ProductGrid';
 import ActiveFilters from './components/ActiveFilters';
@@ -17,7 +16,6 @@ const Catalog = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Hooks personalizados
   const {
     filters,
     activeFilters,
@@ -38,7 +36,7 @@ const Catalog = () => {
   const { products, loading, error, totalPages, totalProducts } = useProducts(
     filters,
     currentPage
-  );
+  ); 
 
   // Funciones auxiliares
   const toggleSidebar = () => {
@@ -75,20 +73,27 @@ const Catalog = () => {
     setCurrentPage(1);
   };
 
-  // Funciones para obtener nombres (para ActiveFilters)
   const getCategoryName = categoryId => {
-    const category = categories.find(cat => cat.id === categoryId);
-    return category ? category.name : `Categoría ${categoryId}`;
+    if (!categoryId) return '';
+    const numericId =
+      typeof categoryId === 'string' ? parseInt(categoryId, 10) : categoryId;
+    const category = categories.find(cat => cat.id === numericId);
+    return category ? category.name : `Categoría ${numericId}`;
   };
 
   const getSubCategoryName = subcategoryId => {
+    if (!subcategoryId) return '';
+    const numericId =
+      typeof subcategoryId === 'string'
+        ? parseInt(subcategoryId, 10)
+        : subcategoryId;
     for (const category of categories) {
       const subcategory = category.subcategories?.find(
-        sub => sub.id === subcategoryId
+        sub => sub.id === numericId
       );
       if (subcategory) return subcategory.name;
     }
-    return `Subcategoría ${subcategoryId}`;
+    return `Subcategoría ${numericId}`;
   };
 
   const handleRemoveCategory = () => {
@@ -103,7 +108,6 @@ const Catalog = () => {
 
   return (
     <div className="catalog-page">
-      <CatalogBanner />
 
       <div className="catalog-container">
         {/* Sidebar de filtros */}
@@ -155,7 +159,7 @@ const Catalog = () => {
           {/* Mensaje de error */}
           {error && (
             <div className="catalog-error">
-              <p>⚠️ Error al cargar productos: {error}</p>
+              <p>Error al cargar productos: {error}</p>
               <button onClick={() => window.location.reload()}>
                 Reintentar
               </button>
