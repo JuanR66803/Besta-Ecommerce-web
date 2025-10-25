@@ -2,34 +2,22 @@ import { useState } from 'react';
 import { FaFilter } from 'react-icons/fa';
 import { useEffect } from 'react';
 import './Catalog.css';
-
-// Importar hooks personalizados
+import ProductModal from './components/ProductModal';
 import useProducts from './hooks/useProducts';
 import useCategories from './hooks/useCategories';
 import useFilters from './hooks/useFilters';
-
-// Importar componentes
-import CatalogBanner from './components/CatalogBanner';
 import FilterSidebar from './components/FilterSidebar';
 import ActiveFilters from './components/ActiveFilters';
 import ProductGrid from './components/ProductGrid';
 import Pagination from './components/Pagination';
 import { useSearchParams } from 'react-router-dom';
 
-/**
- * Componente principal del catálogo de productos
- * Maneja la visualización de productos, filtros y paginación
- */
 const Catalog = () => {
-  // ==========================================
-  // ESTADO LOCAL
-  // ==========================================
+
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-
-  // ==========================================
-  // HOOKS PERSONALIZADOS
-  // ==========================================
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Hook para manejar filtros
   const {
@@ -57,32 +45,18 @@ const Catalog = () => {
     totalProducts,
   } = useProducts(filters, currentPage);
 
-  // ==========================================
-  // MANEJADORES DE EVENTOS
-  // ==========================================
-
-  /**
-   * Abrir/cerrar sidebar de filtros (móvil)
-   */
   const toggleFilter = () => setIsFilterOpen(!isFilterOpen);
   const closeFilter = () => setIsFilterOpen(false);
 
-  /**
-   * Manejar clic en categoría
-   * Aplica el filtro de categoría y resetea la página a 1
-   */
   const handleCategoryClick = categoryId => {
     toggleCategory(categoryId);
-    setCurrentPage(1); // Resetear a página 1 al cambiar filtro
+    setCurrentPage(1);
   };
 
-  /**
-   * Manejar clic en subcategoría
-   * Aplica el filtro de subcategoría y resetea la página a 1
-   */
   const handleSubCategoryClick = (subcategoryId) => {
+    // Buscar la categoría padre usando la propiedad correcta
     const parentCategory = categories.find(cat =>
-      cat.subcategories?.some(sub => sub.id === subcategoryId)
+      cat.subcategories?.some(sub => sub.id_sub_category === subcategoryId)
     );
 
     if (parentCategory) {
@@ -95,77 +69,53 @@ const Catalog = () => {
     setCurrentPage(1);
   };
 
-  /**
-   * Limpiar todos los filtros activos
-   */
   const handleClearFilters = () => {
     clearFilters();
     setCurrentPage(1);
   };
 
-  /**
-   * Remover filtro de categoría
-   */
   const handleRemoveCategory = () => {
     toggleCategory(filters.categoryId);
     setCurrentPage(1);
   };
 
-  /**
-   * Remover filtro de subcategoría
-   */
   const handleRemoveSubCategory = () => {
     toggleSubCategory(filters.subcategoryId);
     setCurrentPage(1);
   };
 
-  /**
-   * Cambiar de página
-   */
   const handlePageChange = page => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  /**
-   * Manejar clic en producto (para futuras funcionalidades)
-   */
-  const handleProductClick = product => {
-    console.log('Producto seleccionado:', product);
-    // TODO: Navegar a página de detalle del producto
-    // navigate(`/product/${product.id}`);
+  const handleProductClick = (product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
   };
 
-  // ==========================================
-  // FUNCIONES AUXILIARES
-  // ==========================================
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedProduct(null);
+  };
 
-  /**
-   * Obtener nombre de categoría por ID
-   */
   const getCategoryName = categoryId => {
     const category = categories.find(cat => cat.id === categoryId);
     return category?.name || 'Categoría';
   };
 
-  /**
-   * Obtener nombre de subcategoría por ID
-   */
   const getSubCategoryName = subcategoryId => {
     for (const category of categories) {
       if (category.subcategories) {
+        // Buscar la subcategoría usando la propiedad correcta
         const subcategory = category.subcategories.find(
-          sub => sub.id === subcategoryId
+          sub => sub.id_sub_category === subcategoryId
         );
-        if (subcategory) return subcategory.name;
+        if (subcategory) return subcategory.sub_category_name;
       }
     }
     return 'Subcategoría';
   };
-
-  // ==========================================
-  // RENDER
-  // ==========================================
 
   // Actualizar la URL por cada filtro
   const [searchParams, setSearchParams] = useSearchParams();
@@ -204,11 +154,6 @@ const Catalog = () => {
 
   return (
     <div className="catalog-container">
-      {/* Banner principal */}
-      <CatalogBanner
-        title="Catálogo de Productos Deportivos"
-        subtitle="Encuentra el equipamiento perfecto para tu deporte"
-      />
 
       {/* Botón de filtros para móvil */}
       <div className="mobile-filters">
@@ -283,6 +228,12 @@ const Catalog = () => {
               onPageChange={handlePageChange}
             />
           )}
+
+          <ProductModal
+            product={selectedProduct}
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+          />
         </main>
       </div>
     </div>
