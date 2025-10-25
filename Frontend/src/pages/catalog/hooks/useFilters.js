@@ -66,31 +66,8 @@ const useFilters = () => {
     }));
   };
 
-  const activeFilters = useMemo(() => {
-    const active = [];
-
-    if (filters.categoryId) {
-      active.push({
-        type: 'category',
-        id: filters.categoryId,
-        label: `Categoría: ${filters.categoryId}`,
-      });
-    }
-
-    if (filters.subcategoryId) {
-      active.push({
-        type: 'subcategory',
-        id: filters.subcategoryId,
-        label: `Subcategoría: ${filters.subcategoryId}`,
-      });
-    }
-
-    return active;
-  }, [filters]);
-
   return {
     filters,
-    activeFilters,
     openedCategories,
     toggleCategory,
     toggleSubCategory,

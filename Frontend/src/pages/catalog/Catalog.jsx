@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { FaFilter } from 'react-icons/fa';
 import { useEffect } from 'react';
+import { useMemo } from 'react';
+import { useRef } from 'react';
 import './Catalog.css';
 import ProductModal from './components/ProductModal';
 import useProducts from './hooks/useProducts';
@@ -18,7 +20,7 @@ const Catalog = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const isMounted = useRef(false);
   // Hook para manejar filtros
   const {
     filters,
@@ -27,6 +29,7 @@ const Catalog = () => {
     toggleSubCategory,
     clearFilters,
     toggleCategoryExpansion,
+    updateFilters,
   } = useFilters();
 
   // Hook para obtener categorías
@@ -54,18 +57,22 @@ const Catalog = () => {
   };
 
   const handleSubCategoryClick = (subcategoryId) => {
-    // Buscar la categoría padre usando la propiedad correcta
+    // Buscar la categoría padre
     const parentCategory = categories.find(cat =>
       cat.subcategories?.some(sub => sub.id_sub_category === subcategoryId)
     );
 
     if (parentCategory) {
-      if (filters.categoryId !== parentCategory.id) {
-        toggleCategory(parentCategory.id);
-      }
+      // ✅ USA 'updateFilters' PARA ESTABLECER AMBOS A LA VEZ
+      updateFilters({
+        categoryId: parentCategory.id,
+        subcategoryId: subcategoryId
+      });
+    } else {
+      // Fallback (aunque no debería pasar si la data es correcta)
+      toggleSubCategory(subcategoryId);
     }
 
-    toggleSubCategory(subcategoryId);
     setCurrentPage(1);
   };
 
@@ -99,58 +106,63 @@ const Catalog = () => {
     setSelectedProduct(null);
   };
 
-  const getCategoryName = categoryId => {
-    const category = categories.find(cat => cat.id === categoryId);
-    return category?.name || 'Categoría';
-  };
+const getCategoryName = categoryId => {
+  // 1. Busca por 'id' (no 'id_category')
+  // 2. Usa '==' para comparar '1' == 1 (string == número)
+  const category = categories.find(cat => cat.id == categoryId);
+  return category?.name || 'Categoría';
+};
 
-  const getSubCategoryName = subcategoryId => {
-    for (const category of categories) {
-      if (category.subcategories) {
-        // Buscar la subcategoría usando la propiedad correcta
-        const subcategory = category.subcategories.find(
-          sub => sub.id_sub_category === subcategoryId
-        );
-        if (subcategory) return subcategory.sub_category_name;
-      }
+const getSubCategoryName = subcategoryId => {
+  for (const category of categories) {
+    if (category.subcategories) {
+      // 1. Usa '==' para comparar '2' == 2 (string == número)
+      const subcategory = category.subcategories.find(
+        sub => sub.id_sub_category == subcategoryId
+      );
+      if (subcategory) return subcategory.sub_category_name;
     }
-    return 'Subcategoría';
-  };
+  }
+  return 'Subcategoría';
+};
+
+  useEffect(() => {
+  const categoryId = searchParams.get('category');
+  const subcategoryId = searchParams.get('subcategory');
+
+  // Si la URL tiene filtros cuando cargamos,
+  // actualiza el estado de filtros
+  if (categoryId || subcategoryId) {
+    updateFilters({
+      categoryId: categoryId ? parseInt(categoryId) : null,
+      subcategoryId: subcategoryId ? parseInt(subcategoryId) : null
+    });
+  }
+}, []);
 
   // Actualizar la URL por cada filtro
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // lee los filtros desde la URL y los aplica
-  useEffect(() => {
-    const categoryId = searchParams.get('category');
-    const subcategoryId = searchParams.get('subcategory');
-
-    if (!categoryId && !subcategoryId && (filters.categoryId || filters.subcategoryId)) {
-      clearFilters();
-      return;
-    }
-
-    // sincroniza filtros según los parámetros
-    if (categoryId && categoryId !== String(filters.categoryId)) {
-      toggleCategory(parseInt(categoryId));
-    }
-    if (subcategoryId && subcategoryId !== String(filters.subcategoryId)) {
-      toggleSubCategory(parseInt(subcategoryId));
-    }
-  }, [searchParams]);
-
 
   // actualiza la URL cuando cambian los filtros
   useEffect(() => {
-    const params = {};
-    if (filters.categoryId) params.category = filters.categoryId;
-    if (filters.subcategoryId) params.subcategory = filters.subcategoryId;
+    // Si no es la primera vez que se renderiza, actualiza la URL
+    if (isMounted.current) {
+      const params = {};
+      if (filters.categoryId) params.category = filters.categoryId;
+      if (filters.subcategoryId) params.subcategory = filters.subcategoryId;
 
-    const current = Object.fromEntries(searchParams.entries());
-    if (JSON.stringify(current) !== JSON.stringify(params)) {
-      setSearchParams(params);
+      const current = Object.fromEntries(searchParams.entries());
+
+      // Compara y actualiza si es necesario
+      if (JSON.stringify(current) !== JSON.stringify(params)) {
+        setSearchParams(params);
+      }
+    } else {
+      // En la primera carga, solo marca 'isMounted' como true
+      isMounted.current = true;
     }
-  }, [filters]);
+  }, [filters, setSearchParams]);
 
   return (
     <div className="catalog-container">
@@ -188,12 +200,14 @@ const Catalog = () => {
         <main className="catalog-main">
           {/* Mostrar filtros activos */}
           <ActiveFilters
-            filters={filters}
-            getCategoryName={getCategoryName}
-            getSubCategoryName={getSubCategoryName}
-            onRemoveCategory={handleRemoveCategory}
-            onRemoveSubCategory={handleRemoveSubCategory}
-          />
+          filters={filters}
+          loading={loadingCategories} // <-- Añade esto
+          getCategoryName={getCategoryName}
+          getSubCategoryName={getSubCategoryName}
+          onRemoveCategory={handleRemoveCategory}
+          onRemoveSubCategory={handleRemoveSubCategory}
+          onClearAll={handleClearFilters} // <-- Añade esto
+        />
 
           {/* Resumen de productos */}
           {!loadingProducts && products.length > 0 && (
