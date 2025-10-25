@@ -1,6 +1,17 @@
 import './ProductModal.css';
 import { FaTimes } from 'react-icons/fa';
 
+const formatPrice = (price) => {
+  if (typeof price !== 'number') {
+    price = Number(price) || 0;
+  }
+  return new Intl.NumberFormat('es-CO', {
+    style: 'currency',
+    currency: 'COP',
+    maximumFractionDigits: 0,
+  }).format(price);
+};
+
 const ProductModal = ({ product, isOpen, onClose }) => {
     if (!isOpen || !product) return null;
 
@@ -35,7 +46,7 @@ const ProductModal = ({ product, isOpen, onClose }) => {
                         <h2 className="modal-product-name">{product.name}</h2>
 
                         <div className="modal-price">
-                            <span className="current-price">{product.price}</span>
+                            <span className="current-price">{formatPrice(product.price)}</span>
                         </div>
 
                         <div className="modal-description">
