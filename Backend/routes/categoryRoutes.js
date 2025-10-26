@@ -9,5 +9,6 @@ router.put("/updateCategoryById", categoryController.updateCategory);
 router.delete("/deleteCategoryById", categoryController.deleteCategoryById);
 router.get("/getAllCategories", categoryController.getAllCategories);
 router.get("/getCategoryById", categoryController.getCategoryById);
+router.get("/getAllCategoriesWithSubcategories", categoryController.getAllCategoriesWithSubcategories);
 
 export default router;

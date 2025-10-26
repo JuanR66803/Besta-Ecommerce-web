@@ -26,8 +26,8 @@ export class ProductService{
     };
 
     //metodo para obtener todos los productos
-    async getAllProducts(){
-        return (await productModel.getAllProducts())
+    async getAllProducts(queryParams){
+        return (await productModel.getAllProducts(queryParams))
     };
 }
 
