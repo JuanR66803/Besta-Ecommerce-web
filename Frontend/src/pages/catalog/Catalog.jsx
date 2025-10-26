@@ -63,13 +63,13 @@ const Catalog = () => {
     );
 
     if (parentCategory) {
-      // ✅ USA 'updateFilters' PARA ESTABLECER AMBOS A LA VEZ
+      
       updateFilters({
         categoryId: parentCategory.id,
         subcategoryId: subcategoryId
       });
     } else {
-      // Fallback (aunque no debería pasar si la data es correcta)
+  
       toggleSubCategory(subcategoryId);
     }
 
@@ -107,8 +107,6 @@ const Catalog = () => {
   };
 
 const getCategoryName = categoryId => {
-  // 1. Busca por 'id' (no 'id_category')
-  // 2. Usa '==' para comparar '1' == 1 (string == número)
   const category = categories.find(cat => cat.id == categoryId);
   return category?.name || 'Categoría';
 };
@@ -116,7 +114,7 @@ const getCategoryName = categoryId => {
 const getSubCategoryName = subcategoryId => {
   for (const category of categories) {
     if (category.subcategories) {
-      // 1. Usa '==' para comparar '2' == 2 (string == número)
+     
       const subcategory = category.subcategories.find(
         sub => sub.id_sub_category == subcategoryId
       );

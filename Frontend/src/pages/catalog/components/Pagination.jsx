@@ -6,10 +6,6 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   if (totalPages <= 1) {
     return null;
   }
-
-  /**
-   * Generar números de página visibles
-   */
   const getPageNumbers = () => {
     const pageNumbers = [];
     const maxPages = 5;

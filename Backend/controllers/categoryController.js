@@ -55,9 +55,5 @@ export class CategoryController{
         console.log("Respuesta backend:", getAllCategories);
         res.status(200).json(getAllCategories)
     };
-
-    async getAllCategoriesWithSubcategories(req, res) {
-    const getAllCategoriesWithSubcategories = await categoryService.getAllCategoriesWithSubcategories();
-    res.status(200).json(getAllCategoriesWithSubcategories);
-};
+    
 }
