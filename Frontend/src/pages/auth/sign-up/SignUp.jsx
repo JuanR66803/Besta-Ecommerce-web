@@ -1,42 +1,43 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./SignUp.css"
 import { useState } from "react";
 
 
-const SignUp = () =>{
+const SignUp = () => {
     // usa el BASE del backend (ajusta el puerto si tu server corre en otro)
     const API_URL_BASE = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
     const API_URL = `${API_URL_BASE}/api/auth/register`;
+    const navigate = useNavigate();
 
     const [form, setForm] = useState({
-        fullname:'',
-        email:'',
-        password:'',
-        confirmPassword:'',
-        birthDate:'',
-        phone:''
+        fullname: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        birthDate: '',
+        phone: ''
     })
     const [submitting, setSubmitting] = useState(false);
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setForm(prev =>({...prev,[name]: value}));
+        setForm(prev => ({ ...prev, [name]: value }));
     };
 
-    const validatePassword =()=>{
+    const validatePassword = () => {
         if (form.password !== form.confirmPassword) {
             alert("Las contraseñas no coinciden");
             return false;
         }
-        return true;   
+        return true;
     }
-    const handleSubmit = async (e) =>{
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if(!validatePassword()) return;
+        if (!validatePassword()) return;
         setSubmitting(true);
-        try{
-            const res = await fetch(API_URL,{
-                method:"POST",
-                headers:{"content-type":"application/json"},
+        try {
+            const res = await fetch(API_URL, {
+                method: "POST",
+                headers: { "content-type": "application/json" },
                 body: JSON.stringify({
                     fullname: form.fullname,
                     email: form.email,
@@ -46,13 +47,13 @@ const SignUp = () =>{
                 })
             });
 
-            if(!res.ok){
+            if (!res.ok) {
                 // intenta parsear mensaje de error si viene JSON, si no, usar statusText
                 let errMsg = res.statusText || "Error en el registro";
                 try {
                     const errJson = await res.json();
                     errMsg = errJson.message || JSON.stringify(errJson);
-                } catch {}
+                } catch { }
                 throw new Error(errMsg);
             }
 
@@ -63,15 +64,17 @@ const SignUp = () =>{
                 data = await res.json();
             }
             console.log("Registrado: ", data);
-        }catch(err){
+            alert("Registro exitoso. Ahora puedes iniciar sesión.");
+            navigate("/sign-in");
+        } catch (err) {
             console.error("Error en el envío del formulario: ", err);
             alert(err.message);
-        }finally{
+        } finally {
             setSubmitting(false);
         }
     }
-    
-    return(
+
+    return (
         <>
             <div className="sign-up-container">
                 <setion className="image-section">
@@ -84,7 +87,7 @@ const SignUp = () =>{
                         <label htmlFor="fullName">Nombre completo</label>
                         <input name="fullname" type="text" value={form.fullname} onChange={handleChange} placeholder="Juan C . perez" required />
                         <label htmlFor="email">Correo electrónico</label>
-                        <input name="email" type="email" value = {form.email} onChange={handleChange} placeholder="example@example.com" required />
+                        <input name="email" type="email" value={form.email} onChange={handleChange} placeholder="example@example.com" required />
                         <label htmlFor="password">Contraseña</label>
                         <input name="password" type="password" value={form.password} onChange={handleChange} placeholder="********" required />
                         <label htmlFor="confirmPassword">Confirmar contraseña</label>
@@ -97,7 +100,7 @@ const SignUp = () =>{
                     </form>
                     <p>¿No tienes cuenta? <NavLink to={"/sign-in"}>Inicia Sesión</NavLink></p>
                 </section>
-                
+
             </div>
         </>
     )
