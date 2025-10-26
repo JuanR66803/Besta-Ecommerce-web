@@ -1,19 +1,35 @@
 import './ProductModal.css';
 import { FaTimes } from 'react-icons/fa';
 
+const formatPrice = price => {
+  if (typeof price !== 'number') {
+    price = Number(price) || 0;
+  }
+  return new Intl.NumberFormat('es-CO', {
+    style: 'currency',
+    currency: 'COP',
+    maximumFractionDigits: 0,
+  }).format(price);
+};
+
 const ProductModal = ({ product, isOpen, onClose }) => {
   if (!isOpen || !product) return null;
 
-  const handleOverlayClick = (e) => {
+  const handleOverlayClick = e => {
     if (e.target === e.currentTarget) {
       onClose();
     }
   };
+  console.log('Modal product:', product);
 
   return (
     <div className="product-modal-overlay" onClick={handleOverlayClick}>
       <div className="product-modal">
-        <button className="modal-close-btn" onClick={onClose} aria-label="Cerrar">
+        <button
+          className="modal-close-btn"
+          onClick={onClose}
+          aria-label="Cerrar"
+        >
           <FaTimes />
         </button>
 
@@ -22,7 +38,7 @@ const ProductModal = ({ product, isOpen, onClose }) => {
           <div className="modal-image-section">
             <div className="modal-image-container">
               <img
-                src={product.image}
+                src={product.url_image}
                 alt={product.name}
                 className="modal-product-image"
               />
@@ -34,7 +50,9 @@ const ProductModal = ({ product, isOpen, onClose }) => {
             <h2 className="modal-product-name">{product.name}</h2>
 
             <div className="modal-price">
-              <span className="current-price">{product.price}</span>
+              <span className="current-price">
+                {formatPrice(product.price)}
+              </span>
             </div>
 
             <div className="modal-description">
@@ -45,36 +63,39 @@ const ProductModal = ({ product, isOpen, onClose }) => {
             <div className="modal-details">
               <div className="detail-item">
                 <strong>Categoría:</strong>
-                <span>{product.category}</span>
+                <span>{product.category?.name || 'Sin categoría'}</span>
               </div>
               <div className="detail-item">
                 <strong>Subcategoría:</strong>
-                <span>{product.subcategory}</span>
+                <span>{product.subcategory?.name || 'Sin subcategoría'}</span>
               </div>
               <div className="detail-item">
-                <strong>Tallas:</strong>
-                <span>{product.size}</span>
+                <strong>Referencia:</strong>
+                <span>{product.reference}</span>
               </div>
+
+              <div className="detail-item">
+                <strong>Tallas:</strong>
+                <span>{product.sizes.join(', ')}</span>
+              </div>
+
               <div className="detail-item">
                 <strong>Colores:</strong>
                 <span className="color-swatches">
-                  {product.colors &&
-                    product.colors.split(',').map((hex, idx) => (
-                      <span
-                        key={idx}
-                        className="color-swatch"
-                        style={{
-                          backgroundColor: hex.trim(),
-                        }}
-                        title={hex.trim()}
-                      />
-                    ))}
+                  {product.colors.map((hex, idx) => (
+                    <span
+                      key={idx}
+                      className="color-swatch"
+                      style={{ backgroundColor: hex }}
+                      title={hex}
+                    />
+                  ))}
                 </span>
               </div>
-              {product.stock > 0 && (
+              {product.total_stock > 0 && (
                 <div className="detail-item">
                   <strong>Stock:</strong>
-                  <span>{product.stock} unidades</span>
+                  <span>{product.total_stock} unidades</span>
                 </div>
               )}
             </div>

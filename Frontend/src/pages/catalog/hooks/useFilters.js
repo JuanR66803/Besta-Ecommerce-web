@@ -1,8 +1,5 @@
 import { useState, useMemo } from 'react';
 
-/**
- * Hook para manejar el estado de filtros del catálogo
- */
 const useFilters = () => {
   // Estado de filtros activos
   const [filters, setFilters] = useState({
@@ -13,9 +10,6 @@ const useFilters = () => {
   // Estado de categorías expandidas en el sidebar
   const [openedCategories, setOpenedCategories] = useState({});
 
-  /**
-   * Alternar categoría (seleccionar/deseleccionar)
-   */
   const toggleCategory = categoryId => {
     if (!categoryId) return;
 
@@ -28,9 +22,6 @@ const useFilters = () => {
     }));
   };
 
-  /**
-   * Alternar subcategoría (seleccionar/deseleccionar)
-   */
   const toggleSubCategory = subcategoryId => {
     if (!subcategoryId) return;
 
@@ -45,9 +36,6 @@ const useFilters = () => {
     }));
   };
 
-  /**
-   * Actualizar filtros completos
-   */
   const updateFilters = newFilters => {
     setFilters({
       categoryId: newFilters?.categoryId
@@ -59,9 +47,6 @@ const useFilters = () => {
     });
   };
 
-  /**
-   * Limpiar todos los filtros
-   */
   const clearFilters = () => {
     setFilters({
       categoryId: null,
@@ -69,9 +54,6 @@ const useFilters = () => {
     });
   };
 
-  /**
-   * Alternar expansión de categoría en el sidebar
-   */
   const toggleCategoryExpansion = categoryId => {
     if (!categoryId) return;
 

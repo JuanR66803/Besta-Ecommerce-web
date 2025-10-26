@@ -35,9 +35,56 @@ export class ProductModel{
 }
 
 //funcion que me permite obtener todos los productos
-    async getAllProducts(){
-        const query = `SELECT * FROM product`;
-        const result = await pool.query(query);
-        return result.rows[0];
+async  getAllProducts(queryParams) {
+  const { id_category, id_sub_category } = queryParams;
+
+  let query = `
+    SELECT 
+      pd.id_product_details AS id,
+      p.id_product AS product_id,
+      p.product_name AS name,
+      p.description,
+      p.url_image,
+      pd.product_price AS price,
+      pd.stock AS total_stock,
+      pd.product_size AS size,
+      c.id_category AS category_id,
+      c.category_name AS category_name,
+      sc.id_sub_category AS subcategory_id,
+      sc.sub_category_name AS subcategory_name,
+      col.hexadecimal_code AS color
+    FROM product_details pd
+    INNER JOIN product p ON pd.id_product = p.id_product
+    INNER JOIN sub_category sc ON p.id_sub_category = sc.id_sub_category
+    INNER JOIN category c ON sc.id_category = c.id_category
+    INNER JOIN color col ON pd.id_color = col.id_color
+  `;
+
+  const conditions = [];
+  const params = [];
+  let paramIndex = 1;
+
+  if (id_category) {
+    conditions.push(`c.id_category = $${paramIndex}`);
+    params.push(id_category);
+    paramIndex++;
+  }
+
+  if (id_sub_category) {
+    conditions.push(`sc.id_sub_category = $${paramIndex}`);
+    params.push(id_sub_category);
+    paramIndex++;
+  }
+
+  if (conditions.length > 0) {
+    query += ` WHERE ${conditions.join(' AND ')}`;
+  }
+
+  console.log('Executing query:', query);
+  console.log('With params:', params);
+
+  const result = await pool.query(query, params);
+  return result.rows;
 }
+
 }

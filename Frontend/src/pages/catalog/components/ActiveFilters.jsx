@@ -1,28 +1,38 @@
 import React from 'react';
 import './ActiveFilters.css';
 
-// Este componente es para mostrar los filtros activos en la página de catálogo.
-const ActiveFilters = ({ 
-  filters, 
-  getCategoryName, 
+const ActiveFilters = ({
+  filters,
+  loading, // <-- Prop nueva
+  getCategoryName,
   getSubCategoryName,
   onRemoveCategory,
-  onRemoveSubCategory
+  onRemoveSubCategory,
+  onClearAll // <-- Prop nueva
 }) => {
+  const hasCategory = !!filters.categoryId;
+  const hasSubcategory = !!filters.subcategoryId;
+
   // No mostrar si no hay filtros activos
-  if (!filters.categoryId && !filters.subcategoryId) {
+  if (!hasCategory && !hasSubcategory) {
     return null;
   }
 
+  // Función para mostrar el nombre o "Cargando..."
+  const getLabel = (type, id) => {
+    if (loading) return "Cargando...";
+    if (type === 'category') return getCategoryName(id);
+    if (type === 'subcategory') return getSubCategoryName(id);
+  };
+
   return (
     <div className="active-filters">
-      <h3>Filtros activos:</h3>
       <div className="filter-tags">
-        {filters.categoryId && (
+        {hasCategory && (
           <span className="filter-tag">
-            <span className="filter-tag-icon"></span>
-            <span className="filter-tag-text">{getCategoryName(filters.categoryId)}</span>
-            <button 
+            <span className="filter-tag-icon">🏷️</span>
+            <span className="filter-tag-text">{getLabel('category', filters.categoryId)}</span>
+            <button
               className="filter-tag-remove"
               onClick={onRemoveCategory}
               aria-label="Eliminar filtro de categoría"
@@ -31,12 +41,12 @@ const ActiveFilters = ({
             </button>
           </span>
         )}
-        
-        {filters.subcategoryId && (
+
+        {hasSubcategory && (
           <span className="filter-tag">
             <span className="filter-tag-icon">🔖</span>
-            <span className="filter-tag-text">{getSubCategoryName(filters.subcategoryId)}</span>
-            <button 
+            <span className="filter-tag-text">{getLabel('subcategory', filters.subcategoryId)}</span>
+            <button
               className="filter-tag-remove"
               onClick={onRemoveSubCategory}
               aria-label="Eliminar filtro de subcategoría"

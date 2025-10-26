@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-
 const useCategories = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -17,9 +15,9 @@ const useCategories = () => {
           '[useCategories] Intentando obtener categorias del backend...'
         );
 
-        const response = await fetch(
-          `${API_URL}/api/category/getAllCategories`
-        );
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/category/getAllCategoriesWithSubcategories`
+      );
 
         if (!response.ok) {
           throw new Error(`Error HTTP: ${response.status}`);

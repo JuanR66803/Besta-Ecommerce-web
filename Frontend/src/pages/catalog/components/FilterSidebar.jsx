@@ -3,9 +3,6 @@ import { FaTimes, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import LoadingSpinner from './LoadingSpinner';
 import './FilterSidebar.css';
 
-/**
- * Sidebar(barra lateral) de filtros con categorías y subcategorías
- */
 const FilterSidebar = ({
   isOpen,
   categories,
@@ -47,7 +44,10 @@ const FilterSidebar = ({
           <div className="filter-header">
             <h3>Categorías</h3>
             {(filters.categoryId || filters.subcategoryId) && (
-              <button className="clear-filters-btn" onClick={onClearFilters}>
+              <button
+                className="clear-filters-btn"
+                onClick={onClearFilters}
+              >
                 Limpiar
               </button>
             )}
@@ -63,10 +63,9 @@ const FilterSidebar = ({
             categories.map(category => (
               <div key={`category-${category.id}`} className="filter-category">
                 <button
-                  className={`category-button ${
-                    filters.categoryId === category.id ? 'active' : ''
-                  }`}
-                  onClick={() => handleCategoryClick(category.id)}
+                  className={`category-button ${filters.categoryId === category.id ? 'active' : ''
+                    }`}
+                  onClick={() => onCategoryClick(category.id)}
                 >
                   <span className="category-name">{category.name}</span>
                   {category.subcategories &&
@@ -87,23 +86,19 @@ const FilterSidebar = ({
                     )}
                 </button>
 
-                {category.subcategories &&
-                  category.subcategories.length > 0 && (
-                    <div
-                      className={`subcategories ${
-                        openedCategories[category.id] ? 'open' : ''
+                {category.subcategories && category.subcategories.length > 0 && (
+                  <div
+                    className={`subcategories ${openedCategories[category.id] ? 'open' : ''
                       }`}
-                    >
-                      
-                      {category.subcategories.map(sub => (
+                  >
+                    {category.subcategories.map((sub) => (
+                      <div key={sub.id_sub_category} className="subcategory-wrapper">
                         <button
-                          key={`subcategory-${sub.name}`}
-                          className={`subcategory-button ${
-                            filters.subcategoryId === sub.id ? 'active' : ''
-                          }`}
-                          onClick={() => onSubCategoryClick(sub.id)}
+                          className={`subcategory-button ${filters.subcategoryId === sub.id_sub_category ? 'active' : ''
+                            }`}
+                          onClick={() => onSubCategoryClick(sub.id_sub_category)}
                         >
-                          <span>{sub.name}</span>
+                          <span>{sub.sub_category_name}</span>
                         </button>
                       ))}
                     </div>
