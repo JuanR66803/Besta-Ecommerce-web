@@ -1,11 +1,28 @@
 import React from "react";
 import "./cart.css";
 import ProductoCarrito from "../../components/ProductoCarrito/ProductoCarrito.jsx";
+import { FaSearch } from "react-icons/fa";
+import PanelCuponesCarrito from "../../components/ProductoCarrito/PanelCuponesCarrito.jsx";
 const Cart = () => {
   return (
     <div className="cart-container">
-      <div className="header-fijo">
-        <h1>Carrito de Compras</h1>
+      <div className="header-carrito">
+        <div className="contenedor-carrito">
+          <div className="logo-texto-carrito">
+            <h2>Besta | Carrito de compras</h2>
+          </div>
+
+          <div className="buscador-carrito">
+            <input
+              type="text"
+              placeholder="Buscar producto..."
+              className="input-busqueda-carrito"
+            />
+            <button className="boton-buscar-carrito">
+              <FaSearch size={16} />
+            </button>
+          </div>
+        </div>
       </div>
       <div className="contenido-producto-titulo">
         <input type="checkbox" className="check" />
@@ -16,8 +33,9 @@ const Cart = () => {
         <div className="campo">Acciones</div>
       </div>
       <ProductoCarrito />
+      
       <div className="div-pago">
-        <h2>Resumen de Pago</h2>
+        <PanelCuponesCarrito />
       </div>
     </div>
   );

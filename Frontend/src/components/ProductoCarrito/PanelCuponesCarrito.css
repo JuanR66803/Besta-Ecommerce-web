@@ -1,0 +1,224 @@
+/* Contenedor principal */
+.panel-cupones-carrito {
+  width: 90%;
+  margin: 12px auto;
+  padding: 12px;
+  box-sizing: border-box;
+  background: #fff;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  color: #222;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* ---------- Parte superior ---------- */
+.superior-cupones-carrito {
+  display: flex;
+  justify-content: flex-end; /* coloca los elementos a la derecha */
+  align-items: center;
+  padding-bottom: 10px;
+  gap: 12px;
+  border: #2b8a3e 1px solid;
+}
+
+/* grupo que contiene los dos elementos a la derecha */
+.grupo-derecha-superior-carrito {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* estilo para "Cupón de plataforma" */
+.badge-cupon-carrito {
+  background: #f1f8f3;
+  border: 1px solid #d3f2d7;
+  color: #2b8a3e;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* estilo para "soy un texto" */
+.texto-pequenio-carrito {
+  color: #666;
+  font-size: 0.9rem;
+  padding: 4px 8px;
+}
+
+/* raya opcional entre superior e inferior (separador visual) */
+.panel-cupones-carrito .separador-carrito {
+  height: 1px;
+  background: #eee;
+  margin: 6px 0;
+  width: 100%;
+}
+
+/* ---------- Parte inferior ---------- */
+.inferior-cupones-carrito {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding-top: 8px;
+  padding-bottom: 4px;
+  border: #005ec8 1px solid;
+}
+
+/* IZQUIERDA dentro de inferior */
+.izquierda-inferior-carrito {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap; /* permite que en pantallas pequeñas se rompa en varias líneas */
+}
+
+/* Checkbox personalizado */
+.check-wrapper-carrito {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+.check-input-carrito {
+  position: absolute;
+  opacity: 0;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  z-index: 2;
+  cursor: pointer;
+}
+.check-caja-carrito {
+  width: 18px;
+  height: 18px;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+/* efecto visual cuando checkbox está marcado */
+.check-input-carrito:checked + .check-caja-carrito {
+  background: #4caf50;
+  border-color: #4caf50;
+  background-image: linear-gradient(transparent, rgba(0,0,0,0.02));
+  position: relative;
+}
+.check-input-carrito:checked + .check-caja-carrito::after {
+  content: "✓";
+  color: white;
+  font-size: 12px;
+  display: block;
+  text-align: center;
+  line-height: 18px;
+}
+
+/* botones/acciones en la izquierda */
+.accion-texto-carrito {
+  background: none;
+  border: none;
+  color: #444;
+  padding: 6px 8px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.15s ease;
+  font-size: 0.95rem;
+}
+.accion-texto-carrito:hover {
+  background: #f3f3f3;
+}
+
+/* DERECHA dentro de inferior */
+.derecha-inferior-carrito {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* total de artículos */
+.total-articulos-carrito {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* valor total */
+.valor-total-carrito {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #e60023; /* color de énfasis */
+}
+
+/* botón continuar */
+.boton-continuar-carrito {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.15s ease;
+}
+.boton-continuar-carrito:hover {
+  background-color: #005ec8;
+}
+
+/* --------- Responsive: en pantallas pequeñas apilar ---------- */
+@media (max-width: 700px) {
+  .inferior-cupones-carrito {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .izquierda-inferior-carrito,
+  .derecha-inferior-carrito {
+    justify-content: flex-start;
+  }
+
+  .derecha-inferior-carrito {
+    margin-top: 6px;
+  }
+}
+/* Fondo oscuro semitransparente detrás del modal */
+.overlay-cupon {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ventana emergente */
+.menu-desplegable-cupon-plataforma {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 16px;
+  width: 380px;
+  max-height: 80vh;
+  overflow-y: auto;
+  z-index: 9999;
+  animation: aparecerDesplegable 0.2s ease-out;
+  color: #222;
+}
+
+/* Animación de aparición */
+@keyframes aparecerDesplegable {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

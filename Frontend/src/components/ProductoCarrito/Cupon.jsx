@@ -18,6 +18,9 @@ const Cupon = () => {
           <div className="linea-texto">Descripción breve del producto</div>
           <div className="linea-texto">Precio o información adicional</div>
         </div>
+        <div> 
+          <input type="checkbox" className="check-producto" />
+        </div>
       </div>
 
       {/* Parte inferior */}

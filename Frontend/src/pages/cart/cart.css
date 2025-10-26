@@ -19,14 +19,14 @@
   grid-template-columns: 5% 35% 15% 15% 15% 15%; /* 📐 proporciones */
   align-items: center;
   text-align: center;
-  gap: 5px;
+  gap: 4px;
     /* 💡 NUEVO: controla tamaño y posición */
-  width: 90%;              /* ocupa el 90% del ancho de la pantalla */
-  margin: 20px auto 0;     /* centrado horizontal, separado del de arriba */
+  width: 89%;              /* ocupa el 90% del ancho de la pantalla */
+  margin: 15px auto 0;     /* centrado horizontal, separado del de arriba */
   padding: 10px;
 
   border: 1px solid #ccc;
-  border-radius: 10px;
+  border-radius: 4px;
   background-color: #f9f9f9;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -51,4 +51,85 @@
   font-weight: 500;
   gap : 10px;
   padding: 0 15px;
+}
+.header-carrito {
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 12px 24px;
+  width: 100%;
+  height: 10%;
+  text-align: center;
+  align-items: center;
+}
+
+.contenedor-carrito {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo-texto-carrito h2 {
+  font-size: 1.2rem;
+  color: #222;
+  font-weight: 600;
+}
+
+.buscador-carrito {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.input-busqueda-carrito {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  outline: none;
+  width: 220px;
+  font-size: 0.95rem;
+}
+
+.input-busqueda-carrito:focus {
+  border-color: #007bff;
+}
+
+.boton-buscar-carrito {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.boton-buscar-carrito:hover {
+  background-color: #0056b3;
+}
+
+
+.input-busqueda-carrito:focus {
+  border-color: #007bff;
+}
+
+.boton-buscar-carrito {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.boton-buscar-carrito:hover {
+  background-color: #0056b3;
 }
