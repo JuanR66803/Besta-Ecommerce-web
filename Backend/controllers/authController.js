@@ -16,10 +16,14 @@ export default class AuthController {
     async registerUser(req, res) {
         try {
             const { fullname, email, password, birthDate, phone } = req.body;
+            console.log(req.body);
+
             if (!fullname || !email || !password || !birthDate || !phone) {
                 return res.status(400).json({ message: "Todos los campos son obligatorios" });
             }
-            const findEmailUser = authService.getUserByEmail(email);
+
+            const findEmailUser = await authService.getUserByEmail(email);
+            console.log("busqueda por email", findEmailUser);
 
             if (findEmailUser) {
                 return res.status(409).json({ message: "El correo ya está registrado" });
@@ -28,21 +32,36 @@ export default class AuthController {
             const hashedPassword = await bcrypt.hash(password, 10);
             const gender = "no definido";
             const role = "user";
+
             const findGender = await genderService.getGenderByName(gender);
             const findRole = await roleService.getRoleByName(role);
             const newUserAddress = await userAddressService.createUserAddress(null, null, null, null, null);
+
             const genderId = findGender.id_gender;
             const roleId = findRole.id_role;
             const userAddressId = newUserAddress.id_user_address;
-            console.log("ids", genderId, roleId, userAddressId) // ver id de manera asincrona
 
-            const newUser = await authService.registerUser(fullname, email, hashedPassword, userAddressId, phone, genderId, birthDate, roleId);
-            return res.status(201).json(newUser, "usuario registrado correctamente");
+            console.log("ids", genderId, roleId, userAddressId);
+
+            const newUser = await authService.registerUser(
+                fullname,
+                email,
+                hashedPassword,
+                userAddressId,
+                phone,
+                genderId,
+                birthDate,
+                roleId
+            );
+
+            return res.status(201).json({ message: "Usuario registrado correctamente", newUser });
+
         } catch (error) {
             console.error("Error al registrar el usuario:", error);
             return res.status(500).json({ message: "Error interno del servidor" });
         }
     }
+
     async LoginUser(req, res) {
         try {
             console.log("Recibiendo solicitud de inicio de sesión:", req.body);
