@@ -5,10 +5,10 @@ import { useAuth } from "../../../context/AuthContext";
 
 import "./SignIn.css"
 
-const SignIn=()=>{
+const SignIn = () => {
     const API_URL_BASE = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
     const API_URL = `${API_URL_BASE}/api/auth/login`;
-    const [formData,setFormData] = useState({email:"",password:""})
+    const [formData, setFormData] = useState({ email: "", password: "" })
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const navigate = useNavigate();
@@ -32,11 +32,11 @@ const SignIn=()=>{
         }
 
         try {
-            const response = await fetch(API_URL,{
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(formData),
-                }
+            const response = await fetch(API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData),
+            }
             );
 
             const data = await response.json();
@@ -45,40 +45,45 @@ const SignIn=()=>{
                 throw new Error(data.message || "Error al iniciar sesión.");
             }
 
-            login(data.user, data.token); // Guardar usuario en el contexto de autenticación
+            login(data.user, data.token);
+            console.log(data.user) // Guardar usuario en el contexto de autenticación
             setSuccess("Iniciando sesión. Redirigiendo...");
-            setTimeout(() => navigate("/home"), 1500);
+            if (data.user.role_name === "admin") {
+                navigate("/panel-admin");
+            } else {
+                navigate("/home");
+            }
         } catch (err) {
             setError(err.message);
         }
     };
 
-    return(
+    return (
         <>
-        <div className="sign__container">
-            <img className="logo__header-sign"src="/logo_fiera.png" alt="logo" />
-            <div className="header__sign">
-                <h2>¡Inicia Sesión en Fiera!</h2>
-                <p>Te espera una gran aventura</p>
-                {redirectMessage && (
-                    <p className="warning-message-in">{redirectMessage}</p>
-                )}
-            </div>
-            <form onSubmit={handleSubmit} className="inputs__sign">
-                {error && <p className="error-message-in">{error}</p>}
-                {success && <p className="success-message-in">{success}</p>}
-                <label>Email</label>
-                <input name="email"value={formData.email} onChange={handleChange} type="email" placeholder="example@example.com" required/>
-                <label>Contraseña</label>
-                <input name="password" value={formData.password} onChange={handleChange} type="password" placeholder="************"required />
-                <button type="summit" className="btn_sign-in">Inicia sesión</button>
-            </form>
-            
-            <p>¿No tienes cuenta?  <NavLink to={"/sign-up"} >Registrate</NavLink></p>
-            
+            <div className="sign__container">
+                <img className="logo__header-sign" src="/logo_fiera.png" alt="logo" />
+                <div className="header__sign">
+                    <h2>¡Inicia Sesión en Fiera!</h2>
+                    <p>Te espera una gran aventura</p>
+                    {redirectMessage && (
+                        <p className="warning-message-in">{redirectMessage}</p>
+                    )}
+                </div>
+                <form onSubmit={handleSubmit} className="inputs__sign">
+                    {error && <p className="error-message-in">{error}</p>}
+                    {success && <p className="success-message-in">{success}</p>}
+                    <label>Email</label>
+                    <input name="email" value={formData.email} onChange={handleChange} type="email" placeholder="example@example.com" required />
+                    <label>Contraseña</label>
+                    <input name="password" value={formData.password} onChange={handleChange} type="password" placeholder="************" required />
+                    <button type="summit" className="btn_sign-in">Inicia sesión</button>
+                </form>
 
-        </div>
-            
+                <p>¿No tienes cuenta?  <NavLink to={"/sign-up"} >Registrate</NavLink></p>
+
+
+            </div>
+
         </>
     )
 }

@@ -5,9 +5,9 @@ const subCategoryModel = new SubCategoryModel();
 export class SubCategoryService{
     
     //metodo para crear una sub categoria
-    async createSubCategory(sub_category_name){
+    async createSubCategory(id_category,sub_category_name){
         // se crea la categoría sin comprobar si ya existe, hay que agregar un condicional
-        return (await subCategoryModel.createSubCategory(sub_category_name));
+        return (await subCategoryModel.createSubCategory(id_category,sub_category_name));
     };
 
     //metodo para acrualizar una sub categoria
@@ -29,5 +29,8 @@ export class SubCategoryService{
     async getAllSubCategories(){
         return (await subCategoryModel.getAllSubCategories())
     };
+    async getSubCategoriesByName(name){
+        return (await subCategoryModel.getSubacategoriesByName(name));
+    }
 }
 

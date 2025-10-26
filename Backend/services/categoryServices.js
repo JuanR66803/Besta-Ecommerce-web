@@ -27,8 +27,11 @@ export class CategoryService{
 
     //metodo para obtener todas las categorias
     async getAllCategories(){
-        return (await categoryModel.getAllCategories())
+        return (await categoryModel.getAllCategories());
     };
+    async getCategoryByName(category_name){
+        return (await categoryModel.getCategoriesByName(category_name));
+    }
 
     async getAllCategoriesWithSubcategories(){
         return (await categoryModel.getAllCategoriesWithSubcategories())

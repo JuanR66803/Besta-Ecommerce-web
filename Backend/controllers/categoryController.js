@@ -8,12 +8,15 @@ export class CategoryController{
 
     //metodo para crear una categoria
     async createCategory(req,res){
+        console.log("Body recibido:", req.body);
         const {category_name}= req.body;
+        
         if (!category_name ) {
         return res.status(400).json({ message: "el nombre de la categoria es obligatoria" });
         }
         const newCategory= await categoryService.createCategory(category_name);
         res.status(201).json(newCategory)
+        return newCategory.id_category
     };
 
     //metodo para actualizar una categoria
@@ -49,6 +52,7 @@ export class CategoryController{
     //metodo para obtener todas las categorias
     async getAllCategories(req,res){
         const getAllCategories = await categoryService.getAllCategories();
+        console.log("Respuesta backend:", getAllCategories);
         res.status(200).json(getAllCategories)
     };
 
