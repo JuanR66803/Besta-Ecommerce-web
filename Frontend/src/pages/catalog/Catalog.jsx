@@ -14,13 +14,41 @@ import ProductGrid from './components/ProductGrid';
 import Pagination from './components/Pagination';
 import { useSearchParams } from 'react-router-dom';
 
-const Catalog = () => {
+//Hook personalizado para obtener el número de items por página
+const useResponsiveItemsPerPage = () => {
+  const getItems = () => {
+    const width = window.innerWidth;
+    if (width >= 1200) return 12; // Para 4 columnas (o más)
+    if (width >= 992) return 12; // Para 4 columnas
+    if (width >= 768) return 9;  // Para 3 columnas
+    return 8;                    // Para 2 columnas (móvil)
+  };
 
+  const [itemsPerPage, setItemsPerPage] = useState(getItems());
+
+  useEffect(() => {
+    const handleResize = () => {
+      setItemsPerPage(getItems());
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return itemsPerPage;
+};
+
+
+const Catalog = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isMounted = useRef(false);
+
+  //Usamos el nuevo hook
+  const itemsPerPage = useResponsiveItemsPerPage();
+
   // Hook para manejar filtros
   const {
     filters,
@@ -46,7 +74,8 @@ const Catalog = () => {
     error: errorProducts,
     totalPages,
     totalProducts,
-  } = useProducts(filters, currentPage);
+    // Pasamos 'itemsPerPage' al hook de productos
+  } = useProducts(filters, currentPage, itemsPerPage);
 
   const toggleFilter = () => setIsFilterOpen(!isFilterOpen);
   const closeFilter = () => setIsFilterOpen(false);
