@@ -22,11 +22,7 @@
   transition: transform .12s ease, box-shadow .12s ease;
 }
 
-/* Leve elevación al pasar el mouse */
-.contenedor-cupon-individual:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
-}
+
 
 /* Parte superior: imagen izquierda / texto derecha */
 .parte-superior {
