@@ -1,0 +1,83 @@
+
+.modal__content h3 {
+  margin: 0;
+  text-align: center;
+  margin: 20px 0 50px 0;
+}
+
+.input__category{
+    padding-top:20px ;
+    display: flex;
+    gap: 20px;
+
+}
+.modal__input {
+    flex:4;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    font-size: 14px;
+}
+.btn__add-category{
+    flex: 1;
+    cursor: pointer;
+    border: none;
+    background-color: var(--color-primary);
+    color: #f2f2f2;
+    border-radius: var(--radius);
+    box-shadow: none;
+    transition: box-shadow var(--transition);
+
+}
+.btn__add-category:hover{
+    box-shadow: var(--shadow-hover);
+}
+
+.modal__table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.modal__table th,
+.modal__table td {
+  border: 1px solid #ddd;
+  padding: 8px 10px;
+  text-align: center;
+}
+
+.modal__table th {
+  background-color: #f2f2f2;
+}
+
+.actions__cell {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn__edit,
+.btn__delete {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 18px;
+  transition: transform 0.2s ease;
+}
+
+.btn__edit {
+  color: #000000;
+}
+
+.btn__delete {
+  color: #000000;
+}
+
+.btn__edit:hover,
+.btn__delete:hover {
+  transform: scale(1.1);
+}
+.combo__box-categories{
+    padding-bottom: 20px;
+}

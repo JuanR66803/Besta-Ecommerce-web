@@ -46,7 +46,14 @@ export class ProductController{
 
     //metodo para obtener todas las categorias
     async getAllProducts(req,res){
-        const getAllProducts = await productService.getAllProducts();
-        res.status(200).json(getAllProducts)
-    };
+    try {
+        // CORRECCIÓN: Llama al método desde 'productService'
+        const products = await productService.getAllProducts(req.query); 
+    
+        res.status(200).json(products);
+    } catch (error) {
+        console.error('Error fetching products:', error);
+        res.status(500).json({ message: 'Error en el servidor' });
+    }
+};
 }
