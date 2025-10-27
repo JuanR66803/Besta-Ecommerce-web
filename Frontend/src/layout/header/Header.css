@@ -213,6 +213,16 @@ header {
   color: white;
   cursor: pointer;
 }
+.logout__button{
+    margin-left: 20px;
+    color: #000;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    background: none;
+    border-radius: var(--radius);
+    padding: 7px 20px;
+}
 
 @media (max-width: 719px) {
   .nav_list {

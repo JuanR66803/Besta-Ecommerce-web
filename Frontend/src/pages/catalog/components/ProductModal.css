@@ -1,0 +1,275 @@
+/* --- Estilos Base (Mobile-First) --- */
+
+.product-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Centra el modal en pantallas grandes */
+  z-index: 10000;
+  animation: fadeIn 0.3s ease;
+  overflow: hidden; /* El overlay no debe tener scroll */
+  padding: 0; /* Sin padding en móvil */
+}
+
+.product-modal {
+  background: white;
+  width: 100%;
+  height: 100%; /* Ocupa toda la pantalla en móvil */
+  max-width: 100%;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Clave para que el contenido no se salga */
+  position: relative;
+  animation: slideUp 0.4s ease-out;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10; /* Debe estar sobre el contenido */
+  font-size: 1rem;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.modal-close-btn:hover {
+  background: white;
+  transform: rotate(90deg) scale(1.1);
+}
+
+.modal-content {
+  flex-grow: 1; /* Ocupa todo el espacio vertical disponible */
+  overflow-y: auto; /* ESTA es la única parte que tendrá scroll */
+  padding: 1rem;
+  padding-top: 4.5rem; /* Espacio para el botón de cerrar */
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.modal-image-section {
+  width: 100%;
+}
+
+.modal-image-container {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.modal-product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.modal-info-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-product-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.current-price {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.modal-description h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.modal-description p {
+  color: #555;
+  line-height: 1.6;
+}
+
+.modal-details {
+  border-top: 1px solid #eee;
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.detail-item strong {
+  font-weight: 600;
+  color: #333;
+  flex-shrink: 0; /* Evita que el texto se comprima */
+}
+
+.detail-item span {
+  text-align: right;
+  color: #555;
+}
+
+.color-swatches {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.color-swatch {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid #ddd;
+}
+
+.add-to-cart-button {
+  background-color: #1a1a1a;
+  color: white;
+  border: none;
+  padding: 0.9rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.add-to-cart-button:hover {
+  background-color: #333;
+}
+
+.add-to-cart-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.modal-info {
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid #eee;
+}
+
+.modal-info p {
+  margin: 0.25rem 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.store-availability {
+  font-weight: 600;
+  color: #1a1a1a !important;
+}
+
+/* --- Media Query para Tablets (768px y más) --- */
+@media (min-width: 768px) {
+  .product-modal-overlay {
+    padding: 2rem; /* Añadimos padding para que el modal no toque los bordes */
+  }
+
+  .product-modal {
+    border-radius: 12px;
+    width: 100%;
+    height: auto; /* La altura se adapta al contenido */
+    max-width: 720px; /* Ancho máximo para tablets */
+    max-height: 90vh; /* Altura máxima para que siempre quepa en pantalla */
+  }
+
+  .modal-content {
+    flex-direction: row; /* Lado a lado */
+    padding: 2rem;
+    padding-top: 2rem; /* Ya no necesitamos el padding extra arriba */
+    gap: 2rem;
+  }
+
+  .modal-image-section {
+    flex: 1; /* Ocupa 1 parte del espacio */
+  }
+
+  .modal-info-section {
+    flex: 1; /* Ocupa 1 parte del espacio */
+  }
+
+  .modal-product-name {
+    font-size: 1.75rem;
+  }
+}
+
+/* --- Media Query para Laptops y Desktops (1024px y más) --- */
+@media (min-width: 1024px) {
+  .product-modal {
+    max-width: 960px; /* Ancho máximo para pantallas grandes */
+  }
+
+  .modal-content {
+    gap: 3rem;
+  }
+
+  .modal-image-section {
+    flex: 2; /* La imagen ocupa más espacio */
+  }
+
+  .modal-info-section {
+    flex: 3; /* La info ocupa más espacio */
+  }
+
+  .modal-product-name {
+    font-size: 2rem;
+  }
+
+  .current-price {
+    font-size: 2.25rem;
+  }
+}
+
+/* --- Animaciones (sin cambios) --- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

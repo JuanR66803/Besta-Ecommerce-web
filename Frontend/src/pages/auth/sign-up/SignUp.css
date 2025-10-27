@@ -1,0 +1,193 @@
+/* ===== Sign Up Container ===== */
+.sign-up-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 36px;
+  margin: 40px auto;
+  padding: var(--padding-section);
+  font-family: 'Poppins', sans-serif;
+  max-width: 1200px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(246, 247, 251, 0.6));
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  background-color: var(--color-bg);
+}
+.sign-up-container p{
+  font-size: 0.8rem;
+}
+/* ===== Image Section ===== */
+.image-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("/background-signup.jpg");
+  background-size: cover;
+  background-position: center;
+  padding: 8px;
+  position: relative;
+  border-radius: var(--radius);
+  width: 420px;
+  min-width: 320px;
+  min-height: 520px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.image-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(4, 128, 115, 0.8), rgba(4, 128, 115, 0.65));
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  transition: opacity var(--transition);
+}
+
+/* ===== Form Section ===== */
+.form-section {
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--padding-section) + 8px);
+  margin-left: 60px;
+  gap: 12px;
+  background: var(--color-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  width: min(480px, 100vw);
+  position: relative;
+  z-index: 3;
+  overflow: visible;
+}
+
+.form-section::before {
+  content: "";
+  position: absolute;
+  left: 70px;
+  top: 10px;
+  height: 100%;
+  background: var(--color-bg);
+  border-radius: 48% / 100%;
+  box-shadow: -6px 0 18px rgba(16, 16, 48, 0.06);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ===== Form Layout ===== */
+.sign-up-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  font-family: Inter, Roboto, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* ===== Labels & Inputs ===== */
+.sign-up-form label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: 6px;
+  color: var(--color-text);
+  text-align: left;
+}
+
+.sign-up-form input {
+  width: 90%;
+  padding: var(--padding-base) 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-small);
+  outline: none;
+  transition: box-shadow var(--transition), border-color var(--transition);
+  background: linear-gradient(#fff, #fbfdff);
+  color: var(--color-text);
+  font-size: var(--font-size-base);
+}
+
+.sign-up-form input::placeholder {
+  color: #777;
+  opacity: 0.9;
+}
+
+.sign-up-form input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 6px 18px rgba(17, 17, 17, 0.06), 0 0 0 4px rgba(0, 0, 0, 0.04);
+}
+
+/* ===== Button ===== */
+.sign-up-form button {
+  margin-top: 18px;
+  padding: var(--padding-base) 18px;
+  width: 60%;
+  align-self: center;
+  background-color: var(--color-primary);
+  border: none;
+  color: #fff;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  transition: transform var(--transition), box-shadow var(--transition), background-color var(--transition);
+  box-shadow: var(--shadow);
+}
+
+.sign-up-form button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+  
+}
+/* ===== Helper Text ===== */
+.helper-text {
+  font-size: 0.85rem;
+  color: #777;
+  text-align: center;
+  margin-top: 8px;
+}
+.sign-up-container a{
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+/* ===== Responsive ===== */
+@media (max-width: 1000px) {
+  .sign-up-container {
+    position: relative;
+    padding: var(--padding-base);
+    gap: 18px;
+  }
+
+  .image-section {
+    display: none;
+  }
+
+  .sign-up-form button {
+    width: 70%;
+  }
+}
+
+@media (max-width: 720px) {
+  .sign-up-container {
+    flex-direction: column;
+    margin: 20px;
+  }
+
+  .image-section {
+    display: none;
+  }
+
+  .form-section {
+    width: 100%;
+    padding: var(--padding-section);
+    margin-left: 0;
+  }
+
+  .form-section::before {
+    display: none;
+  }
+
+  .sign-up-form button {
+    width: 100%;
+  }
+}

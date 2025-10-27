@@ -1,0 +1,99 @@
+.sign__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+}
+
+.logo__header-sign {
+  width: 60px;
+  margin-bottom: 20px;
+}
+
+.header__sign h2 {
+  font-size: var(--font-size-title);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.header__sign p {
+  color: #777;
+  font-size: 0.95rem;
+  margin-bottom: 30px;
+}
+
+.inputs__sign {
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.inputs__sign label {
+  text-align: left;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.inputs__sign input {
+  padding: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-small);
+  outline: none;
+  font-size: var(--font-size-base);
+  transition: border var(--transition);
+}
+
+.inputs__sign input:focus {
+  border-color: var(--color-primary);
+}
+
+.btn_sign-in {
+  width: 320px;
+  background-color: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  padding: 14px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: background-color var(--transition), box-shadow var(--transition);
+}
+
+.btn_sign-in:hover {
+  background-color: var(--color-primary-hover);
+  box-shadow: var(--shadow-hover);
+}
+
+.sign__container p {
+  margin-top: 20px;
+  font-size: 0.9rem;
+}
+
+.sign__container a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.sign__container a:hover {
+  text-decoration: underline;
+}
+/* Mensajes de error y éxito */
+.error-message-in {
+    color: red;
+    text-align: center;
+}
+.success-message-in {
+    color: green;
+    text-align: center;
+}
