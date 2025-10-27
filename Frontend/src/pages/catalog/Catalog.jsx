@@ -13,6 +13,7 @@ import ActiveFilters from './components/ActiveFilters';
 import ProductGrid from './components/ProductGrid';
 import Pagination from './components/Pagination';
 import { useSearchParams } from 'react-router-dom';
+import React from "react";
 
 //Hook personalizado para obtener el número de items por página
 const useResponsiveItemsPerPage = () => {
