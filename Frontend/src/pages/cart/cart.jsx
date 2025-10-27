@@ -33,7 +33,7 @@ const Cart = () => {
         <div className="campo">Acciones</div>
       </div>
       <ProductoCarrito />
-      
+      <ProductoCarrito />
       <div className="div-pago">
         <PanelCuponesCarrito />
       </div>

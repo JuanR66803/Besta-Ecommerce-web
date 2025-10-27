@@ -1,213 +1,325 @@
-.icono-categoria {
-  margin-right: 6px;
-  vertical-align: middle;
-  color: #555; /* cambia el color si quieres */
-  font-size: 18px;
-  border: 1px solid violet;
-}
-.contenedor-producto-carrito {
-  border: 2px solid #32e53b;
-  display: grid;
-  align-items: center;
-  text-align: center;
-  gap: 5px;
-  /* 💡 NUEVO: controla tamaño y posición */
-  width: 90%; /* ocupa el 90% del ancho de la pantalla */
-  margin: 20px auto 0; /* centrado horizontal, separado del de arriba */
-  border: 1px solid #ccc;
-  background-color: #f9f9f9;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-.contenedor-categoria {
-  border: 2px solid red;
-  grid-template-columns: 4% 2% 36% 15% 15% 15%; /* 📐 proporciones */
-  display: grid;
-  align-items: center;
-  text-align: center;
-  gap: 5px;
-  padding: 10px;
-}
-.contenedor-producto {
-  border: 2px solid purple;
-  grid-template-columns: 4% 10% 17% 11% 15% 15% 12% 14%; /* 📐 proporciones */
-  display: grid;
-  align-items: center;
-  text-align: center;
-  gap: 5px;
-  padding: 10px;
+:root{
+  --accent: #32e53b;
+  --accent-dark: #228c2f;
+  --muted: #6b7280;
+  --panel-bg: #ffffff;
+  --surface: #fbfdff;
+  --border: #e6e9ee;
+  --shadow-sm: 0 4px 14px rgba(17,24,39,0.06);
+  --shadow-md: 0 10px 30px rgba(17,24,39,0.12);
+  --danger: #ff4d4f;
 }
 
+/* Reset útil */
+* { box-sizing: border-box; }
+body, html { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; color: #0f172a; }
+
+/* Ícono de categoría */
+.icono-categoria {
+  margin-right: 8px;
+  vertical-align: middle;
+  color: #555;
+  font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid rgba(128,0,128,0.12); /* borde sutil violeta */
+  transition: background .12s ease, transform .12s ease;
+}
+.icono-categoria:hover { transform: translateY(-2px); background: rgba(128,0,128,0.04); }
+
+/* Contenedor general del producto en el carrito */
+.contenedor-producto-carrito {
+  border-radius: 10px;
+  display: grid;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  width: 90%;
+  margin: 20px auto 0;
+  background: linear-gradient(180deg,#fff,#fbfdff);
+  padding: 10px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Contenedor de categoría (fila de encabezado por categoría) */
+.contenedor-categoria {
+  display: grid;
+  grid-template-columns: 4% 2% 36% 15% 15% 15%; /* mantiene tus proporciones */
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 8px;
+  background: rgba(0,0,0,0.01);
+  border: 1px solid rgba(0,0,0,0.03);
+}
+
+/* Contenedor de cada producto (fila) */
+.contenedor-producto {
+  display: grid;
+  grid-template-columns: 4% 10% 17% 11% 15% 15% 12% 14%; /* mantiene tus proporciones */
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #ffffff, #fcfeff);
+  border: 1px solid rgba(0,0,0,0.04);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.contenedor-producto:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Checkbox del producto */
 .check-producto {
   width: 100%;
   height: 20px;
+  display: inline-block;
 }
+
+/* Nombre de categoría / producto - mantiene alineación izquierda */
 .nombre-categoria {
   text-align: left;
   font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  border: 1px solid #555;
+  padding: 6px 8px;
+  border-radius: 6px;
 }
+
+/* Contenedor imagen: centrado y con tamaño contenido */
 .contenedor-imagen {
-  border: 1px solid #32e53b;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
   width: 150px;
-  height: 100%; /* puedes ajustar según el tamaño que necesites */
+  height: 90px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(50,229,59,0.03), rgba(255,255,255,0.02));
+  border: 1px solid rgba(50,229,59,0.12);
 }
+
+/* Imagen del producto: ocupa el contenedor sin deformarse */
 .imagen-producto {
-  border: #32e53b 1px solid;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* mantiene proporciones y llena el espacio */
+  object-fit: cover;
+  display: block;
 }
+
+/* Descripción: mantener máximo 2 líneas y separación lateral — conservando la intención del top negativo, pero usando margen negativo controlado */
 .descripcion-producto {
-  border: 1px solid purple;
+  border: 1px solid rgba(128,0,128,0.12);
   text-align: center;
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 2; /* muestra 2 líneas máximo */
+  -webkit-line-clamp: 2; /* máximo 2 líneas visibles */
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
-  white-space: normal; /* permite varias líneas */
-  font-size: 18px;
+  white-space: normal;
+  font-size: 16px;
   line-height: 1.4;
-  position: relative;
-  top: -50px; /* súbelo 50px, ajusta según necesites */
-  margin: 0 20%; /* 🔹 agrega separación a los lados */
+  padding: 12px;
+  /* Mantengo la intención de elevar visualmente la descripción,
+     pero usando margin para evitar problemas de layout */
+  margin: -30px 12% 8px; /* sube visualmente (ajusta si necesitas más/menos) */
+  border-radius: 8px;
+  background: rgba(255,255,255,0.75);
+  box-shadow: 0 6px 18px rgba(128,0,128,0.03);
 }
+
+/* Desplegable (contenedor relativo para posicionar menú) */
 .desplegable {
   position: relative;
   display: inline-block;
 }
 
+/* Botón desplegable estilo texto (sin borde) */
 .boton-desplegable {
-  font-size: 18px;
-  background: none; /* sin color de fondo */
-  border: none; /* sin borde */
-  color: inherit; /* hereda el color del texto */
-  cursor: pointer; /* mantiene el puntero de mano */
-  padding: 0; /* elimina espacio interno */
+  font-size: 16px;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 6px;
   display: inline-flex;
   align-items: center;
-  gap: 4px; /* espacio entre texto e icono */
-  top: -10px;
+  gap: 6px;
+  transition: color .12s ease, transform .12s ease;
+}
+.boton-desplegable:hover { transform: translateY(-2px); color: var(--accent-dark); }
+
+/* Menú desplegable pequeño (abajo del botón) — mantiene position:absolute */
+.menu-desplegable {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background-color: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow-md);
+  padding: 12px;
+  z-index: 9999;
+  width: 260px; /* contenido más compacto */
+  max-height: 60vh;
+  overflow-y: auto;
 }
 
-.menu-desplegable {
-  align-items: center;
-  text-align: center;
-  position: absolute;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  padding: 12px;
-  z-index: 9999; /* 🔥 Esto lo pone por encima de todo */
-  width: 20%;
-}
+/* Precios: control de layout */
 .contenedor-precio {
-  border: 1px solid #32e53b;
   display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+}
+
+/* precio antiguo y actual */
+.precio-antiguo {
+  text-decoration: line-through;
+  color: var(--muted);
+  font-size: 14px;
+}
+.precio-actual {
+  color: #0b1220;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+/* Contador (cantidad) */
+.contenedor-contador {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.06);
+  background: #fff;
+}
+.boton-contador {
+  background-color: #0f172a;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  width: 30px;
+  height: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .12s ease, transform .08s ease;
+}
+.boton-contador:hover { background-color: var(--danger); transform: translateY(-1px); }
+.valor-contador {
+  min-width: 30px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* Precio total destacado */
+.precio-total {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--accent-dark);
+  text-align: center;
+}
+
+/* Acciones (columna) */
+.contenedor-acciones {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 8px;
 }
 
-.precio-antiguo {
-  text-decoration: line-through; /* subraya el texto */
-  color: #888;
-  font-size: 14px;
-}
-
-.precio-actual {
-  color: black;
-  font-weight: bold;
-  font-size: 16px;
-}
-.contenedor-contador {
-  border: 2px solid #32e53b;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  border: 1px solid #ccc;
-  padding: 6px 12px;
-  border-radius: 8px;
-}
-
-.boton-contador {
-  background-color: black;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  width: 28px;
-  height: 28px;
-  font-size: 18px;
-  cursor: pointer;
-}
-
-.boton-contador:hover {
-  background-color: #ff4d00;
-}
-
-.valor-contador {
-  min-width: 24px;
-  text-align: center;
-  font-size: 16px;
-  font-weight: bold;
-}
-.precio-total {
-  border: 1px solid #32e53b;
-  font-size: 20px;
-  font-weight: bold;
-  width: 100%;
-}
-.contenedor-acciones {
-  border: 1px solid #32e53b;
-  display: flex;
-  flex-direction: column; /* los pone uno debajo del otro */
-  align-items: center; /* centra los botones horizontalmente */
-  gap: 8px; /* espacio entre ellos */
-}
+/* Botones de acción (eliminar / buscar) estilo texto con hover */
 .boton-accion-eliminar,
 .boton-accion-buscar {
-  font-size: 18px;
-  background: none; /* sin color de fondo */
-  border: none; /* sin borde */
-  color: inherit; /* hereda el color del texto */
-  cursor: pointer; /* mantiene el puntero de mano */
-  padding: 0; /* elimina espacio interno */
-  display: inline-flex;
-  align-items: center;
-  gap: 4px; /* espacio entre texto e icono */
-  top: -10px;
+  font-size: 15px;
+  background: none;
+  border: none;
+  color: #374151;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 6px;
+  transition: background .12s ease, color .12s ease;
 }
-.boton-accion-eliminar:hover,
-.boton-accion-buscar:hover {
-  color: red ;
-}
+.boton-accion-eliminar:hover { background: rgba(255,77,79,0.08); color: var(--danger); }
+.boton-accion-buscar:hover { background: rgba(0,0,0,0.04); color: var(--accent-dark); }
+
+/* Contenedor cupones (misma lógica de grid) */
 .contenedor-cupones {
-  border: 2px solid red;
-  grid-template-columns: 4% 15%; /* 📐 proporciones */
   display: grid;
+  grid-template-columns: 4% 15%;
   align-items: center;
-  text-align: center;
   gap: 10px;
   padding: 10px;
-  color: red;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #fff, #fcfeff);
+  border: 1px solid rgba(0,0,0,0.04);
 }
-.menu-desplegable2{
-  align-items: center;
-  text-align: center;
+
+/* Menu desplegable 2 (más amplio y con scroll interno) */
+.menu-desplegable2 {
   position: absolute;
-  background-color: white;
-  border: 1px solid #ccc;
+  top: calc(100% + 8px);
+  right: 0;
+  background-color: var(--panel-bg);
+  border: 1px solid var(--border);
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  z-index: 9999; /* 🔥 Esto lo pone por encima de todo */
-  width: 30%;
-  height: 60%;
+  box-shadow: var(--shadow-md);
+  z-index: 9999;
+  width: 320px;
+  height: auto;
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 12px;
+}
+
+/* Scrollbars finos y discretos */
+.menu-desplegable::-webkit-scrollbar,
+.menu-desplegable2::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+.menu-desplegable::-webkit-scrollbar-thumb,
+.menu-desplegable2::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.12);
+  border-radius: 6px;
+}
+
+/* Responsividad: adapta tamaños y reflow de grids conservando proporciones */
+@media (max-width: 980px) {
+  .contenedor-imagen { width: 120px; height: 80px; }
+  .imagen-producto { object-position: center; }
+  .descripcion-producto { margin: -22px 10% 10px; font-size: 15px; }
+  .menu-desplegable, .menu-desplegable2 { right: 8px; left: auto; width: 280px; }
+}
+
+@media (max-width: 720px) {
+  .contenedor-producto {
+    grid-template-columns: 8% 1fr; /* checkbox + contenido apilado */
+    grid-auto-rows: auto;
+    gap: 8px;
+  }
+  .contenedor-imagen { width: 100px; height: 80px; }
+  .descripcion-producto { margin: 8px 6%; position: static; -webkit-line-clamp: 2; }
+  .menu-desplegable, .menu-desplegable2 {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-height: 70vh;
+  }
 }

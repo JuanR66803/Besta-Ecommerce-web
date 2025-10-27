@@ -5,7 +5,7 @@ import Cupon from "../ProductoCarrito/Cupon.jsx";
 const Cupones = () => {
   return (
     <div className="contenedor-lista-cupones">
-        <div className="titulo-cupones"> Cupones disponibles</div>
+      <div className="titulo-cupones"> Cupones disponibles</div>
       <div className="busqueda-cupones">
         <p className="texto-busqueda">Buscar cupones:</p>
         <input
@@ -18,6 +18,8 @@ const Cupones = () => {
       <div className="raya"></div>
 
       <div className="cupones-lista">
+        <Cupon />
+        <Cupon />
         <Cupon />
       </div>
     </div>

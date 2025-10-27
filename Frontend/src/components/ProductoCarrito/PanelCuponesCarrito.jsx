@@ -52,7 +52,6 @@ const PanelCuponesCarrito = ({
                 onClick={(e) => e.stopPropagation()}
               >
                 <Cupones />
-                
               </div>
             </div>
           )}

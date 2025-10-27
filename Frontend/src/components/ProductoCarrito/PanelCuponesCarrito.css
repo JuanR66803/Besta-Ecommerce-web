@@ -1,56 +1,68 @@
-/* Contenedor principal */
+:root{
+  --panel-bg: #ffffff;
+  --muted: #6b7280;
+  --accent: #2b8a3e;     /* verde para badge */
+  --accent-2: #005ec8;   /* azul para botones */
+  --border: #e6e9ee;
+  --shadow-sm: 0 6px 20px rgba(17,24,39,0.06);
+  --shadow-md: 0 12px 40px rgba(17,24,39,0.12);
+}
+
+/* Panel principal */
 .panel-cupones-carrito {
-  width: 90%;
-  margin: 12px auto;
-  padding: 12px;
+  width: 100%;
+  padding: 14px;
   box-sizing: border-box;
-  background: #fff;
-  border: 1px solid #e6e6e6;
-  border-radius: 8px;
+  background: linear-gradient(180deg,#fff,#fbfdff);
+  border: 1px solid var(--border);
+  border-radius: 12px;
   color: #222;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  box-shadow: var(--shadow-sm);
+  transition: transform .12s ease, box-shadow .12s ease;
 }
 
-/* ---------- Parte superior ---------- */
+/* Parte superior: alineado a la derecha (mantener la lógica) */
 .superior-cupones-carrito {
   display: flex;
-  justify-content: flex-end; /* coloca los elementos a la derecha */
+  justify-content: flex-end;
   align-items: center;
-  padding-bottom: 10px;
+  padding-bottom: 12px;
   gap: 12px;
-  border: #2b8a3e 1px solid;
+  border-radius: 8px;
 }
 
-/* grupo que contiene los dos elementos a la derecha */
+/* Grupo derecho de la parte superior */
 .grupo-derecha-superior-carrito {
   display: flex;
   gap: 12px;
   align-items: center;
 }
 
-/* estilo para "Cupón de plataforma" */
+/* Badge (Cupón de plataforma) */
 .badge-cupon-carrito {
-  background: #f1f8f3;
-  border: 1px solid #d3f2d7;
-  color: #2b8a3e;
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-weight: 600;
+  background: linear-gradient(180deg, #f7fbf7, #f1f8f3);
+  border: 1px solid rgba(211,242,215,0.9);
+  color: var(--accent);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: 700;
   font-size: 0.95rem;
+  box-shadow: 0 2px 8px rgba(43,138,62,0.06);
 }
 
-/* estilo para "soy un texto" */
+/* Texto pequeño junto al badge */
 .texto-pequenio-carrito {
-  color: #666;
-  font-size: 0.9rem;
+  color: var(--muted);
+  font-size: 0.92rem;
   padding: 4px 8px;
 }
 
-/* raya opcional entre superior e inferior (separador visual) */
+/* Separador (si lo usas dentro del panel) */
 .panel-cupones-carrito .separador-carrito {
   height: 1px;
-  background: #eee;
-  margin: 6px 0;
+  background: #f0f2f5;
+  margin: 10px 0;
   width: 100%;
 }
 
@@ -60,20 +72,20 @@
   justify-content: space-between;
   align-items: center;
   gap: 16px;
-  padding-top: 8px;
-  padding-bottom: 4px;
-  border: #005ec8 1px solid;
+  padding-top: 12px;
+  padding-bottom: 6px;
+  border-radius: 8px;
 }
 
-/* IZQUIERDA dentro de inferior */
+/* IZQUIERDA dentro de inferior (acciones) */
 .izquierda-inferior-carrito {
   display: flex;
   align-items: center;
   gap: 12px;
-  flex-wrap: wrap; /* permite que en pantallas pequeñas se rompa en varias líneas */
+  flex-wrap: wrap;
 }
 
-/* Checkbox personalizado */
+/* Checkbox personalizado - wrapper */
 .check-wrapper-carrito {
   display: inline-flex;
   align-items: center;
@@ -92,18 +104,17 @@
 .check-caja-carrito {
   width: 18px;
   height: 18px;
-  border: 1px solid #bbb;
+  border: 1px solid #cfcfcf;
   border-radius: 4px;
   display: inline-block;
   box-sizing: border-box;
+  background: #fff;
+  transition: background .12s ease, border-color .12s ease;
 }
-
-/* efecto visual cuando checkbox está marcado */
 .check-input-carrito:checked + .check-caja-carrito {
-  background: #4caf50;
-  border-color: #4caf50;
-  background-image: linear-gradient(transparent, rgba(0,0,0,0.02));
-  position: relative;
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 4px 10px rgba(43,138,62,0.12);
 }
 .check-input-carrito:checked + .check-caja-carrito::after {
   content: "✓";
@@ -119,21 +130,22 @@
   background: none;
   border: none;
   color: #444;
-  padding: 6px 8px;
+  padding: 6px 10px;
   cursor: pointer;
-  border-radius: 6px;
-  transition: background 0.15s ease;
+  border-radius: 8px;
+  transition: background 0.15s ease, color .12s ease, transform .08s ease;
   font-size: 0.95rem;
 }
 .accion-texto-carrito:hover {
-  background: #f3f3f3;
+  background: #f4f6f8;
+  transform: translateY(-1px);
 }
 
-/* DERECHA dentro de inferior */
+/* DERECHA dentro de inferior (resumen y acción) */
 .derecha-inferior-carrito {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   flex-wrap: wrap;
 }
 
@@ -145,32 +157,37 @@
 
 /* valor total */
 .valor-total-carrito {
-  font-weight: 700;
+  font-weight: 800;
   font-size: 1rem;
-  color: #e60023; /* color de énfasis */
+  color: #e60023;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(230,0,35,0.06), rgba(255,255,255,0));
 }
 
 /* botón continuar */
 .boton-continuar-carrito {
-  background-color: #007bff;
+  background-color: var(--accent-2);
   color: white;
   border: none;
-  padding: 8px 12px;
+  padding: 8px 14px;
   border-radius: 8px;
   cursor: pointer;
-  font-weight: 600;
-  transition: background 0.15s ease;
+  font-weight: 700;
+  transition: background 0.15s ease, transform .08s ease;
+  box-shadow: 0 6px 18px rgba(0,94,200,0.12);
 }
 .boton-continuar-carrito:hover {
-  background-color: #005ec8;
+  background-color: #004bb0;
+  transform: translateY(-2px);
 }
 
-/* --------- Responsive: en pantallas pequeñas apilar ---------- */
+/* --------- Responsive: apilar en pantallas pequeñas ---------- */
 @media (max-width: 700px) {
   .inferior-cupones-carrito {
     flex-direction: column;
     align-items: stretch;
-    gap: 10px;
+    gap: 12px;
   }
 
   .izquierda-inferior-carrito,
@@ -181,44 +198,73 @@
   .derecha-inferior-carrito {
     margin-top: 6px;
   }
+
+  .badge-cupon-carrito { font-size: 0.9rem; padding: 6px 10px; }
 }
-/* Fondo oscuro semitransparente detrás del modal */
+
+/* -------- Overlay / modal behavior (cuando se muestra como ventana emergente) -------- */
 .overlay-cupon {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0,0,0,0.32);
   z-index: 9998;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 20px;
 }
 
-/* Ventana emergente */
+/* Ventana emergente central con scroll controlado */
 .menu-desplegable-cupon-plataforma {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
-  padding: 16px;
-  width: 380px;
-  max-height: 80vh;
-  overflow-y: auto;
+  width: min(900px, 90%);
+  max-width: 900px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  color: #333;
+  background-color: var(--panel-bg);
+  box-shadow: var(--shadow-md);
+  padding: 18px;
   z-index: 9999;
-  animation: aparecerDesplegable 0.2s ease-out;
-  color: #222;
+  max-height: 80vh;      /* muestra hasta cierto tamaño */
+  overflow-y: auto;      /* y después scroll interno */
+  scrollbar-width: thin;
 }
 
-/* Animación de aparición */
+/* Si quieres listado en columna dentro del modal */
+.menu-desplegable-cupon-plataforma .cupones-lista {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 8px 4px;
+}
+
+/* Scrollbar estilado (WebKit) */
+.menu-desplegable-cupon-plataforma::-webkit-scrollbar {
+  width: 8px;
+}
+.menu-desplegable-cupon-plataforma::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.12);
+  border-radius: 8px;
+}
+
+/* aparición suave */
 @keyframes aparecerDesplegable {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(.98); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.menu-desplegable-cupon-plataforma { animation: aparecerDesplegable .18s ease-out; }
+
+/* accesibilidad: foco visible */
+.boton-continuar-carrito:focus,
+.accion-texto-carrito:focus,
+.check-input-carrito:focus {
+  outline: 3px solid rgba(59,130,246,0.12);
+  outline-offset: 2px;
 }
