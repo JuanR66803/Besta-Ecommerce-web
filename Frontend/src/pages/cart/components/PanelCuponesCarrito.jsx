@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./PanelCuponesCarrito.css";
 import { FaCaretDown } from "react-icons/fa";
-import Cupones from "../ProductoCarrito/Cupones.jsx";
+import Cupones from "./Cupones.jsx";
 const PanelCuponesCarrito = ({
   totalItems = 0,
   totalValue = "$0.00",

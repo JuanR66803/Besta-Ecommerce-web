@@ -2,6 +2,10 @@ import './ProductModal.css';
 import { FaTimes } from 'react-icons/fa';
 // : Importa 'createPortal' de 'react-dom'
 import { createPortal } from 'react-dom';
+import { useCartItem } from '../hooks/useAddCartItem';
+
+// hook para añadir a carrito
+
 
 const formatPrice = price => {
   if (typeof price !== 'number') {
@@ -15,6 +19,8 @@ const formatPrice = price => {
 };
 
 const ProductModal = ({ product, isOpen, onClose }) => {
+  const { addToCart, loading, error } = useCartItem();
+  console.log("datos del producto",product)
   if (!isOpen || !product) return null;
 
   const handleOverlayClick = e => {
@@ -23,6 +29,9 @@ const ProductModal = ({ product, isOpen, onClose }) => {
     }
   };
   console.log('Modal product:', product);
+  const handleAddCar = async()=>{
+    await addToCart(product);
+  }
 
   //: Envuelve todo el JSX en createPortal
   return createPortal(
@@ -103,6 +112,7 @@ const ProductModal = ({ product, isOpen, onClose }) => {
               )}
             </div>
             <button
+              onClick={handleAddCar}
               className="add-to-cart-button"
               disabled={product.total_stock === 0}
             >

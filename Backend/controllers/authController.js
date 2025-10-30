@@ -16,7 +16,7 @@ export default class AuthController {
     async registerUser(req, res) {
         try {
             const { fullname, email, password, birthDate, phone } = req.body;
-            console.log(req.body);
+            
 
             if (!fullname || !email || !password || !birthDate || !phone) {
                 return res.status(400).json({ message: "Todos los campos son obligatorios" });

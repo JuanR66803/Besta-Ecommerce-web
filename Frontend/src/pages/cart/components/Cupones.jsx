@@ -1,6 +1,6 @@
 import React from "react";
 import "./Cupones.css";
-import Cupon from "../ProductoCarrito/Cupon.jsx";
+import Cupon from "./Cupon.jsx";
 
 const Cupones = () => {
   return (

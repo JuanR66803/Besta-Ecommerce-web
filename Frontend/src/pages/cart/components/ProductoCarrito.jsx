@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./ProductoCarrito.css";
 import { FaCaretDown, FaBox, FaTicketAlt } from "react-icons/fa";
-import skyblue from "../../../public/guayos-skyblue.png";
-import Tallas from "../ProductoCarrito/Tallas.jsx";
-import Cupones from "../ProductoCarrito/Cupones.jsx";
+import skyblue from "../../../../public/guayos-skyblue.png"
+import Tallas from "./Tallas.jsx";
+import Cupones from "./Cupones.jsx";
 const ProductoCarrito = () => {
   const [cantidad, setCantidad] = useState(1);
   const incrementar = () => setCantidad(cantidad + 1);
