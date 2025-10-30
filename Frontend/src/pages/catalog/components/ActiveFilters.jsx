@@ -30,7 +30,6 @@ const ActiveFilters = ({
       <div className="filter-tags">
         {hasCategory && (
           <span className="filter-tag">
-            <span className="filter-tag-icon">🏷️</span>
             <span className="filter-tag-text">{getLabel('category', filters.categoryId)}</span>
             <button
               className="filter-tag-remove"
@@ -44,7 +43,6 @@ const ActiveFilters = ({
 
         {hasSubcategory && (
           <span className="filter-tag">
-            <span className="filter-tag-icon">🔖</span>
             <span className="filter-tag-text">{getLabel('subcategory', filters.subcategoryId)}</span>
             <button
               className="filter-tag-remove"

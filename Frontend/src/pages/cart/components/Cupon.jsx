@@ -1,6 +1,6 @@
 import React from "react";
 import "./Cupon.css";
-import skyblue from "../../../public/guayos-skyblue.png";
+import skyblue from "../../../../public/guayos-skyblue.png";
 
 const Cupon = () => {
   return (
