@@ -1,0 +1,38 @@
+.image-grid-section {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px; /* Espacio entre las columnas y filas */
+  padding: 30px 40px; /* Espacio con los bordes laterales de la página */
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: start;
+  width: 100vw;
+  border: #111827 2px solid;
+}
+
+/* Asegura que los banners ocupen el 40% aprox del ancho de la página */
+.image-grid-section > * {
+  flex: 0 0 40%;
+  max-width: 100%;
+  justify-self: center;
+}
+
+/* Responsivo */
+@media (max-width: 1024px) {
+  .image-grid-section {
+    gap: 30px;
+    padding: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .image-grid-section {
+    grid-template-columns: 1fr; /* una sola columna en móvil */
+    gap: 24px;
+    padding: 24px;
+  }
+
+  .image-grid-section > * {
+    max-width: 100%;
+  }
+}

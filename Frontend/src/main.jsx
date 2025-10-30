@@ -10,7 +10,7 @@ import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/home/Home';
 import Catalog from './pages/catalog/Catalog';
-
+import Principal from './pages/home/Principal';
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
@@ -23,7 +23,7 @@ createRoot(document.getElementById('root')).render(
             <Route path='/panel-admin/*' element={<PanelAdmin />} />
             <Route path='/catalogo' element={<Catalog />} />
             <Route path='/cart' element={<Cart />} />
-
+            <Route path='/principal' element={<Principal />} />
           </Route>
         </Routes>
     </AuthProvider>
