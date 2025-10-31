@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+// Importamos el hook para leer parámetros de la URL
+import { useSearchParams } from 'react-router-dom';
 
 // El hook ahora acepta 'itemsPerPage'
 const useProducts = (filters, currentPage, itemsPerPage = 12) => {
@@ -7,27 +9,41 @@ const useProducts = (filters, currentPage, itemsPerPage = 12) => {
   const [error, setError] = useState(null);
   const [totalPages, setTotalPages] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
+  // Instancia para leer los searchParams
+  const [searchParams] = useSearchParams();
 
-  // 1. MODIFICADO: Hacemos que fetchProducts acepte un 'signal'
-  const fetchProducts = async (signal) => {
+  const fetchProducts = async signal => {
     try {
       setLoading(true);
       setError(null);
 
       const params = new URLSearchParams();
-      // NOTA: Tu paginación es del lado del cliente, así que no se envía 'currentPage'
-      if (filters.categoryId) params.append('id_category', filters.categoryId?.toString() || '');
-      if (filters.subcategoryId) params.append('id_sub_category', filters.subcategoryId?.toString() || '');
+      //Leemos el término de búsqueda de la URL
+      const searchTerm = searchParams.get('search');
 
-      const url = `${import.meta.env.VITE_API_URL}/api/product/getAllProducts?${params.toString()}`;
-      
-      // 2. MODIFICADO: Pasamos el 'signal' al fetch
+      if (searchTerm) {
+        params.append('search', searchTerm);
+      } else {
+        // Los filtros de categoría solo se aplican si no hay una búsqueda de texto
+        if (filters.categoryId)
+          params.append('id_category', filters.categoryId?.toString() || '');
+        if (filters.subcategoryId)
+          params.append(
+            'id_sub_category',
+            filters.subcategoryId?.toString() || ''
+          );
+      }
+
+      // La URL ahora puede contener el parámetro 'search'
+      const url = `${
+        import.meta.env.VITE_API_URL
+      }/api/product/getAllProducts?${params.toString()}`;
+
       const response = await fetch(url, { signal });
 
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const data = await response.json();
 
-      // (Tu lógica de formato de productos está bien)
       const formattedProductsMap = {};
       data.forEach(prod => {
         if (!formattedProductsMap[prod.id]) {
@@ -42,29 +58,37 @@ const useProducts = (filters, currentPage, itemsPerPage = 12) => {
             colors: [prod.color],
             total_stock: Number(prod.total_stock) || 0,
             category: { id: prod.category_id, name: prod.category_name },
-            subcategory: { id: prod.subcategory_id, name: prod.subcategory_name }
+            subcategory: {
+              id: prod.subcategory_id,
+              name: prod.subcategory_name,
+            },
           };
         } else {
-          // Asegúrate de que prod.size y prod.color no sean null/undefined
-          if (prod.size && !formattedProductsMap[prod.id].sizes.includes(prod.size)) {
+          if (
+            prod.size &&
+            !formattedProductsMap[prod.id].sizes.includes(prod.size)
+          ) {
             formattedProductsMap[prod.id].sizes.push(prod.size);
           }
-          if (prod.color && !formattedProductsMap[prod.id].colors.includes(prod.color)) {
+          if (
+            prod.color &&
+            !formattedProductsMap[prod.id].colors.includes(prod.color)
+          ) {
             formattedProductsMap[prod.id].colors.push(prod.color);
           }
         }
       });
       const formattedProducts = Object.values(formattedProductsMap);
-      // Usamos el 'itemsPerPage' dinámico en lugar de un valor fijo
       const startIndex = (currentPage - 1) * itemsPerPage;
-      const paginatedProducts = formattedProducts.slice(startIndex, startIndex + itemsPerPage);
+      const paginatedProducts = formattedProducts.slice(
+        startIndex,
+        startIndex + itemsPerPage
+      );
 
       setProducts(paginatedProducts);
       setTotalProducts(formattedProducts.length);
       setTotalPages(Math.ceil(formattedProducts.length / itemsPerPage));
-
     } catch (err) {
-      // 3. MODIFICADO: Ignoramos el error si fue por "abortar"
       if (err.name === 'AbortError') {
         console.log('Petición cancelada (AbortError)');
       } else {
@@ -72,7 +96,6 @@ const useProducts = (filters, currentPage, itemsPerPage = 12) => {
         setError(err.message);
       }
     } finally {
-      // 4. MODIFICADO: Solo paramos 'loading' si la petición no fue abortada
       if (!signal || !signal.aborted) {
         setLoading(false);
       }
@@ -81,23 +104,26 @@ const useProducts = (filters, currentPage, itemsPerPage = 12) => {
 
   // 5. MODIFICADO: El useEffect ahora crea el controller y lo pasa a fetch
   useEffect(() => {
-    // Creamos un controlador para esta ejecución del efecto
     const controller = new AbortController();
-    
-    // Llamamos a fetchProducts y le pasamos el 'signal'
     fetchProducts(controller.signal);
 
-    // Función de limpieza: se ejecuta cuando el efecto vuelve a correr
-    // (o cuando el componente se desmonta)
-    return () => {
-      // Cancela la petición anterior
-      controller.abort();
-    };
-    // Añadimos 'itemsPerPage' a las dependencias del efecto
-  }, [filters.categoryId, filters.subcategoryId, currentPage, itemsPerPage]);
+    return () => controller.abort();
+  }, [
+    filters.categoryId,
+    filters.subcategoryId,
+    currentPage,
+    itemsPerPage,
+    searchParams,
+  ]);
 
-  // Tu 'refetch' seguirá funcionando para llamadas manuales
-  return { products, loading, error, totalPages, totalProducts, refetch: fetchProducts };
+  return {
+    products,
+    loading,
+    error,
+    totalPages,
+    totalProducts,
+    refetch: fetchProducts,
+  };
 };
 
 export default useProducts;
