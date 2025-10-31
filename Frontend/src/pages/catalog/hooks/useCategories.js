@@ -9,11 +9,6 @@ const useCategories = () => {
     try {
       setLoading(true);
       setError(null);
-
-      console.log(
-        '[useCategories] Intentando obtener categorias del backend...'
-      );
-
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/category/getAllCategoriesWithSubcategories`
       );
@@ -25,14 +20,12 @@ const useCategories = () => {
       const contentType = response.headers.get('content-type');
 
       if (!contentType || !contentType.includes('application/json')) {
-        console.warn('[useCategories] Backend no devolvio JSON valido');
         throw new Error('Respuesta del servidor no es JSON');
       }
 
       const text = await response.text();
 
       if (!text || text.trim().length === 0) {
-        console.warn('[useCategories] Backend devolvio respuesta vacia');
         throw new Error('Respuesta vacia del servidor');
       }
 
@@ -40,12 +33,8 @@ const useCategories = () => {
       try {
         data = JSON.parse(text);
       } catch (parseError) {
-        console.error('[useCategories] Error al parsear JSON:', text);
         throw new Error('Respuesta del servidor no es JSON valido');
       }
-
-      console.log('[useCategories] Respuesta del backend:', data);
-
       let isValidData = false;
       let formattedCategories = [];
 
@@ -71,23 +60,10 @@ const useCategories = () => {
 
       if (isValidData) {
         setCategories(formattedCategories);
-        console.log(
-          `[useCategories] ${formattedCategories.length} categorias del BACKEND`
-        );
-      } else {
-        console.warn(
-          '[useCategories] Backend devolvio datos invalidos, usando MOCK'
-        );
-        setCategories(MOCK_CATEGORIES);
-        console.log(
-          `[useCategories] ${MOCK_CATEGORIES.length} categorias MOCK cargadas`
-        );
       }
     } catch (err) {
       console.error('[useCategories] Error:', err.message);
-      console.warn('[useCategories] Usando datos MOCK por error');
-      setCategories(MOCK_CATEGORIES);
-      setError(null);
+      setError(err.message);
     } finally {
       setLoading(false);
     }

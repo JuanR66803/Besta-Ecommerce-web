@@ -55,8 +55,6 @@ const useProducts = (filters, currentPage, itemsPerPage = 12) => {
         }
       });
       const formattedProducts = Object.values(formattedProductsMap);
-
-      // (Tu lógica de paginación está bien)
       // Usamos el 'itemsPerPage' dinámico en lugar de un valor fijo
       const startIndex = (currentPage - 1) * itemsPerPage;
       const paginatedProducts = formattedProducts.slice(startIndex, startIndex + itemsPerPage);

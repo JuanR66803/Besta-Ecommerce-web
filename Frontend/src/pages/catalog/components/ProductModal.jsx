@@ -20,7 +20,6 @@ const formatPrice = price => {
 
 const ProductModal = ({ product, isOpen, onClose }) => {
   const { addToCart, loading, error } = useCartItem();
-  console.log("datos del producto",product)
   if (!isOpen || !product) return null;
 
   const handleOverlayClick = e => {
@@ -28,7 +27,6 @@ const ProductModal = ({ product, isOpen, onClose }) => {
       onClose();
     }
   };
-  console.log('Modal product:', product);
   const handleAddCar = async()=>{
     await addToCart(product);
   }
