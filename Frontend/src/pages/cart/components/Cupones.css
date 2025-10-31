@@ -1,0 +1,129 @@
+:root{
+  --panel-bg: #ffffff;
+  --muted: #6b7280;
+  --accent: #2b8a3e;
+  --border: #e6e9ee;
+  --shadow-sm: 0 6px 18px rgba(17,24,39,0.06);
+}
+
+/* Contenedor general para la lista de cupones */
+.contenedor-lista-cupones {
+  width: 100%;
+  max-width: 980px;
+  margin: 12px auto;
+  padding: 12px;
+  box-sizing: border-box;
+  background: linear-gradient(180deg, #fff, #fbfdff);
+  border-radius: 10px;
+  box-shadow: var(--shadow-sm);
+  color: #222;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 🔹 centra todo su contenido */
+}
+
+/* Lista de cupones: columna, centrado, con scroll si excede altura */
+.cupones-lista {
+  width: 100%;
+  min-height: 250px;
+  max-height: 60vh;        /* muestra hasta cierto tamaño */
+  border-radius: 8px;
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  background: linear-gradient(180deg, rgba(250,250,252,1), rgba(248,249,253,1));
+  border: 1px dashed #ddd;
+  color: var(--muted);
+}
+
+/* Raya separadora centrada y sutil */
+.raya {
+  width: 90%;
+  height: 1px;
+  background-color: #e5e7eb;
+  margin: 12px auto;
+  align-items: center;
+  text-align: center;
+}
+
+/* Barra de búsqueda centrada */
+.busqueda-cupones {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* 🔹 centra horizontalmente el contenido */
+  gap: 10px;
+  margin-bottom: 12px;
+  padding: 8px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid #e6e9ee;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.04);
+  width: 100%;
+  max-width: 720px;
+}
+
+/* Texto de la búsqueda */
+.texto-busqueda {
+  font-weight: 600;
+  color: #374151;
+  white-space: nowrap;
+}
+
+/* Input de búsqueda: flexible */
+.input-busqueda {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: box-shadow .12s ease, border-color .12s ease;
+}
+.input-busqueda:focus {
+  border-color: var(--accent);
+  box-shadow: 0 6px 20px rgba(43,138,62,0.08);
+}
+
+/* Botón de búsqueda */
+.boton-buscar {
+  padding: 8px 12px;
+  background-color: var(--accent);
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform .08s ease, box-shadow .12s ease;
+}
+.boton-buscar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(43,138,62,0.12);
+}
+
+/* Título de sección (cupón) */
+.titulo-cupones {
+  font-size: 1.05rem;
+  font-weight: 700;
+  padding: 6px 10px;
+  color: #0f172a;
+  border-radius: 8px;
+  display: inline-block;
+  background: linear-gradient(180deg,#fff,#f7faf7);
+  border: 1px solid #e6e9ee;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding: 8px;
+}
+
+/* Responsive */
+@media (max-width: 720px) {
+  .contenedor-lista-cupones { padding: 10px; }
+  .busqueda-cupones { gap: 8px; padding: 6px; }
+  .input-busqueda { padding: 8px; border-radius: 6px; }
+  .boton-buscar { padding: 7px 10px; border-radius: 6px; }
+  .cupones-lista { gap: 10px; padding: 8px; max-height: 50vh; }
+  .raya { width: 95%; }
+}

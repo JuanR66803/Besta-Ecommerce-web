@@ -80,9 +80,6 @@ async  getAllProducts(queryParams) {
     query += ` WHERE ${conditions.join(' AND ')}`;
   }
 
-  console.log('Executing query:', query);
-  console.log('With params:', params);
-
   const result = await pool.query(query, params);
   return result.rows;
 }

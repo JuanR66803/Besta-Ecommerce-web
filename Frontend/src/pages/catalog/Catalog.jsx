@@ -13,14 +13,43 @@ import ActiveFilters from './components/ActiveFilters';
 import ProductGrid from './components/ProductGrid';
 import Pagination from './components/Pagination';
 import { useSearchParams } from 'react-router-dom';
+import React from "react";
+
+//Hook personalizado para obtener el número de items por página
+const useResponsiveItemsPerPage = () => {
+  const getItems = () => {
+    const width = window.innerWidth;
+    if (width >= 1200) return 12; // Para 4 columnas (o más)
+    if (width >= 992) return 12; // Para 4 columnas
+    if (width >= 768) return 9;  // Para 3 columnas
+    return 8;                    // Para 2 columnas (móvil)
+  };
+
+  const [itemsPerPage, setItemsPerPage] = useState(getItems());
+
+  useEffect(() => {
+    const handleResize = () => {
+      setItemsPerPage(getItems());
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return itemsPerPage;
+};
+
 
 const Catalog = () => {
-
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isMounted = useRef(false);
+
+  //Usamos el nuevo hook
+  const itemsPerPage = useResponsiveItemsPerPage();
+
   // Hook para manejar filtros
   const {
     filters,
@@ -46,7 +75,8 @@ const Catalog = () => {
     error: errorProducts,
     totalPages,
     totalProducts,
-  } = useProducts(filters, currentPage);
+    // Pasamos 'itemsPerPage' al hook de productos
+  } = useProducts(filters, currentPage, itemsPerPage);
 
   const toggleFilter = () => setIsFilterOpen(!isFilterOpen);
   const closeFilter = () => setIsFilterOpen(false);
@@ -63,13 +93,13 @@ const Catalog = () => {
     );
 
     if (parentCategory) {
-      // ✅ USA 'updateFilters' PARA ESTABLECER AMBOS A LA VEZ
+      
       updateFilters({
         categoryId: parentCategory.id,
         subcategoryId: subcategoryId
       });
     } else {
-      // Fallback (aunque no debería pasar si la data es correcta)
+  
       toggleSubCategory(subcategoryId);
     }
 
@@ -107,8 +137,6 @@ const Catalog = () => {
   };
 
 const getCategoryName = categoryId => {
-  // 1. Busca por 'id' (no 'id_category')
-  // 2. Usa '==' para comparar '1' == 1 (string == número)
   const category = categories.find(cat => cat.id == categoryId);
   return category?.name || 'Categoría';
 };
@@ -116,7 +144,7 @@ const getCategoryName = categoryId => {
 const getSubCategoryName = subcategoryId => {
   for (const category of categories) {
     if (category.subcategories) {
-      // 1. Usa '==' para comparar '2' == 2 (string == número)
+     
       const subcategory = category.subcategories.find(
         sub => sub.id_sub_category == subcategoryId
       );

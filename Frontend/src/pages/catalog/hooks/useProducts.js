@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
-const useProducts = (filters, currentPage) => {
+// El hook ahora acepta 'itemsPerPage'
+const useProducts = (filters, currentPage, itemsPerPage = 12) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -56,7 +57,7 @@ const useProducts = (filters, currentPage) => {
       const formattedProducts = Object.values(formattedProductsMap);
 
       // (Tu lógica de paginación está bien)
-      const itemsPerPage = 10;
+      // Usamos el 'itemsPerPage' dinámico en lugar de un valor fijo
       const startIndex = (currentPage - 1) * itemsPerPage;
       const paginatedProducts = formattedProducts.slice(startIndex, startIndex + itemsPerPage);
 
@@ -94,7 +95,8 @@ const useProducts = (filters, currentPage) => {
       // Cancela la petición anterior
       controller.abort();
     };
-  }, [filters.categoryId, filters.subcategoryId, currentPage]);
+    // Añadimos 'itemsPerPage' a las dependencias del efecto
+  }, [filters.categoryId, filters.subcategoryId, currentPage, itemsPerPage]);
 
   // Tu 'refetch' seguirá funcionando para llamadas manuales
   return { products, loading, error, totalPages, totalProducts, refetch: fetchProducts };

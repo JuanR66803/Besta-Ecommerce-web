@@ -1,0 +1,244 @@
+:root{
+  --bg: #fbfdff;
+  --panel-bg: #ffffff;
+  --muted: #7a7f86;
+  --accent: #007bff;
+  --accent-2: #5c6bc0;
+  --success: #32e53b;
+  --border: #e6e9ee;
+  --glass: rgba(255,255,255,0.6);
+  --shadow-sm: 0 2px 6px rgba(17,24,39,0.06);
+  --shadow-md: 0 8px 24px rgba(17,24,39,0.12);
+}
+
+/* Reset útil */
+* { box-sizing: border-box; }
+html,body { height: 100%; background: var(--bg); font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; color: #1f2937; }
+
+/* Contenedor principal del carrito */
+.cart-container{
+  border: 10px solid rgba(59,130,246,0.12); /* azul muy suave */
+  width: 100%;
+  margin-top: 10px;
+  box-sizing: border-box;
+  background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(250,250,252,0.8));
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: var(--shadow-sm);
+  overflow: visible;
+}
+
+/* Header (barra superior dentro del contenedor) */
+.header-carrito {
+  background-color: var(--panel-bg);
+  padding: 14px 18px;
+  width: 100%;
+  /* conservar la lógica de altura, pero dar min y auto */
+  height: auto;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow .2s ease, transform .12s ease;
+}
+
+/* micro efecto al pasar mouse por el header si aplica */
+.header-carrito:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
+
+/* contenedor interno del header */
+.contenedor-carrito {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  gap: 12px;
+}
+
+/* logo / texto izquierdo */
+.logo-texto-carrito h2 {
+  font-size: 1.125rem;
+  color: #0f172a;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.2px;
+}
+
+/* buscador (derecha) */
+.buscador-carrito {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* input con estilo moderno */
+.input-busqueda-carrito {
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  outline: none;
+  width: 240px;
+  font-size: 0.95rem;
+  transition: box-shadow .15s ease, border-color .15s ease, transform .12s ease;
+  background: linear-gradient(180deg, #fff, #fbfbff);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+}
+.input-busqueda-carrito:focus {
+  border-color: var(--accent);
+  box-shadow: 0 6px 20px rgba(59,130,246,0.12);
+  transform: translateY(-1px);
+}
+
+/* botón de lupa redondo */
+.boton-buscar-carrito {
+  background: linear-gradient(180deg, var(--accent-2), var(--accent));
+  color: white;
+  border: none;
+  border-radius: 999px;
+  padding: 9px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+  box-shadow: 0 6px 18px rgba(92,107,192,0.16);
+}
+.boton-buscar-carrito:hover { transform: translateY(-2px); opacity: .98; }
+.boton-buscar-carrito:active { transform: translateY(0); }
+
+/* Título de columnas: mantiene grid y proporciones originales */
+.contenido-producto-titulo {
+  display: grid;
+  grid-template-columns: 5% 35% 15% 15% 15% 15%;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+
+  width: 89%;
+  margin: 18px auto 0;
+  padding: 12px 14px;
+
+  border: 1px solid #e6e9ee;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #ffffff, #fbfdff);
+  box-shadow: var(--shadow-sm);
+  color: #374151;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* Divs de pago y paneles de resumen */
+.div-pago {
+  background: linear-gradient(180deg, rgba(201,184,255,0.06), rgba(255,255,255,0));
+  margin: 20px 6% 18px; /* separa del contenido y ajusta lateralmente */
+}
+
+/* checkbox estilo */
+.check {
+  width: 100%;
+  height: 20px;
+  display: inline-block;
+}
+
+/* nombre (izquierda) */
+.nombre {
+  text-align: left;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #0f172a;
+}
+
+/* campos (centro / derecha) */
+.campo {
+  text-align: center;
+  font-weight: 500;
+  gap: 10px;
+  padding: 0 15px;
+  color: #374151;
+}
+
+/* Header fijo (mejorado visual) - si lo usas, es sticky */
+.header-fijo {
+  position: sticky; /* mantenemos lógica de ubicarse en top */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+  background-color: var(--panel-bg);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+  padding: 10px 0;
+}
+
+/* detalles visuales y micro-interacciones */
+.panel-accion {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+button, .accion-texto-carrito {
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+/* Responsividad: conservar proporciones pero adaptar en pantallas pequeñas */
+@media (max-width: 980px) {
+  .input-busqueda-carrito { width: 180px; }
+  .contenedor-carrito { gap: 8px; padding: 0 8px; }
+  .cart-container { padding: 10px; }
+}
+
+@media (max-width: 720px) {
+  .contenedor-carrito { flex-direction: column; gap: 10px; align-items: flex-start; padding: 6px; }
+  .input-busqueda-carrito { width: 100%; border-radius: 10px; }
+  .boton-buscar-carrito { border-radius: 10px; padding: 8px 12px; }
+
+  /* adapta las columnas a vertical, manteniendo las proporciones lógicas */
+  .contenido-producto-titulo {
+    grid-template-columns: 10% 1fr; /* checkbox + resto */
+    grid-auto-rows: auto;
+    row-gap: 8px;
+    align-items: start;
+    padding: 10px;
+  }
+  /* esconder columnas específicas en móvil (opcional) */
+  .contenido-producto-titulo .campo:nth-child(3),
+  .contenido-producto-titulo .campo:nth-child(4),
+  .contenido-producto-titulo .campo:nth-child(5) {
+    display: none;
+  }
+
+  .div-pago { margin: 12px 4% 18px; padding: 10px; }
+}
+
+/* pequeño refinamiento visual para bordes y sombreados */
+.cart-container,
+.header-carrito,
+.div-pago,
+.contenido-producto-titulo {
+  transition: box-shadow .18s ease, transform .12s ease, background .2s linear;
+}
+
+/* focus visible (accesibilidad) */
+.input-busqueda-carrito:focus,
+button:focus {
+  outline: 3px solid rgba(59,130,246,0.15);
+  outline-offset: 2px;
+}
+
+/* utilidades */
+.center-inline { display:inline-flex; align-items:center; gap:6px; }
+.small-muted { font-size: 0.9rem; color: var(--muted); }
+
+/* opcional: estilo para separadores o títulos */
+.titulo-seccion {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0b1220;
+  margin: 6px 0 12px;
+}

@@ -21,9 +21,6 @@ export class ProductDetailsController {
         try {
             const { productName, product_price, stock, description, category, state, subcategory, size, targetAudience, experienceLevel, colors } = req.body;
             const imageFile = req.file;
-            console.log("datos recibidos", req.body)
-            console.log("archivo recibido", req.file)
-
             let productColors = [];
             try {
                 productColors = JSON.parse(colors);

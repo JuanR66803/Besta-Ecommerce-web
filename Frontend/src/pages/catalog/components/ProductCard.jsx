@@ -32,14 +32,9 @@ const ProductCard = ({ product, onClick }) => {
 
       <div className="product-info">
         <h3 className="product-name">{product.name}</h3>
-
-        {/* --- ESTE ES EL CAMBIO --- */}
-        {/* Reemplazamos 'product-category' por 'product-price' */}
         <p className="product-price">
           {formatPrice(product.price)}
         </p>
-        {/* --- FIN DEL CAMBIO --- */}
-
         {product.description && (
           <p className="product-description">
             {product.description.length > 100
