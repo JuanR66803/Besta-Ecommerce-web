@@ -52,6 +52,11 @@ const Header = () => {
             <FaHeart size={22} />
           </NavLink>
 
+          
+
+          <NavLink to="/cart" className="icon__link">
+            <FaCartShopping size={22} />
+          </NavLink>
           {!user ? (
             <NavLink to="/sign-in" className="icon__link">
               <FaUser size={22} />
@@ -59,14 +64,10 @@ const Header = () => {
           ) : (
             <div className="user__menu">
               <button onClick={handleLogout} className="logout__button">
-                <FaUser size={22} />
+                Cerrar sesión
               </button>
             </div>
           )}
-
-          <NavLink to="/cart" className="icon__link">
-            <FaCartShopping size={22} />
-          </NavLink>
         </div>
       </div>
     </header>

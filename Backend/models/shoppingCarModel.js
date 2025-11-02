@@ -23,6 +23,7 @@ export class ShoppingCarModel {
         try {
             const query = `
                 SELECT
+                    sci.id_shopping_cart_item,
                     p.product_name,
                     p.url_image,
                     p.description,
