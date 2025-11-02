@@ -13,6 +13,7 @@ import userAddressRoutes from "./routes/userAddressRoutes.js"
 import wishListProductRoutes from "./routes/wishListProductRoutes.js" 
 import itemStateRoutes from "./routes/itemStateRoutes.js" 
 import productRoutes from './routes/productRoutes.js';
+import paymentRoute from './routes/paymenRoute.js';
 
 dotenv.config();
 
@@ -45,6 +46,8 @@ app.use("/api/userAddressItem", userAddressRoutes)//enrutamiento a las direccion
 app.use("/api/wishListProduct", wishListProductRoutes)//enrutamiento a los productos en la lista de deseados
 app.use("/api/itemState", itemStateRoutes)//enrutamiento a los estados de los items
 app.use('/api/product', productRoutes);
+
+app.use('/api/payments', paymentRoute);
 
 app.get("/", (req, res) => {
     res.json({ message: "backend funcionando correctamente" });

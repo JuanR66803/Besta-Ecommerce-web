@@ -9,6 +9,7 @@ import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/home/Home';
 import Catalog from './pages/catalog/Catalog';
+import CheckoutPage from './pages/payment/CheckoutPage';
 
 
 createRoot(document.getElementById('root')).render(
@@ -21,6 +22,7 @@ createRoot(document.getElementById('root')).render(
             <Route path='/home' element={<ProtectedRoute> <Home/> </ProtectedRoute>}/>
             <Route path='/panel-admin/*' element={<PanelAdmin />} />
             <Route path='/catalogo' element={<Catalog />} />
+            <Route path='/checkout' element={<ProtectedRoute> <CheckoutPage/> </ProtectedRoute>}/>
           </Route>
         </Routes>
     </AuthProvider>

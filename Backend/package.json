@@ -8,6 +8,7 @@
     "dotenv": "^17.0.1",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
+    "mercadopago": "^2.9.0",
     "multer": "^2.0.1",
     "pg": "^8.16.3"
   }
