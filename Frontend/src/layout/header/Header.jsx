@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import './Header.css';
 import { CiSearch } from 'react-icons/ci';
 import { FaHeart, FaUser } from 'react-icons/fa';
@@ -6,43 +7,61 @@ import { FaCartShopping } from 'react-icons/fa6';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
-//Lista de búsquedas populares
 const popularSearches = [
-  'Guayos Profesionales',
-  'Guayos Amateur',
-  'Balones',
-  'Ropa deportiva',
-  'Niños',
+  "Balón",
+  "Guayos",
+  "Camiseta",
+  "Pantaloneta",
+  "Medias"
 ];
+
 
 const Header = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  // Estados para la búsqueda
-  const [searchTerm, setSearchTerm] = useState('');
-  const [showSuggestions, setShowSuggestions] = useState(false);
+  const location = useLocation();
   const searchRef = useRef(null);
 
-  const handleSearch = query => {
-    if (!query.trim()) return;
-    setSearchTerm(query);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const currentSearch = params.get('search');
+
+    if (!currentSearch) {
+      setSearchTerm('');
+    } else {
+      setSearchTerm(currentSearch);
+    }
+  }, [location.search]);
+
+  useEffect(() => {
+    const handleClearSearch = () => {
+      setSearchTerm("");
+    };
+
+    window.addEventListener("clearSearch", handleClearSearch);
+    return () => window.removeEventListener("clearSearch", handleClearSearch);
+  }, []);
+
+  const handleSearch = (query) => {
+    const q = (query || '').trim();
+    if (!q) return;
+
+    navigate(`/catalogo?search=${encodeURIComponent(q)}`, { replace: false });
+
     setShowSuggestions(false);
-    // Navegamos al catálogo con el parámetro de búsqueda
-    navigate(`/catalogo?search=${encodeURIComponent(query)}`);
   };
+  const handleInputChange = (e) => setSearchTerm(e.target.value);
 
-  const handleInputChange = e => {
-    setSearchTerm(e.target.value);
-  };
-
-  const handleFormSubmit = e => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
     handleSearch(searchTerm);
   };
 
-  //Hook para cerrar las sugerencias si se hace clic fuera
   useEffect(() => {
-    const handleClickOutside = event => {
+    const handleClickOutside = (event) => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
         setShowSuggestions(false);
       }
