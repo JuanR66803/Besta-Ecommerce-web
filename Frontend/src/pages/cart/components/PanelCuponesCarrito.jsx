@@ -3,10 +3,8 @@ import "./PanelCuponesCarrito.css";
 import { FaCaretDown } from "react-icons/fa";
 import Cupones from "./Cupones.jsx";
 const PanelCuponesCarrito = ({
-  totalItems = 0,
-  totalValue = "$0.00",
-  onContinue = () => {},
-}) => {
+  total, cantidadTotal
+  }) => {
   const [abierto, setAbierto] = useState(false);
   const botonRef = useRef(null);
   const menuRef = useRef(null);
@@ -29,6 +27,7 @@ const PanelCuponesCarrito = ({
     document.addEventListener("click", handleClickFuera);
     return () => document.removeEventListener("click", handleClickFuera);
   }, []);
+
   return (
     <div className="panel-cupones-carrito">
       {/* Parte superior */}
@@ -75,12 +74,13 @@ const PanelCuponesCarrito = ({
         {/* DERECHA (resumen y acción) */}
         <div className="derecha-inferior-carrito">
           <div className="total-articulos-carrito">
-            Total artículos: {totalItems}
+            Total artículos: {cantidadTotal}
+            {console.log("Cantidad Total en PanelCuponesCarrito:", cantidadTotal)}
           </div>
-          <div className="valor-total-carrito">{totalValue}</div>
+          {console.log("Total General en PanelCuponesCarrito:", total)}
+          <div className="valor-total-carrito">${total?.toFixed(2) ?? 0}</div>
           <button
             className="boton-continuar-carrito"
-            onClick={onContinue}
             type="button"
           >
             Continuar

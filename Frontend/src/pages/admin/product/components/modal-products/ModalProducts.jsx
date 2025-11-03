@@ -9,7 +9,7 @@ import ComboBoxSubCategory from "../ComboBox/ComboBoxSubCategory";
 
 
 
-const ModalProducts = ({ onClose }) => {
+const ModalProducts = ({ onClose, refreshTable }) => {
   const API_URL_BASE = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
   const API_URL = `${API_URL_BASE}/api/productDetails/createProductDetails`;
   const [currentColor, setCurrentColor] = useState("#ff0000");
@@ -92,6 +92,7 @@ const ModalProducts = ({ onClose }) => {
 
       console.log("Producto guardado:", data);
       alert("Producto guardado correctamente");
+      refreshTable && refreshTable();
       onClose && onClose();
 
     } catch (err) {

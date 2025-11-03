@@ -1,17 +1,53 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./ProductoCarrito.css";
 import { FaCaretDown, FaBox, FaTicketAlt } from "react-icons/fa";
-import skyblue from "../../../../public/guayos-skyblue.png"
+import skyblue from "../../../../public/guayos-skyblue.png";
 import Tallas from "./Tallas.jsx";
 import Cupones from "./Cupones.jsx";
-const ProductoCarrito = () => {
-  const [cantidad, setCantidad] = useState(1);
-  const incrementar = () => setCantidad(cantidad + 1);
-  const decrementar = () => {
-    if (cantidad > 1) setCantidad(cantidad - 1);
+const ProductoCarrito = ({ producto, onProductoSeleccionado, deleteCartItem, setCartData }) => {
+  const [seleccionado, setSeleccionado] = useState(false);
+  const [cantidad, setCantidad] = useState(producto.quantity || 1);
+
+  const handleEliminar = async () => {
+    try {
+      const confirmado = window.confirm(
+        "¿Deseas eliminar este producto del carrito?"
+      );
+      if (!confirmado) return;
+
+      // 👇 Asegúrate de tener el ID del ítem (el que viene del backend)
+      const exito = await deleteCartItem(producto.id_shopping_cart_item);
+
+      if (exito) {
+        // 🔄 Si se eliminó correctamente, puedes actualizar la vista
+        setCartData(prev =>
+          prev.filter(item => item.id_shopping_cart_item !== producto.id_shopping_cart_item)
+        );
+      } else {
+        console.error("No se pudo eliminar el producto");
+      }
+    } catch (err) {
+      console.error("Error al eliminar producto:", err);
+    }
+  };
+  const handleCheck = (e) => {
+    const checked = e.target.checked;
+    setSeleccionado(checked);
+    onProductoSeleccionado(producto, checked);
+  };
+  const incrementar = () => {
+    if (cantidad < producto.stock) {
+      setCantidad(cantidad + 1);
+    }
   };
 
-  const [abierto, setAbierto ] = useState(false);
+  const decrementar = () => {
+    if (cantidad > 1) {
+      setCantidad(cantidad - 1);
+    }
+  };
+
+  const [abierto, setAbierto] = useState(false);
   const [abierto2, setAbierto2] = useState(false);
   const botonRef = useRef(null);
   const botonRef2 = useRef(null);
@@ -75,22 +111,25 @@ const ProductoCarrito = () => {
   return (
     <div className="contenedor-producto-carrito">
       <div className="contenedor-categoria">
-        <input type="checkbox" className="check-producto" />
-        <FaBox className="icono-categoria" />
-        <div className="nombre-categoria">Producto</div>
+        <FaBox className="icono-categoria" style={{ marginLeft: "14px" }} />
+        <div className="nombre-categoria">{producto.product_name}</div>
       </div>
 
       <div className="contenedor-producto">
-        <input type="checkbox" className="check-producto" />
+        <input
+          type="checkbox"
+          className="check-producto"
+          checked={seleccionado}
+          onChange={handleCheck}
+        />
         <div className="contenedor-imagen">
-          <img src={skyblue} alt="Producto" className="imagen-producto" />
+          <img
+            src={producto.url_image}
+            alt="Producto"
+            className="imagen-producto"
+          />
         </div>
-        <div className="descripcion-producto">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem
-          voluptatibus eum obcaecati non corrupti vel fugiat corporis neque
-          magnam ipsum rem aperiam nesciunt dicta laboriosam recusandae
-          assumenda cum, mollitia sunt.
-        </div>
+        <div className="descripcion-producto">{producto.description}</div>
         <div className="contenedor-variaciones">
           <button
             className="boton-desplegable"
@@ -110,26 +149,38 @@ const ProductoCarrito = () => {
           )}
         </div>
         <div className="contenedor-precio">
-          <span className="precio-antiguo">$120.000</span>
-          <span className="precio-actual">$89.900</span>
+          {/*<span className="precio-antiguo">$120.000</span>*/}
+          <span className="precio-actual">{producto.product_price}</span>
         </div>
         <div className="contenedor-contador">
-          <button onClick={decrementar} className="boton-contador">
+          <button
+            onClick={decrementar}
+            className="boton-contador"
+            disabled={cantidad <= producto.quantity}
+          >
             −
           </button>
+
           <span className="valor-contador">{cantidad}</span>
-          <button onClick={incrementar} className="boton-contador">
+
+          <button
+            onClick={incrementar}
+            className="boton-contador"
+            disabled={cantidad >= producto.stock}
+          >
             +
           </button>
         </div>
         <div className="contenedor-precio-total">
-          <span className="precio-total">$89.900</span>
+          <span className="precio-total">
+            {producto.product_price * cantidad}
+          </span>
         </div>
         <div className="contenedor-acciones">
-          <button className="boton-accion-eliminar">Eliminar</button>
-          <button className="boton-accion-buscar">
-            Buscar similares <FaCaretDown size={20} color="#555" />
+          <button className="boton-accion-eliminar" onClick={handleEliminar}>
+            Eliminar
           </button>
+          <button className="boton-accion-buscar">Actualizar</button>
         </div>
       </div>
 
@@ -151,7 +202,7 @@ const ProductoCarrito = () => {
               style={{ top: `${posicion2.top}px`, left: `${posicion2.left}px` }}
               onClick={(e) => e.stopPropagation()} // 🔥 Esto evita que se cierre
             >
-              < Cupones />
+              <Cupones />
             </div>
           )}
         </div>

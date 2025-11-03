@@ -83,12 +83,13 @@ export class ProductDetailsController {
 
     //metodo para eliminar una sub categoria
     async deleteProductDetailsById(req, res) {
-        const { id_product_details } = req.body;
-        if (!id_product_details) {
+        const { id_product } = req.body;
+        if (!id_product) {
             return res.status(400).json({ message: "todos los campos son obligatorios " });
         }
-        const deleteProductDetails = await productDetailsService.deleteProductDetailsById(id_product_details)
-        res.status(204).json(deleteProductDetails)
+        const deleteProduct = await productService.deleteProductById(id_product);
+        const deleteProductDetails = await productDetailsService.deleteProductDetailsById(id_product)
+        res.status(204).json(deleteProduct,deleteProductDetails)
     };
 
     //metodo para obtener una sub categoria con su id

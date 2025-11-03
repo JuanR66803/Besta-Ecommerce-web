@@ -242,3 +242,28 @@ button:focus {
   color: #0b1220;
   margin: 6px 0 12px;
 }
+.carrito-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  min-height: 60vh;
+  background-color: #f9f9f9;
+}
+
+.carrito-vacio {
+  color: #555;
+  font-size: 1.3rem;
+  font-weight: 500;
+  background: #e0e0e0;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.carrito-vacio:hover {
+  background: #d6d6d6;
+  transform: scale(1.02);
+}
