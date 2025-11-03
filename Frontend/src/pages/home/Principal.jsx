@@ -1,8 +1,8 @@
-import ImageCarousel from "../../components/ImageCarousel";
+import ImageCarousel from "./components/ImageCarousel";
 import React from "react";
-import VideoBanner from "../../components/VideoBanner";
-import ImageTextBanner from "../../components/ImageTextBanner";
-import ImageGridSection from "../../components/ImageGridSection";
+import VideoBanner from "./components/VideoBanner";
+import ImageTextBanner from "./components/ImageTextBanner";
+import ImageGridSection from "./components/ImageGridSection";
 /*const imgs = [
   "/public/background-signup.jpg",
   "/public/guayos-skyblue.png",
