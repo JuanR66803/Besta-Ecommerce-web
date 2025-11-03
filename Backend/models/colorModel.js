@@ -3,7 +3,7 @@ import pool from "../config/db.js"
 export class ColorModel{
 
     async createColor (hexagecimal_code){
-    const query = `INSERT INTO color(hexagecimal_code) VALUES($1) RETURNING *`;
+    const query = `INSERT INTO color(hexadecimal_code) VALUES($1) RETURNING *`;
     const values= [hexagecimal_code];
     const result = await pool.query(query,values);
     return result.rows[0];
