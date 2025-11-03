@@ -8,6 +8,7 @@ import Cart from './pages/cart/cart';
 import SignIn from './pages/auth/sign-in/SignIn';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import AdminRoute from './components/AdminRoute';
 import Home from './pages/home/Home';
 import Catalog from './pages/catalog/Catalog';
 import Principal from './pages/home/Principal';
@@ -15,17 +16,26 @@ import Principal from './pages/home/Principal';
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <AuthProvider>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route path='/sign-up' element={<SignUp />} />
-            <Route path='/sign-in' element={<SignIn/>}/>
-            <Route path='/home' element={<ProtectedRoute> <Home/> </ProtectedRoute>}/>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          
+          {/* Rutas Públicas */}
+          <Route path='/sign-up' element={<SignUp />} />
+          <Route path='/sign-in' element={<SignIn/>}/>
+          <Route path='/catalogo' element={<Catalog />} />
+          <Route path='/principal' element={<Principal />} />
+          
+          {/* Rutas Protegidas*/}
+          <Route path='/home' element={<ProtectedRoute> <Home/> </ProtectedRoute>}/>
+          <Route path='/cart' element={<ProtectedRoute> <Cart /> </ProtectedRoute>} />
+
+          {/* Rutas de usario administrador*/}
+          <Route element={<AdminRoute />}>
             <Route path='/panel-admin/*' element={<PanelAdmin />} />
-            <Route path='/catalogo' element={<Catalog />} />
-            <Route path='/cart' element={<Cart />} />
-            <Route path='/principal' element={<Principal />} />
           </Route>
-        </Routes>
+          
+        </Route>
+      </Routes>
     </AuthProvider>
   </BrowserRouter>
 );
