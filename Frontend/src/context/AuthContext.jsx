@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import React from "react";
-
+import { toast } from 'react-toastify'; 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -29,15 +29,16 @@ export const AuthProvider = ({ children }) => {
     }, []);
     const login = (userData,token) => {
         setUser(userData);
-        setUser(userData);
         localStorage.setItem("user", JSON.stringify(userData));
         localStorage.setItem("token", token); // <--- guarda el token
+        toast.success(`¡Bienvenido de nuevo, ${userData.user_name}!`);
     };
 
     const logout = () => {
         setUser(null);
         localStorage.removeItem("user");
         localStorage.removeItem("token");
+        toast.info('Has cerrado sesión. ¡Vuelve pronto!');
         navigate("/sign-in");
     };
 
