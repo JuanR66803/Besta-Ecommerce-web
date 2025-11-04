@@ -6,6 +6,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true); // Estado para saber si se esta verificando la autenticación inicial
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -20,7 +21,11 @@ export const AuthProvider = ({ children }) => {
         } catch (error) {
             console.error("Error al parsear usuario desde localStorage:", error);
             localStorage.removeItem("user"); // Limpia el dato corrupto
+        } finally {
+            setLoading(false); // al finalizar la verificación, se marca que ya no estamos cargando.
         }
+
+
     }, []);
     const login = (userData,token) => {
         setUser(userData);
@@ -43,7 +48,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, updateUser }}>
+        <AuthContext.Provider value={{ user, loading, login, logout, updateUser }}>
             {children}
         </AuthContext.Provider>
     );
