@@ -18,6 +18,7 @@ const PanelProducts = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             await getProducts();
+            console.log(products);
         };
         fetchProducts();
     }, []);
@@ -114,7 +115,7 @@ const PanelProducts = () => {
                                     <td>{product.sub_category_name}</td>
                                     <td>
                                         <img
-                                            src={product.url_image}
+                                            src={product.images[0]}
                                             alt={product.product_name}
                                             style={{ width: "50px", height: "50px", objectFit: "cover" }}
                                         />

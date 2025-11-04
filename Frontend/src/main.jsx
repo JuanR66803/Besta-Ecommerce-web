@@ -31,7 +31,7 @@ createRoot(document.getElementById('root')).render(
 
           {/* Rutas de usario administrador*/}
           <Route element={<AdminRoute />}>
-            <Route path='/panel-admin/*' element={<PanelAdmin />} />
+            <Route path='/panel-admin/' element={<PanelAdmin />} />
           </Route>
           
         </Route>
