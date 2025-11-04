@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
         setUser(userData);
         localStorage.setItem("user", JSON.stringify(userData));
         localStorage.setItem("token", token); // <--- guarda el token
-        toast.success(`¡Bienvenido de nuevo, ${userData.user_name}!`);
+        toast.success(`¡Bienvenido de nuevo, ${userData.full_name}!`);
     };
 
     const logout = () => {
