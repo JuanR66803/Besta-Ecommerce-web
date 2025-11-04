@@ -49,7 +49,7 @@ body, html { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "
 /* Contenedor de categoría (fila de encabezado por categoría) */
 .contenedor-categoria {
   display: grid;
-  grid-template-columns: 4% 2% 36% 15% 15% 15%; /* mantiene tus proporciones */
+  grid-template-columns: 5% 40% ; /* mantiene tus proporciones */
   align-items: center;
   text-align: center;
   gap: 8px;
@@ -213,14 +213,17 @@ body, html { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "
   justify-content: center;
   transition: background .12s ease, transform .08s ease;
 }
-.boton-contador:hover { background-color: var(--danger); transform: translateY(-1px); }
+.boton-contador:hover { background-color: blue; transform: translateY(-1px); }
 .valor-contador {
   min-width: 30px;
   text-align: center;
   font-size: 16px;
   font-weight: 700;
 }
-
+.boton-contador:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
 /* Precio total destacado */
 .precio-total {
   font-size: 20px;

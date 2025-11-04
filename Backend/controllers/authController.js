@@ -40,8 +40,8 @@ export default class AuthController {
             const genderId = findGender.id_gender;
             const roleId = findRole.id_role;
             const userAddressId = newUserAddress.id_user_address;
-
-            console.log("ids", genderId, roleId, userAddressId);
+            const registerDate = new Date();
+            console.log("fechas:", registerDate, birthDate);
 
             const newUser = await authService.registerUser(
                 fullname,
@@ -51,8 +51,10 @@ export default class AuthController {
                 phone,
                 genderId,
                 birthDate,
-                roleId
+                roleId,
+                registerDate
             );
+            console.log("Nuevo usuario registrado:", newUser);
 
             return res.status(201).json({ message: "Usuario registrado correctamente", newUser });
 

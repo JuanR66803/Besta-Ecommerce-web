@@ -1,24 +1,54 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./cart.css";
 import ProductoCarrito from "./components/ProductoCarrito.jsx";
 import { FaSearch } from "react-icons/fa";
 import PanelCuponesCarrito from "./components/PanelCuponesCarrito.jsx";
 import { useGetCartItems } from "./hooks/useGetCartItem.js";
 const Cart = () => {
-  const { getCartItems } = useGetCartItems();
- //aqui estan los datos del carrito
+  const { getCartItems, deleteCartItem } = useGetCartItems();
+  const [cartData, setCartData] = useState([]);
+  const [productosSeleccionados, setProductosSeleccionados] = useState([]);
+
+
+  // 🔹 Función que maneja selección/deselección
+  const manejarSeleccionProducto = (producto, seleccionado) => {
+    if (!producto) return; // Evita errores si producto llega undefined
+
+    setProductosSeleccionados((prev = []) => {
+      const filtrados = prev.filter(
+        (p) => p && p.id_shopping_cart_item !== producto.id_shopping_cart_item
+      );
+
+      if (seleccionado) {
+        return [...filtrados, producto];
+      }
+
+      return filtrados;
+    });
+  };
+  const total = productosSeleccionados.reduce(
+    (acc, p) => acc + Number(p.product_price) * Number(p.quantity),
+    0
+  );
+  const cantidadTotal = productosSeleccionados.reduce(
+    (acc, p) => acc + p.quantity,
+    0
+  );
+
+  //aqui estan los datos del carrito
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        const data = await getCartItems(); // solo es para mostrar los datos que trae el carrito 
+        const data = await getCartItems(); // solo es para mostrar los datos que trae el carrito
         console.log("Datos del carrito del usuario registrado:", data);
+        setCartData(data.carItems || []);
       } catch (error) {
         console.error("Error al obtener el carrito:", error);
       }
     };
 
     fetchCart();
-  }, []); 
+  }, []);
 
   return (
     <div className="cart-container">
@@ -48,10 +78,23 @@ const Cart = () => {
         <div className="campo">Total</div>
         <div className="campo">Acciones</div>
       </div>
-      <ProductoCarrito />
-      <ProductoCarrito />
+      <div className="carrito-container">
+        {cartData.length > 0 ? (
+          cartData.map((item, index) => (
+            <ProductoCarrito
+              key={index}
+              producto={item}
+              onProductoSeleccionado={manejarSeleccionProducto}
+              deleteCartItem={deleteCartItem}
+              setCartData={setCartData}
+            />
+          ))
+        ) : (
+          <p className="carrito-vacio">🛒 No hay productos en el carrito</p>
+        )}
+      </div>
       <div className="div-pago">
-        <PanelCuponesCarrito />
+        <PanelCuponesCarrito total={total} cantidadTotal={cantidadTotal} />
       </div>
     </div>
   );
