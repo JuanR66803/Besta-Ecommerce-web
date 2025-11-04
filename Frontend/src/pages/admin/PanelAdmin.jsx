@@ -7,10 +7,6 @@ import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { FaUsers, FaBoxOpen } from "react-icons/fa";
 
 
-
-
-
-
 const PanelAdmin = () => {
     const [selectedOption, setSelectedOption] = useState("dashboard");
     return(

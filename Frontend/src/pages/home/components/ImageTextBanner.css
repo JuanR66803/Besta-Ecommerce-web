@@ -1,0 +1,124 @@
+.image-banner {
+  position: relative;
+  width: 100%;
+  height: 90vh;
+  overflow: hidden;
+  cursor: pointer; /* ✅ hace que el cursor sea de clic */
+}
+.image-banner:hover .image-banner__img {
+  transform: scale(1.05); /* 🔍 pequeño zoom */
+  filter: brightness(100%); /* 🔆 un poco más brillante al pasar */
+}
+.image-banner__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+  filter: brightness(1) grayscale(20%);
+}
+
+/* 🌒 Capa de degradado gris para contraste */
+.image-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.4) 20%,
+    rgba(0, 0, 0, 0.15) 70%
+  );
+  z-index: 1;
+}
+
+/* 📍 Contenedor del texto */
+.image-banner__content {
+  position: absolute;
+  bottom: 40px;
+  left: 30px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  font-family: "Inter", sans-serif;
+  text-align: left;
+  z-index: 2;
+  animation: fadeInUp 1s ease forwards;
+  opacity: 0;
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* 📝 Textos con contraste y elegancia */
+.text-line.line1 {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: white; /* gris claro */
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+  letter-spacing: 1px;
+}
+
+.text-line.line2 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, #f3f4f6 0%, #9ca3af 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
+}
+
+/* 🎯 Botón sobrio y distinguible */
+.banner-button {
+  margin-top: 10px;
+  background: linear-gradient(90deg, #9ca3af 0%, #6b7280 100%);
+  border: none;
+  padding: 12px 36px;
+  color: white;
+  font-size: 1rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}
+
+.banner-button:hover {
+  transform: translateY(-3px) scale(1.03);
+  background: linear-gradient(90deg, #6b7280 0%, #4b5563 100%);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.5);
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  .image-banner__content {
+    bottom: 25px;
+    left: 25px;
+  }
+
+  .text-line.line1 {
+    font-size: 1.2rem;
+  }
+
+  .text-line.line2 {
+    font-size: 1.4rem;
+  }
+
+  .banner-button {
+    padding: 10px 24px;
+    font-size: 0.9rem;
+  }
+}
