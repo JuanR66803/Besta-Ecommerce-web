@@ -48,25 +48,39 @@ export class ProductDetailsModel {
   }
 
   //funcion que me permite obtener todas las categorias
-  async getAllproductDetails() {
-    const query = `SELECT 
-    pd.id_product_details,
-    pd.product_price, 
-    pd.stock, 
-    pd.product_size, 
-    pd.public_objetive AS public_objetive,
-    pd.expertice,
-    p.product_name,
-    p.url_image,
-    p.description,
-    sc.sub_category_name,
-    c.category_name
-    FROM product_details pd
-    INNER JOIN product p ON pd.id_product = p.id_product
-    INNER JOIN sub_category sc ON p.id_sub_category = sc.id_sub_category
-    INNER JOIN category c ON sc.id_category = c.id_category;
+  async getAllProductDetails() {
+    const query = `
+      SELECT 
+          pd.id_product_details,
+          pd.product_price, 
+          pd.stock, 
+          pd.product_size, 
+          pd.public_objetive AS public_objetive,
+          pd.expertice,
+          p.product_name,
+          p.description,
+          sc.sub_category_name,
+          c.category_name,
+          ARRAY_AGG(ui.url_image) AS images
+          FROM product_details pd
+          INNER JOIN product p ON pd.id_product = p.id_product
+          INNER JOIN sub_category sc ON p.id_sub_category = sc.id_sub_category
+          INNER JOIN category c ON sc.id_category = c.id_category
+          INNER JOIN product_image pi ON p.id_product = pi.id_product
+          INNER JOIN url_image ui ON pi.id_url_image = ui.id_url_image
+          GROUP BY 
+              pd.id_product_details,
+              pd.product_price, 
+              pd.stock, 
+              pd.product_size, 
+              pd.public_objetive,
+              pd.expertice,
+              p.product_name,
+              p.description,
+              sc.sub_category_name,
+              c.category_name
     `;
     const result = await pool.query(query);
-    return result.rows[0];
+    return result.rows;
   }
 }

@@ -15,7 +15,6 @@ export const useGetCartItems = () => {
     }
 
     try {
-      console.log('🟢 Enviando al backend:', { id_user: user.id_users });
       setLoading(true);
       const baseURL = import.meta.env.VITE_API_URL;
 

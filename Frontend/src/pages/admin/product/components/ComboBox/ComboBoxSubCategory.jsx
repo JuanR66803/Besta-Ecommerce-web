@@ -1,4 +1,4 @@
-import { useSubcategories } from "../../../../../hooks/useSubcategories";
+import { useSubcategories } from "../../../hooks/useSubcategories.js";
 import { useEffect } from "react";
 
 const ComboBoxSubCategory = ({ name, value, onChange, apiUrlBase, idCategory }) => {
