@@ -2,12 +2,12 @@ import React, { useState, useRef, useEffect } from "react";
 import "./PanelCuponesCarrito.css";
 import { FaCaretDown } from "react-icons/fa";
 import Cupones from "./Cupones.jsx";
-const PanelCuponesCarrito = ({
-  total, cantidadTotal
-  }) => {
+import PaymentReceipt from "./PaymentReceipt.jsx";
+const PanelCuponesCarrito = ({ total, cantidadTotal }) => {
   const [abierto, setAbierto] = useState(false);
   const botonRef = useRef(null);
   const menuRef = useRef(null);
+  const [showReceipt, setShowReceipt] = useState(false);
 
   const toggleDesplegable = () => {
     setAbierto(!abierto);
@@ -75,16 +75,27 @@ const PanelCuponesCarrito = ({
         <div className="derecha-inferior-carrito">
           <div className="total-articulos-carrito">
             Total artículos: {cantidadTotal}
-            {console.log("Cantidad Total en PanelCuponesCarrito:", cantidadTotal)}
+            {console.log(
+              "Cantidad Total en PanelCuponesCarrito:",
+              cantidadTotal
+            )}
           </div>
           {console.log("Total General en PanelCuponesCarrito:", total)}
           <div className="valor-total-carrito">${total?.toFixed(2) ?? 0}</div>
           <button
             className="boton-continuar-carrito"
             type="button"
+            onClick={() => setShowReceipt(true)}
           >
             Continuar
           </button>
+          {showReceipt && (
+            <PaymentReceipt
+              totalArticulos={cantidadTotal}
+              totalPagar={total}
+              onClose={() => setShowReceipt(false)}
+            />
+          )}
         </div>
       </div>
     </div>
