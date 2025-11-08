@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { MdOutlineCancel } from "react-icons/md";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import ComboBoxCategory from "../ComboBox/ComboBoxCategory";
-import { useSubcategories } from "../../../../../hooks/useSubcategories";
+import { useSubcategories } from "../../../hooks/useSubcategories";
 
 const ModalSubCategory = ({ onClose }) => {
   const API_URL_BASE = import.meta.env.VITE_API_URL ?? "http://localhost:3000";

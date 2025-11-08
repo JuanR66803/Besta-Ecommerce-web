@@ -1,0 +1,105 @@
+:root {
+  --bg: #fbfdff;
+  --muted: #6b7280;
+  --primary: #5c6bc0;
+  --primary-dark: #3949ab;
+  --border: #d1d5db;
+  --shadow-sm: 0 6px 18px rgba(17,24,39,0.06);
+}
+
+/* Contenedor vertical de grupos de tallas */
+.contenedor-tallas {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+  padding: 20px;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  background: linear-gradient(180deg, #fff, var(--bg));
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  box-sizing: border-box;
+}
+
+/* Título del grupo */
+.grupo-tallas h3 {
+  margin: 0 0 8px 0;
+  color: #0f172a;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+/* Lista de tallas: permite wrap para móviles */
+.lista-tallas {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;        /* hace que se acomoden en varias filas si es necesario */
+  align-items: center;
+}
+
+/* Botones de talla */
+.talla {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 16px;
+  cursor: pointer;
+  background-color: #f7f8fb;
+  transition: transform .12s ease, background .12s ease, box-shadow .12s ease, border-color .12s ease;
+  font-weight: 600;
+  color: #111827;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 44px;
+  text-align: center;
+  user-select: none;
+}
+
+/* Hover y micro-interacción */
+.talla:hover {
+  background-color: #eef0ff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(92,107,192,0.06);
+}
+
+/* Estado seleccionado */
+.talla.seleccionada {
+  background-color: var(--primary);
+  color: white;
+  border-color: var(--primary-dark);
+  transform: scale(1.05);
+  box-shadow: 0 8px 22px rgba(56,67,162,0.14);
+}
+
+/* Accesibilidad: foco visible por teclado */
+.talla:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(92,107,192,0.12);
+  border-color: var(--primary-dark);
+}
+
+/* Soporte táctil: aumentar click/tap area en móviles */
+@media (max-width: 480px) {
+  .talla {
+    padding: 12px 18px;
+    min-width: 52px;
+    font-size: 0.95rem;
+    border-radius: 12px;
+  }
+
+  .contenedor-tallas { padding: 14px; gap: 18px; }
+}
+
+/* Utilidad: modo compacto (si en algún punto quieres filas pequeñas) */
+.talla.compacto {
+  padding: 6px 10px;
+  min-width: 36px;
+  font-size: 0.9rem;
+}
+
+/* Transición global para evitar saltos bruscos */
+.lista-tallas, .talla { transition-property: transform, background, box-shadow, border-color; transition-duration: .12s; transition-timing-function: ease; }

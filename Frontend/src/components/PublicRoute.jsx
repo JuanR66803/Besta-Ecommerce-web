@@ -1,19 +1,23 @@
-import { Navigate, useLocation } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import React from 'react';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const PublicRoute = ({ children }) => {
-  const { user } = useAuth();
-  const location = useLocation();
+  const { user, loading } = useAuth();
 
-  // Si está logueado, redirige al home o panel según rol
-  if (user) {
-    if (user.role_name === "admin" || user.id_role === "2") {
-      return <Navigate to="/panel-admin" state={{ from: location }} replace />;
-    }
-    return <Navigate to="/home" state={{ from: location }} replace />;
+  // 1. Esperamos a que el contexto termine de verificar la sesión
+  if (loading) {
+    return <div>Cargando...</div>;
   }
 
-  // Si no está logueado, renderiza la ruta pública
+  // 2. Si, después de cargar, SÍ hay un usuario, lo redirigimos
+  if (user) {
+    // Lógica de redirección: si es admin, al panel; si no, a home.
+    const redirectTo = user.role_name === 'admin' ? '/panel-admin' : '/home';
+    return <Navigate to={redirectTo} replace />;
+  }
+
+  // 3. Si no hay usuario, permitimos que vea el contenido (el formulario de login/signup)
   return children;
 };
 

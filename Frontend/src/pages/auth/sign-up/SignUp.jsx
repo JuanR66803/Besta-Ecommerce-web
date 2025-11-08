@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import "./SignUp.css"
 import { useState } from "react";
-
+import React from "react";
 
 const SignUp = () => {
     // usa el BASE del backend (ajusta el puerto si tu server corre en otro)

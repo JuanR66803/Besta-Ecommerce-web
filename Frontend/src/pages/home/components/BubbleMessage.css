@@ -1,0 +1,86 @@
+:root {
+  --bubble-size: 80px;
+}
+
+/* Contenedor flotante */
+.bubble__container {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Burbuja principal */
+.bubble__icon {
+  width: var(--bubble-size);
+  height: var(--bubble-size);
+  background-color: #fff;
+  border-radius: 50%;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bubble__icon:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+/* Botón cerrar */
+.bubble__close {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #fff;
+  border: 1px solid #ccc;
+  color: #111;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: background 0.2s ease;
+}
+
+.bubble__close:hover {
+  background: #f2f2f2;
+}
+
+/* Tooltip (mensaje) */
+.bubble__tooltip {
+  position: absolute;
+  bottom: calc(var(--bubble-size) + 12px);
+  right: 0;
+  background: #ffffff;
+  color: #333;
+  padding: 10px 14px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  border: 1px solid #e5e7eb;
+}
+
+/* Flechita del tooltip */
+.bubble__tooltip::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  right: 20px;
+  border-width: 6px;
+  border-style: solid;
+  border-color: #fff transparent transparent transparent;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.1));
+}

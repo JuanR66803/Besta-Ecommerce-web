@@ -9,14 +9,14 @@ import ComboBoxSubCategory from "../ComboBox/ComboBoxSubCategory";
 
 
 
-const ModalProducts = ({ onClose }) => {
+const ModalProducts = ({ onClose, refreshTable }) => {
   const API_URL_BASE = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
   const API_URL = `${API_URL_BASE}/api/productDetails/createProductDetails`;
   const [currentColor, setCurrentColor] = useState("#ff0000");
   const [colors, setColors] = useState([]);
   const [openModalCategory, setOpenModalCategory] = useState(false)
   const [openModalSubCategory, setOpenModalSubCategory] = useState(false);
-  const [imageFile, setImageFile] = useState(null);
+  const [imageFiles, setImageFiles] = useState([]); // Cambiar a un array para múltiples imágenes
   const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     productName: "",
@@ -51,8 +51,8 @@ const ModalProducts = ({ onClose }) => {
   };
 
   const handleFileChange = (e) => {
-    const file = e.target.files && e.target.files[0];
-    setImageFile(file || null);
+    const files = Array.from(e.target.files); // Convertir FileList a un array
+    setImageFiles(files);
   };
 
   const handleSubmit = async (e) => {
@@ -67,9 +67,10 @@ const ModalProducts = ({ onClose }) => {
 
     formPayload.append("colors", JSON.stringify(colors));
 
-    if (imageFile) {
-      formPayload.append("image", imageFile);
-    }
+    // Adjuntar múltiples imágenes
+    imageFiles.forEach((file, index) => {
+      formPayload.append(`images`, file); // El backend debe manejar el campo `images`
+    });
 
     try {
       const res = await fetch(API_URL, {
@@ -77,23 +78,15 @@ const ModalProducts = ({ onClose }) => {
         body: formPayload,
       });
 
-      // Intentamos leer JSON solo si el servidor lo devuelve correctamente
-      let data;
-      try {
-        data = await res.json();
-      } catch (parseError) {
-        throw new Error("El servidor devolvió una respuesta no válida (no es JSON).");
-      }
-
+      const data = await res.json();
       if (!res.ok) {
-        // Si el servidor respondió con error, mostramos el mensaje que envía
         throw new Error(data?.message || "Error al guardar el producto.");
       }
 
       console.log("Producto guardado:", data);
       alert("Producto guardado correctamente");
+      refreshTable && refreshTable();
       onClose && onClose();
-
     } catch (err) {
       console.error("Error al enviar el formulario:", err);
       alert(err.message || "Ocurrió un error al guardar el producto.");
@@ -145,11 +138,12 @@ const ModalProducts = ({ onClose }) => {
               required
             />
 
-            <label>Imagen</label>
+            <label>Imágenes</label>
             <input
               className="in__image"
               type="file"
               accept="image/*"
+              multiple // Permitir múltiples archivos
               onChange={handleFileChange}
             />
 

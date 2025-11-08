@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FaFilter } from 'react-icons/fa';
 import { useEffect } from 'react';
-import { useMemo } from 'react';
+import { useMemo } from 'react'; // Importante
 import { useRef } from 'react';
 import './Catalog.css';
 import ProductModal from './components/ProductModal';
@@ -13,15 +13,16 @@ import ActiveFilters from './components/ActiveFilters';
 import ProductGrid from './components/ProductGrid';
 import Pagination from './components/Pagination';
 import { useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import React from "react";
 
-//Hook personalizado para obtener el número de items por página
 const useResponsiveItemsPerPage = () => {
   const getItems = () => {
     const width = window.innerWidth;
-    if (width >= 1200) return 12; // Para 4 columnas (o más)
-    if (width >= 992) return 12; // Para 4 columnas
-    if (width >= 768) return 9;  // Para 3 columnas
-    return 8;                    // Para 2 columnas (móvil)
+    if (width >= 1200) return 12;
+    if (width >= 992) return 12;
+    if (width >= 768) return 9;
+    return 8;
   };
 
   const [itemsPerPage, setItemsPerPage] = useState(getItems());
@@ -30,7 +31,6 @@ const useResponsiveItemsPerPage = () => {
     const handleResize = () => {
       setItemsPerPage(getItems());
     };
-
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -40,83 +40,86 @@ const useResponsiveItemsPerPage = () => {
 
 
 const Catalog = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const isMounted = useRef(false);
+  const navigate = useNavigate();
 
-  //Usamos el nuevo hook
+  const categoryId = searchParams.get('category');
+  const subcategoryId = searchParams.get('subcategory');
+  const searchTerm = searchParams.get('search') || '';
+
+  const urlFilters = useMemo(() => ({
+    categoryId: categoryId ? parseInt(categoryId) : null,
+    subcategoryId: subcategoryId ? parseInt(subcategoryId) : null,
+    search: searchTerm
+  }), [categoryId, subcategoryId, searchTerm]);
+
   const itemsPerPage = useResponsiveItemsPerPage();
 
-  // Hook para manejar filtros
   const {
-    filters,
     openedCategories,
-    toggleCategory,
-    toggleSubCategory,
-    clearFilters,
     toggleCategoryExpansion,
-    updateFilters,
   } = useFilters();
 
-  // Hook para obtener categorías
   const {
     categories,
     loading: loadingCategories,
     error: errorCategories,
   } = useCategories();
 
-  // Hook para obtener productos (depende de filtros y página actual)
   const {
     products,
     loading: loadingProducts,
     error: errorProducts,
     totalPages,
     totalProducts,
-    // Pasamos 'itemsPerPage' al hook de productos
-  } = useProducts(filters, currentPage, itemsPerPage);
+  } = useProducts(urlFilters, currentPage, itemsPerPage);
 
   const toggleFilter = () => setIsFilterOpen(!isFilterOpen);
   const closeFilter = () => setIsFilterOpen(false);
 
-  const handleCategoryClick = categoryId => {
-    toggleCategory(categoryId);
+  const handleCategoryClick = (categoryId) => {
+    window.dispatchEvent(new Event('clearSearch'));
+    setSearchParams({ category: categoryId.toString() }, { replace: true });
     setCurrentPage(1);
   };
 
   const handleSubCategoryClick = (subcategoryId) => {
-    // Buscar la categoría padre
     const parentCategory = categories.find(cat =>
       cat.subcategories?.some(sub => sub.id_sub_category === subcategoryId)
     );
+    window.dispatchEvent(new Event('clearSearch'));
 
+    const params = {};
     if (parentCategory) {
-      
-      updateFilters({
-        categoryId: parentCategory.id,
-        subcategoryId: subcategoryId
-      });
-    } else {
-  
-      toggleSubCategory(subcategoryId);
+      params.category = parentCategory.id.toString();
     }
+    params.subcategory = subcategoryId.toString();
 
+    setSearchParams(params, { replace: true });
     setCurrentPage(1);
   };
 
   const handleClearFilters = () => {
-    clearFilters();
+    setSearchParams({}, { replace: true });
     setCurrentPage(1);
   };
 
   const handleRemoveCategory = () => {
-    toggleCategory(filters.categoryId);
+    const params = Object.fromEntries(searchParams.entries());
+    delete params.category;
+    delete params.subcategory;
+    setSearchParams(params, { replace: true });
     setCurrentPage(1);
   };
 
   const handleRemoveSubCategory = () => {
-    toggleSubCategory(filters.subcategoryId);
+    const params = Object.fromEntries(searchParams.entries());
+    delete params.subcategory;
+    setSearchParams(params, { replace: true });
     setCurrentPage(1);
   };
 
@@ -135,61 +138,22 @@ const Catalog = () => {
     setSelectedProduct(null);
   };
 
-const getCategoryName = categoryId => {
-  const category = categories.find(cat => cat.id == categoryId);
-  return category?.name || 'Categoría';
-};
+  const getCategoryName = categoryId => {
+    const category = categories.find(cat => cat.id == categoryId);
+    return category?.name || 'Categoría';
+  };
 
-const getSubCategoryName = subcategoryId => {
-  for (const category of categories) {
-    if (category.subcategories) {
-     
-      const subcategory = category.subcategories.find(
-        sub => sub.id_sub_category == subcategoryId
-      );
-      if (subcategory) return subcategory.sub_category_name;
-    }
-  }
-  return 'Subcategoría';
-};
-
-  useEffect(() => {
-  const categoryId = searchParams.get('category');
-  const subcategoryId = searchParams.get('subcategory');
-
-  // Si la URL tiene filtros cuando cargamos,
-  // actualiza el estado de filtros
-  if (categoryId || subcategoryId) {
-    updateFilters({
-      categoryId: categoryId ? parseInt(categoryId) : null,
-      subcategoryId: subcategoryId ? parseInt(subcategoryId) : null
-    });
-  }
-}, []);
-
-  // Actualizar la URL por cada filtro
-  const [searchParams, setSearchParams] = useSearchParams();
-
-
-  // actualiza la URL cuando cambian los filtros
-  useEffect(() => {
-    // Si no es la primera vez que se renderiza, actualiza la URL
-    if (isMounted.current) {
-      const params = {};
-      if (filters.categoryId) params.category = filters.categoryId;
-      if (filters.subcategoryId) params.subcategory = filters.subcategoryId;
-
-      const current = Object.fromEntries(searchParams.entries());
-
-      // Compara y actualiza si es necesario
-      if (JSON.stringify(current) !== JSON.stringify(params)) {
-        setSearchParams(params);
+  const getSubCategoryName = subcategoryId => {
+    for (const category of categories) {
+      if (category.subcategories) {
+        const subcategory = category.subcategories.find(
+          sub => sub.id_sub_category == subcategoryId
+        );
+        if (subcategory) return subcategory.sub_category_name;
       }
-    } else {
-      // En la primera carga, solo marca 'isMounted' como true
-      isMounted.current = true;
     }
-  }, [filters, setSearchParams]);
+    return 'Subcategoría';
+  };
 
   return (
     <div className="catalog-container">
@@ -214,7 +178,7 @@ const getSubCategoryName = subcategoryId => {
           categories={categories}
           loading={loadingCategories}
           error={errorCategories}
-          filters={filters}
+          filters={urlFilters}
           openedCategories={openedCategories}
           onClose={closeFilter}
           onCategoryClick={handleCategoryClick}
@@ -227,14 +191,14 @@ const getSubCategoryName = subcategoryId => {
         <main className="catalog-main">
           {/* Mostrar filtros activos */}
           <ActiveFilters
-          filters={filters}
-          loading={loadingCategories} // <-- Añade esto
-          getCategoryName={getCategoryName}
-          getSubCategoryName={getSubCategoryName}
-          onRemoveCategory={handleRemoveCategory}
-          onRemoveSubCategory={handleRemoveSubCategory}
-          onClearAll={handleClearFilters} // <-- Añade esto
-        />
+            filters={urlFilters}
+            loading={loadingCategories} // <-- Añade esto
+            getCategoryName={getCategoryName}
+            getSubCategoryName={getSubCategoryName}
+            onRemoveCategory={handleRemoveCategory}
+            onRemoveSubCategory={handleRemoveSubCategory}
+            onClearAll={handleClearFilters} // <-- Añade esto
+          />
 
           {/* Resumen de productos */}
           {!loadingProducts && products.length > 0 && (
@@ -257,7 +221,7 @@ const getSubCategoryName = subcategoryId => {
           <ProductGrid
             products={products}
             loading={loadingProducts}
-            hasFilters={!!(filters.categoryId || filters.subcategoryId)}
+            hasFilters={!!(urlFilters.categoryId || urlFilters.subcategoryId)}
             onProductClick={handleProductClick}
           />
 
