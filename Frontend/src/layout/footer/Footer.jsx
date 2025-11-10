@@ -28,6 +28,7 @@ const Footer = () => {
                         <li className="list__item_f"><NavLink className={"item_footer"} to="/ofertas">Ofertas</NavLink></li>
                         <li className="list__item_f"><NavLink className={"item_footer"} to="/catalogo">Catálogo</NavLink></li>
                         <li className="list__item_f"><NavLink className={"item_footer"} to="/novedades">Novedades</NavLink></li>
+                        <li className="list__item_f"><NavLink className={"item_footer"} to="/soporte">Soporte</NavLink></li>
                     </ul>
                 </div>
             </div>

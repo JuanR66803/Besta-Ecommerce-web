@@ -14,6 +14,9 @@ import wishListProductRoutes from "./routes/wishListProductRoutes.js"
 import productRoutes from './routes/productRoutes.js';
 import paymentRoute from './routes/paymenRoute.js';
 import shoppingCarRoutes from './routes/shoppingCarRoutes.js';
+import faqRoutes from './routes/faqRoutes.js';
+import chatRoutes from "./routes/chatRoutes.js";
+import contactoRoutes from "./routes/contactoController.js";
 
 dotenv.config();
 
@@ -48,13 +51,17 @@ app.use("/api/shoppingCar", shoppingCarRoutes)//enrutamiento carrito de compras
 app.use('/api/product', productRoutes);
 
 app.use('/api/payments', paymentRoute);
+app.use("/api/chat", chatRoutes);
+app.use("/api/contacto", contactoRoutes);
 
 app.get("/", (req, res) => {
     res.json({ message: "backend funcionando correctamente" });
 });
 
 app.listen(PORT, () => {
-    console.log(` https:localhost:${PORT}`);
+    console.log(` http:localhost:${PORT}`);
 });
+
+app.use("/api/faq", faqRoutes);
 
 export default app;
