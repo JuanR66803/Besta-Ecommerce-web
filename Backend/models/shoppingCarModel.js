@@ -30,11 +30,7 @@ export class ShoppingCarModel {
     try {
       const query = `
                 SELECT
-<<<<<<< HEAD
                     sci.id_shopping_cart_item,
-=======
-                    sci.id_shopping_cart_item, 
->>>>>>> 6d84390970365a6812f8457236099be815256f95
                     p.product_name,
                     p.url_image,
                     p.description,
