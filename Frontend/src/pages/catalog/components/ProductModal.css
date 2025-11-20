@@ -66,20 +66,24 @@
 
 .modal-image-section {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .modal-image-container {
+  position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
-  background-color: #f7f7f7;
-  border-radius: 8px;
   overflow: hidden;
+  border-radius: 12px;
+  background: #f5f5f5;
 }
 
 .modal-product-image {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .modal-info-section {
@@ -272,4 +276,97 @@
     transform: translateY(0);
     opacity: 1;
   }
+}
+
+/* Estilos para el carrusel de imágenes */
+.modal-image-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-image-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #f5f5f5;
+}
+
+.modal-product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.carousel-button:hover {
+  background: rgba(0, 0, 0, 0.8);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-prev {
+  left: 10px;
+}
+
+.carousel-next {
+  right: 10px;
+}
+
+.carousel-indicator {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.modal-image-thumbnails {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 0;
+}
+
+.modal-image-thumbnails .thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.modal-image-thumbnails .thumbnail:hover {
+  border-color: #ddd;
+  transform: scale(1.05);
+}
+
+.modal-image-thumbnails .thumbnail.active {
+  border-color: #000;
 }
