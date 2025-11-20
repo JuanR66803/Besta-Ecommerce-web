@@ -1,103 +1,159 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import './Header.css';
 import { CiSearch } from 'react-icons/ci';
-import { IoIosMenu } from 'react-icons/io';
-import { AiOutlineClose } from 'react-icons/ai';
-import { NavLink } from 'react-router-dom';
-import { FaCartShopping } from "react-icons/fa6";
+import { FaHeart, FaUser } from 'react-icons/fa';
+import { FaCartShopping } from 'react-icons/fa6';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+
+const popularSearches = [
+  "Balón",
+  "Guayos",
+  "Camiseta",
+  "Pantaloneta",
+  "Medias"
+];
+
 
 const Header = () => {
-  
-  const SearchSuggestionsPlaceholder = () => (
-    <div className="search-suggestions">
-      {/* Contenido de sugerencias eliminado para la versión limpia */}
-    </div>
-  );
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const searchRef = useRef(null);
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const currentSearch = params.get('search');
+
+    if (!currentSearch) {
+      setSearchTerm('');
+    } else {
+      setSearchTerm(currentSearch);
+    }
+  }, [location.search]);
+
+  useEffect(() => {
+    const handleClearSearch = () => {
+      setSearchTerm("");
+    };
+
+    window.addEventListener("clearSearch", handleClearSearch);
+    return () => window.removeEventListener("clearSearch", handleClearSearch);
+  }, []);
+
+  const handleSearch = (query) => {
+    const q = (query || '').trim();
+    if (!q) return;
+
+    navigate(`/catalogo?search=${encodeURIComponent(q)}`, { replace: false });
+
+    setShowSuggestions(false);
+  };
+  const handleInputChange = (e) => setSearchTerm(e.target.value);
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    handleSearch(searchTerm);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/sign-in');
+  };
 
   return (
     <header className="header">
-        <div className="top__header">
-            <NavLink to="/sign-up" className="register__link">Crear cuenta</NavLink>
-            <NavLink to="/sign-in" className="login__link">Iniciar sesión</NavLink>
+      <div className="header__container">
+        {/* --- IZQUIERDA: Navegación --- */}
+        <div className="header__left">
+          <ul className="nav__links">
+            <li>
+              <NavLink to="/catalogo?category=Guayos">Fábrica</NavLink>
+            </li>
+            <li>
+              <NavLink to="/catalogo">Catálogo</NavLink>
+            </li>
+            <li>
+              <NavLink to="/novedades">Novedades</NavLink>
+            </li>
+          </ul>
         </div>
-        <div className="nav__bar">
-        {/* Contenedor del Logo */}
-        <div className="logo__container">
-            <NavLink to="/">
-            {/* Asegúrate de que esta ruta de imagen sea correcta */}
-            <img src="./logo_fiera.png" alt="logo" />
+
+        {/* --- CENTRO: Logo --- */}
+        <div className="header__center">
+          <NavLink to="/" className="logo__link">
+            <img src="./logo_fiera.png" alt="Logo" className="logo__img" />
+          </NavLink>
+        </div>
+
+        {/* --- DERECHA: Búsqueda + Iconos --- */}
+        <div className="header__right">
+          {/* Barra de búsqueda funcional */}
+          <div className="search__container" ref={searchRef}>
+            <form className="search__bar" onSubmit={handleFormSubmit}>
+              <CiSearch size={20} />
+              <input
+                type="text"
+                placeholder="Buscar..."
+                value={searchTerm}
+                onChange={handleInputChange}
+                onFocus={() => setShowSuggestions(true)}
+              />
+            </form>
+            {showSuggestions && (
+              <div className="search__suggestions">
+                <h4 className="suggestions__title">Búsquedas Populares</h4>
+                <ul className="suggestions__list">
+                  {popularSearches.map(item => (
+                    <li
+                      key={item}
+                      className="suggestion__item"
+                      onClick={() => handleSearch(item)}
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+
+          <NavLink to="/wishlist" className="icon__link">
+            <FaHeart size={22} />
+          </NavLink>
+
+          
+
+          <NavLink to="/cart" className="icon__link">
+            <FaCartShopping size={22} />
+          </NavLink>
+          {!user ? (
+            <NavLink to="/sign-in" className="icon__link">
+              <FaUser size={22} />
             </NavLink>
+          ) : (
+            <div className="user__menu">
+              <button onClick={handleLogout} className="logout__button">
+                Cerrar sesión
+              </button>
+            </div>
+          )}
         </div>
-
-        {/* Barra de Búsqueda Estática (sin lógica de estado) */}
-        <div className="search__bar">
-            {/* El ícono es solo visual ahora */}
-            <CiSearch /> 
-            <input
-            type="text"
-            placeholder="Buscar..."
-            // El valor y los manejadores de eventos han sido eliminados.
-            />
-
-            {/* Marcador de posición para sugerencias de búsqueda (puedes eliminar esta línea si no necesitas el CSS) */}
-            {/* <SearchSuggestionsPlaceholder /> */}
-        </div>
-        <NavLink to="/cart" className="cart__link">
-            <FaCartShopping style={{ fontSize: '25px', color: '#000' }} />
-        </NavLink>
-        
-
-        {/* Botón de Menú (Solo visual, la funcionalidad debe re-implementarse) */}
-        <button className="menu_button">
-            <IoIosMenu style={{ fontSize: '34px', cursor: 'pointer' }} />
-        </button>
-
-        {/* Navegación de Escritorio Estática */}
-        <nav className="nav_list">
-            <ul className="__list">
-            <li className="list__item">
-                <NavLink className={'item'} to="/catalogo?category=Guayos">
-                Fábrica
-                </NavLink>
-            </li>
-            <li className="list__item">
-                <NavLink className={'item'} to="/catalogo">
-                Catálogo
-                </NavLink>
-            </li>
-            <li className="list__item">
-                <NavLink className={'item'} to="/novedades">
-                Novedades
-                </NavLink>
-            </li>
-            </ul>
-        </nav>
-        
-
-        {/* Menú móvil (Estructura visual estática, 'show' eliminado) */}
-        <div className={`mobile__menu`}>
-            {/* Botón de cierre (Solo visual) */}
-            <button className="close_button">
-            <AiOutlineClose size={28} />
-            </button>
-            <ul>
-            <li>
-                <NavLink to="/novedades">
-                Novedades
-                </NavLink>
-            </li>
-            <li>
-                <NavLink to="/catalogo">
-                Catálogo
-                </NavLink>
-            </li>
-            <li>
-                <NavLink to="/catalogo?category=Guayos">
-                Fábrica
-                </NavLink>
-            </li>
-            </ul>
-        </div>
-        </div>
+      </div>
     </header>
   );
 };

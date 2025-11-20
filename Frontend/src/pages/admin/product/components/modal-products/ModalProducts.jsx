@@ -1,20 +1,30 @@
 import { MdOutlineCancel } from "react-icons/md";
 import { useState } from "react";
 import "./ModalProducts.css";
+import { CiCirclePlus } from "react-icons/ci";
+import ModalCategory from "../modal-categories/ModalCategory";
+import ModalSubCategory from "../modal-categories/ModalSubcategory";
+import ComboBoxCategory from "../ComboBox/ComboBoxCategory";
+import ComboBoxSubCategory from "../ComboBox/ComboBoxSubCategory";
 
-const API_URL = "https://tuapi.com/api/productos";
 
-const ModalProducts = ({ onClose }) => {
+
+const ModalProducts = ({ onClose, refreshTable }) => {
+  const API_URL_BASE = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
+  const API_URL = `${API_URL_BASE}/api/productDetails/createProductDetails`;
   const [currentColor, setCurrentColor] = useState("#ff0000");
   const [colors, setColors] = useState([]);
-  const [imageFile, setImageFile] = useState(null);
+  const [openModalCategory, setOpenModalCategory] = useState(false)
+  const [openModalSubCategory, setOpenModalSubCategory] = useState(false);
+  const [imageFiles, setImageFiles] = useState([]); // Cambiar a un array para múltiples imágenes
   const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     productName: "",
-    price: "",
+    product_price: "",
     stock: "",
     description: "",
     category: "",
+    state: "activo",
     subcategory: "",
     size: "",
     targetAudience: "",
@@ -41,42 +51,51 @@ const ModalProducts = ({ onClose }) => {
   };
 
   const handleFileChange = (e) => {
-    const file = e.target.files && e.target.files[0];
-    setImageFile(file || null);
+    const files = Array.from(e.target.files); // Convertir FileList a un array
+    setImageFiles(files);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
-    const payload = {
-      ...formData,
-      colors,
-      image: imageFile ? imageFile.name : null,
-    };
-    console.log("Payload a enviar:", payload);
+
+    const formPayload = new FormData();
+
+    for (const key in formData) {
+      formPayload.append(key, formData[key]);
+    }
+
+    formPayload.append("colors", JSON.stringify(colors));
+
+    // Adjuntar múltiples imágenes
+    imageFiles.forEach((file, index) => {
+      formPayload.append(`images`, file); // El backend debe manejar el campo `images`
+    });
+
     try {
       const res = await fetch(API_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({...payload}),
+        body: formPayload,
       });
 
+      const data = await res.json();
       if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.message || "Error al guardar el producto");
+        throw new Error(data?.message || "Error al guardar el producto.");
       }
 
-      const data = await res.json();
       console.log("Producto guardado:", data);
       alert("Producto guardado correctamente");
+      refreshTable && refreshTable();
       onClose && onClose();
     } catch (err) {
       console.error("Error al enviar el formulario:", err);
-      alert(err.message);
+      alert(err.message || "Ocurrió un error al guardar el producto.");
     } finally {
       setSubmitting(false);
     }
   };
+
+
 
   return (
     <div className="modal__overlay">
@@ -86,7 +105,6 @@ const ModalProducts = ({ onClose }) => {
         </button>
 
         <form id="productForm" className="form__modal" onSubmit={handleSubmit}>
-          {/* Columna izquierda */}
           <section className="section__left-modal">
             <h2>Agregar Nuevo Producto</h2>
 
@@ -103,7 +121,7 @@ const ModalProducts = ({ onClose }) => {
             <label>Precio</label>
             <input
               type="number"
-              name="price"
+              name="product_price"
               placeholder="Precio"
               value={formData.price}
               onChange={handleChange}
@@ -120,11 +138,12 @@ const ModalProducts = ({ onClose }) => {
               required
             />
 
-            <label>Imagen</label>
+            <label>Imágenes</label>
             <input
               className="in__image"
               type="file"
               accept="image/*"
+              multiple // Permitir múltiples archivos
               onChange={handleFileChange}
             />
 
@@ -138,34 +157,39 @@ const ModalProducts = ({ onClose }) => {
             ></textarea>
           </section>
 
-          {/* Columna derecha */}
           <section className="section__right-modal">
             <label>Categoría</label>
-            <select
+            <ComboBoxCategory
               name="category"
               value={formData.category}
               onChange={handleChange}
-              required
+              apiUrlBase={API_URL_BASE}
+            />
+            <button
+              type="button"
+              onClick={() => setOpenModalCategory(true)}
+              className="btn__category-more"
             >
-              <option value="">Seleccione una categoría</option>
-              <option value="categoria1">Categoría 1</option>
-              <option value="categoria2">Categoría 2</option>
-              <option value="categoria3">Categoría 3</option>
-            </select>
+              <CiCirclePlus style={{ fontSize: "28px" }} />
+              <p>Agregar una nueva categoría</p>
+            </button>
 
             <label>Subcategoría</label>
-            <select
+            <ComboBoxSubCategory
               name="subcategory"
               value={formData.subcategory}
               onChange={handleChange}
-              required
+              apiUrlBase={API_URL_BASE}
+              idCategory={formData.category}
+            />
+            <button
+              type="button"
+              onClick={() => setOpenModalSubCategory(true)}
+              className="btn__category-more"
             >
-              <option value="">Seleccione una subcategoría</option>
-              <option value="subcategoria1">Subcategoría 1</option>
-              <option value="subcategoria2">Subcategoría 2</option>
-              <option value="subcategoria3">Subcategoría 3</option>
-            </select>
-
+              <CiCirclePlus style={{ fontSize: "28px" }} />
+              <p>Agregar una nueva subcategoría</p>
+            </button>
             <label>Talla</label>
             <input
               type="text"
@@ -238,21 +262,25 @@ const ModalProducts = ({ onClose }) => {
               <option value="professional">Profesional</option>
             </select>
           </section>
-
-          {/* Botón Guardar abajo */}
-          
         </form>
         <div className="modal__footer">
-            <button
-              className="btn__submit"
-              type="submit"
-              disabled={submitting}
-              form="productForm"
-            >
-              {submitting ? "Guardando..." : "Guardar Producto"}
-            </button>
-          </div>
+          <button
+            className="btn__submit"
+            type="submit"
+            disabled={submitting}
+            form="productForm"
+          >
+            {submitting ? "Guardando..." : "Guardar Producto"}
+          </button>
+        </div>
       </div>
+      {openModalCategory && (
+        <ModalCategory onClose={() => setOpenModalCategory(false)} />
+      )}
+
+      {openModalSubCategory && (
+        <ModalSubCategory onClose={() => setOpenModalSubCategory(false)} />
+      )}
     </div>
   );
 };

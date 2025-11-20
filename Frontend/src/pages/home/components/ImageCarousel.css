@@ -1,0 +1,100 @@
+/* Quita cualquier margen entre el carrusel y el header */
+.carousel {
+  position: relative;
+  width: 100vw;
+  height: 50vh;
+  overflow: hidden;
+  margin-top: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Cada imagen ocupa todo el ancho visible */
+.carousel__images {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+  flex-shrink: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+.slide.active {
+  display: block;
+}
+
+.carousel__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Flechas */
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.6);
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 2;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.arrow:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.arrow.left {
+  left: 20px;
+}
+
+.arrow.right {
+  right: 20px;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .carousel {
+    height: 60vh;
+  }
+}
+/* ====== Puntos inferiores ====== */
+.carousel__dots {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  z-index: 5;
+  
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #6b7280;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.dot:hover {
+  background: #9ca3af;
+  transform: scale(1.2);
+}
+
+.dot.active {
+  background: #4b5563;
+  transform: scale(1.4);
+}

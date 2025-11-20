@@ -17,10 +17,11 @@
   background-color: var(--color-bg);
   padding: 30px;
   border-radius: var(--radius);
-  width: 70%;
-  max-width: 900px;
+  width: 80%;
+  max-height: 80vh; 
+  overflow-y: auto; 
   box-shadow: var(--shadow);
-  position: relative;
+  
 }
 
 .btn__close-modal {
@@ -133,4 +134,18 @@
 
 .btn__submit:hover {
   box-shadow: var(--shadow-hover);
+}
+.btn__category-more{
+  display: flex;
+  background: none;
+  border: none;
+  gap: 20px;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+  transition: background var(--transition);
+  border-radius: var(--radius-small);
+}
+.btn__category-more:hover{
+  background: #dadada;
 }
