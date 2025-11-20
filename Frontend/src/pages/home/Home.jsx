@@ -1,7 +1,9 @@
-const Home = () =>{
-    return(
-        <h2>Panel de usuario logueado</h2>
-    )
-}
+const Home = () => {
+  return (
+    <>
+      <h2>Has iniciado sesión. Bienvenido. </h2>
+    </>
+  );
+};
 
 export default Home;

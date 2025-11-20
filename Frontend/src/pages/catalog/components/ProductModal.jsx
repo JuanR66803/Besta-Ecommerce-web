@@ -9,8 +9,7 @@ import { createPortal } from 'react-dom';
 import { useCartItem } from '../hooks/useAddCartItem';
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { useWishlist } from '../../wishlist/hooks/useWishlist'; 
-import { useWishlistStatus } from '../hooks/useWishlistStatus'; 
+import { useWishlist } from '../../wishlist/hooks/useWishList';
 
 const formatPrice = price => {
   if (typeof price !== 'number') {
@@ -27,13 +26,29 @@ const ProductModal = ({ product, isOpen, onClose }) => {
   const { addToCart, loading } = useCartItem();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Hooks de wishlist
-  const { addToWishlist, removeFromWishlist } = useWishlist();
+  // Hooks de wishlist (se usa el hook existente `useWishlist`)
   const {
-    isInWishlist,
-    setIsInWishlist,
-    loading: checkingWishlist,
-  } = useWishlistStatus(product?.id);
+    addToWishlist,
+    removeFromWishlist,
+    isInWishlist: isInWishlistFn,
+    loading: wishlistLoading,
+    wishlistCount,
+  } = useWishlist();
+
+  // Estado local para controlar si el producto está en la wishlist
+  const [isInWishlist, setIsInWishlist] = useState(false);
+  const checkingWishlist = wishlistLoading;
+
+  // Sincronizar el estado local con la wishlist global cuando cambie la lista o el producto
+  useEffect(() => {
+    if (product?.id != null) {
+      try {
+        setIsInWishlist(Boolean(isInWishlistFn(product.id)));
+      } catch (err) {
+        setIsInWishlist(false);
+      }
+    }
+  }, [product?.id, isInWishlistFn, wishlistCount]);
 
   if (!isOpen || !product) return null;
 
