@@ -17,5 +17,6 @@ router.put("/updateProductDetailsById", productDetailsController.updateProductDe
 router.delete("/deleteProductDetailsById", productDetailsController.deleteProductDetailsById);
 router.get("/getAllProductDetails", productDetailsController.getAllProductDetails);
 router.get("/getProductDetailsById", productDetailsController.getProductDetailsById);
+router.get('/catalog', productDetailsController.getCatalogProducts); // Nuevo endpoint para el catálogo
 
 export default router;
