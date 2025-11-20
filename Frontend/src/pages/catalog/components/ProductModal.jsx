@@ -1,9 +1,14 @@
 import './ProductModal.css';
-import { FaTimes, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import {
+  FaTimes,
+  FaChevronLeft,
+  FaChevronRight,
+  FaHeart,
+} from 'react-icons/fa';
 import { createPortal } from 'react-dom';
 import { useCartItem } from '../hooks/useAddCartItem';
-import { useState } from 'react'; 
-import { toast } from 'react-toastify'; 
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const formatPrice = price => {
   if (typeof price !== 'number') {
@@ -17,31 +22,74 @@ const formatPrice = price => {
 };
 
 const ProductModal = ({ product, isOpen, onClose }) => {
-  const { addToCart, loading, error } = useCartItem();
-  // Estado para controlar la imagen activa del carrusel
+  const { addToCart, loading } = useCartItem();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isInWishlist, setIsInWishlist] = useState(false); // ✅ Estado para wishlist
 
   if (!isOpen || !product) return null;
 
   const handleOverlayClick = e => {
     if (e.target === e.currentTarget) {
       onClose();
-      setCurrentImageIndex(0); // Resetear al cerrar
-    }
-  };
-
-  const handleAddCart = async () => {
-    const success = await addToCart(product);
-    if (success) {
-      toast.success(`"${product.name}" añadido al carrito!`);
-      onClose();
       setCurrentImageIndex(0);
-    } else {
-      toast.error('No se pudo añadir el producto al carrito.');
     }
   };
 
-  //  Funciones para navegar por el carrusel
+  // ✅ MODIFICADO: Función mejorada para añadir al carrito
+  const handleAddCart = async () => {
+    try {
+      // Validar que el producto tenga un ID válido
+      if (!product.id) {
+        toast.error('Producto inválido. No se puede añadir al carrito.');
+        return;
+      }
+
+      const success = await addToCart(product);
+
+      if (success) {
+        toast.success(`"${product.name}" añadido al carrito!`, {
+          position: 'bottom-right',
+          autoClose: 3000,
+        });
+        onClose();
+        setCurrentImageIndex(0);
+      } else {
+        toast.error(
+          'No se pudo añadir el producto al carrito. Intenta de nuevo.'
+        );
+      }
+    } catch (error) {
+      console.error('Error al añadir al carrito:', error);
+      toast.error('Error inesperado. Por favor, intenta de nuevo.');
+    }
+  };
+
+  // Función para manejar wishlist (base)
+  const handleToggleWishlist = async () => {
+    try {
+      if (isInWishlist) {
+        // TODO: Llamar al endpoint para eliminar de wishlist
+        // await removeFromWishlist(product.id);
+        setIsInWishlist(false);
+        toast.info(`"${product.name}" eliminado de favoritos`, {
+          position: 'bottom-right',
+          autoClose: 2000,
+        });
+      } else {
+        // TODO: Llamar al endpoint para añadir a wishlist
+        // await addToWishlist(product.id);
+        setIsInWishlist(true);
+        toast.success(`"${product.name}" añadido a la lista de deseos ❤️`, {
+          position: 'bottom-right',
+          autoClose: 2000,
+        });
+      }
+    } catch (error) {
+      console.error('Error al gestionar wishlist:', error);
+      toast.error('Error al actualizar favoritos. Intenta de nuevo.');
+    }
+  };
+
   const handleNextImage = () => {
     if (product.images && product.images.length > 0) {
       setCurrentImageIndex(prev =>
@@ -62,7 +110,6 @@ const ProductModal = ({ product, isOpen, onClose }) => {
     setCurrentImageIndex(index);
   };
 
-  // Usar el array de imágenes
   const currentImage =
     product.images && product.images.length > 0
       ? product.images[currentImageIndex]
@@ -85,7 +132,6 @@ const ProductModal = ({ product, isOpen, onClose }) => {
         </button>
 
         <div className="modal-content">
-          {/* Sección de imagen con carrusel */}
           <div className="modal-image-section">
             <div className="modal-image-container">
               <img
@@ -94,7 +140,6 @@ const ProductModal = ({ product, isOpen, onClose }) => {
                 className="modal-product-image"
               />
 
-              {/* Controles del carrusel (solo si hay múltiples imágenes) */}
               {hasMultipleImages && (
                 <>
                   <button
@@ -112,7 +157,6 @@ const ProductModal = ({ product, isOpen, onClose }) => {
                     <FaChevronRight />
                   </button>
 
-                  {/* Indicador de posición */}
                   <div className="carousel-indicator">
                     {currentImageIndex + 1} / {product.images.length}
                   </div>
@@ -120,7 +164,6 @@ const ProductModal = ({ product, isOpen, onClose }) => {
               )}
             </div>
 
-            {/* Miniaturas (solo si hay múltiples imágenes) */}
             {hasMultipleImages && (
               <div className="modal-image-thumbnails">
                 {product.images.map((image, index) => (
@@ -138,7 +181,6 @@ const ProductModal = ({ product, isOpen, onClose }) => {
             )}
           </div>
 
-          {/* Información del producto (sin cambios) */}
           <div className="modal-info-section">
             <h2 className="modal-product-name">{product.name}</h2>
 
@@ -164,21 +206,26 @@ const ProductModal = ({ product, isOpen, onClose }) => {
               </div>
               <div className="detail-item">
                 <strong>Tallas:</strong>
-                <span>{product.sizes.join(', ')}</span>
+                <span>{product.sizes?.join(', ') || 'N/A'}</span>
               </div>
-              <div className="detail-item">
-                <strong>Colores:</strong>
-                <span className="color-swatches">
-                  {product.colors.map((hex, idx) => (
-                    <span
-                      key={idx}
-                      className="color-swatch"
-                      style={{ backgroundColor: hex }}
-                      title={hex}
-                    />
-                  ))}
-                </span>
-              </div>
+
+              {/*Solo mostrar si hay colores */}
+              {product.colors && product.colors.length > 0 && (
+                <div className="detail-item">
+                  <strong>Colores:</strong>
+                  <span className="color-swatches">
+                    {product.colors.map((hex, idx) => (
+                      <span
+                        key={idx}
+                        className="color-swatch"
+                        style={{ backgroundColor: hex }}
+                        title={hex}
+                      />
+                    ))}
+                  </span>
+                </div>
+              )}
+
               {product.total_stock > 0 && (
                 <div className="detail-item">
                   <strong>Stock:</strong>
@@ -186,24 +233,32 @@ const ProductModal = ({ product, isOpen, onClose }) => {
                 </div>
               )}
             </div>
+            {/* Contenedor de botones con wishlist */}
+            <div className="modal-actions">
+              <button
+                onClick={handleAddCart}
+                className="add-to-cart-button"
+                disabled={product.total_stock === 0 || loading}
+              >
+                {loading
+                  ? 'Añadiendo...'
+                  : product.total_stock > 0
+                  ? 'Añadir al carrito'
+                  : 'Agotado'}
+              </button>
 
-            <button
-              onClick={handleAddCart}
-              className="add-to-cart-button"
-              disabled={product.total_stock === 0 || loading}
-            >
-              {loading
-                ? 'Añadiendo...'
-                : product.total_stock > 0
-                ? 'Añadir al carrito'
-                : 'Agotado'}
-            </button>
-
-            <div className="modal-info">
-              <p className="store-availability">
-                <strong>✓ Disponible en tienda física</strong>
-              </p>
-              <p>Visítanos para ver y probar el producto</p>
+              <button
+                onClick={handleToggleWishlist}
+                className={`wishlist-button ${isInWishlist ? 'active' : ''}`}
+                aria-label={
+                  isInWishlist ? 'Quitar de favoritos' : 'Añadir a favoritos'
+                }
+                title={
+                  isInWishlist ? 'Quitar de favoritos' : 'Añadir a favoritos'
+                }
+              >
+                <FaHeart />
+              </button>
             </div>
           </div>
         </div>
