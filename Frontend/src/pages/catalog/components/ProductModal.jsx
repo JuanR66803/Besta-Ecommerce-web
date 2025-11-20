@@ -7,8 +7,10 @@ import {
 } from 'react-icons/fa';
 import { createPortal } from 'react-dom';
 import { useCartItem } from '../hooks/useAddCartItem';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import { useWishlist } from '../../wishlist/hooks/useWishlist'; 
+import { useWishlistStatus } from '../hooks/useWishlistStatus'; 
 
 const formatPrice = price => {
   if (typeof price !== 'number') {
@@ -24,7 +26,14 @@ const formatPrice = price => {
 const ProductModal = ({ product, isOpen, onClose }) => {
   const { addToCart, loading } = useCartItem();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isInWishlist, setIsInWishlist] = useState(false); // ✅ Estado para wishlist
+
+  // Hooks de wishlist
+  const { addToWishlist, removeFromWishlist } = useWishlist();
+  const {
+    isInWishlist,
+    setIsInWishlist,
+    loading: checkingWishlist,
+  } = useWishlistStatus(product?.id);
 
   if (!isOpen || !product) return null;
 
@@ -35,10 +44,9 @@ const ProductModal = ({ product, isOpen, onClose }) => {
     }
   };
 
-  // ✅ MODIFICADO: Función mejorada para añadir al carrito
+  //Función mejorada para añadir al carrito
   const handleAddCart = async () => {
     try {
-      // Validar que el producto tenga un ID válido
       if (!product.id) {
         toast.error('Producto inválido. No se puede añadir al carrito.');
         return;
@@ -64,25 +72,31 @@ const ProductModal = ({ product, isOpen, onClose }) => {
     }
   };
 
-  // Función para manejar wishlist (base)
+  // Función con llamadas reales a la API
   const handleToggleWishlist = async () => {
     try {
       if (isInWishlist) {
-        // TODO: Llamar al endpoint para eliminar de wishlist
-        // await removeFromWishlist(product.id);
-        setIsInWishlist(false);
-        toast.info(`"${product.name}" eliminado de favoritos`, {
-          position: 'bottom-right',
-          autoClose: 2000,
-        });
+        // Eliminar de wishlist
+        const success = await removeFromWishlist(product.id);
+
+        if (success) {
+          setIsInWishlist(false);
+          toast.info(`"${product.name}" eliminado de favoritos`, {
+            position: 'bottom-right',
+            autoClose: 2000,
+          });
+        }
       } else {
-        // TODO: Llamar al endpoint para añadir a wishlist
-        // await addToWishlist(product.id);
-        setIsInWishlist(true);
-        toast.success(`"${product.name}" añadido a la lista de deseos ❤️`, {
-          position: 'bottom-right',
-          autoClose: 2000,
-        });
+        // Añadir a wishlist
+        const success = await addToWishlist(product.id);
+
+        if (success) {
+          setIsInWishlist(true);
+          toast.success(`"${product.name}" añadido a la lista de deseos ❤️`, {
+            position: 'bottom-right',
+            autoClose: 2000,
+          });
+        }
       }
     } catch (error) {
       console.error('Error al gestionar wishlist:', error);
@@ -209,7 +223,6 @@ const ProductModal = ({ product, isOpen, onClose }) => {
                 <span>{product.sizes?.join(', ') || 'N/A'}</span>
               </div>
 
-              {/*Solo mostrar si hay colores */}
               {product.colors && product.colors.length > 0 && (
                 <div className="detail-item">
                   <strong>Colores:</strong>
@@ -233,7 +246,8 @@ const ProductModal = ({ product, isOpen, onClose }) => {
                 </div>
               )}
             </div>
-            {/* Contenedor de botones con wishlist */}
+
+            
             <div className="modal-actions">
               <button
                 onClick={handleAddCart}
@@ -250,6 +264,7 @@ const ProductModal = ({ product, isOpen, onClose }) => {
               <button
                 onClick={handleToggleWishlist}
                 className={`wishlist-button ${isInWishlist ? 'active' : ''}`}
+                disabled={checkingWishlist} 
                 aria-label={
                   isInWishlist ? 'Quitar de favoritos' : 'Añadir a favoritos'
                 }
