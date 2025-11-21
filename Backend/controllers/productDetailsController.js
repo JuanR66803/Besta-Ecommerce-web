@@ -194,37 +194,47 @@ export class ProductDetailsController {
   }
 
   //metodo para eliminar una sub categoria
-  async deleteProductDetailsById(req, res) {
+  async disableProduct(req, res) {
     const { id_product } = req.body;
     if (!id_product) {
       return res
         .status(400)
         .json({ message: 'todos los campos son obligatorios ' });
     }
-    const deleteProduct = await productService.deleteProductById(id_product);
-    const deleteProductDetails =
-      await productDetailsService.deleteProductDetailsById(id_product);
-    res.status(204).json(deleteProduct, deleteProductDetails);
+    const disableProduct =
+      await productDetailsService.disableProduct(id_product);
+    res.status(204).json(disableProduct);
   }
-
-  //metodo para obtener una sub categoria con su id
-  async getProductDetailsById(req, res) {
-    const { id_product_details } = req.body;
-    if (!id_product_details) {
+  async enableProduct(req, res) {
+    const { id_product } = req.body;
+    if (!id_product) {
       return res
         .status(400)
         .json({ message: 'todos los campos son obligatorios ' });
     }
-    const getProductDetailsById =
-      await productDetailsService.getProductDetailsById(id_product_details);
-    res.status(200).json(getProductDetailsById);
+    const enableProduct = await productDetailsService.enableProduct(id_product);
+    res.status(204).json(enableProduct);
   }
+  
+
 
   //metodo para obtener todas las sub categorias
   async getAllProductDetails(req, res) {
     const getAllProductDetails =
       await productDetailsService.getAllProductDetails();
     res.status(200).json(getAllProductDetails);
+  }
+  async getAllInhabilitados(req, res) {
+    try {
+      const allProducts = await productDetailsService.getAllInhabilitados();
+      res.status(200).json(allProducts);
+    } catch (error) {
+      console.error('Error fetching inhabilitados products:', error);
+      res.status(500).json({
+        message: 'Error al obtener productos inhabilitados',
+        error: error.message,
+      });
+    }
   }
 
   // Metodo Específico para el catálogo

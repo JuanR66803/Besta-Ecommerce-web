@@ -126,6 +126,18 @@
   width: 100%;
   overflow-x: auto;
 }
+.btn__toggle-view {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: var(--color-primary);
+  transition: color var(--transition);
+}
+.btn__toggle-view:hover {
+  color: var(--color-primary-hover);
+}
+
 
 .table__products table {
   width: 100%;

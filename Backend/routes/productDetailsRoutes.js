@@ -14,9 +14,10 @@ router.post(
 );
 
 router.put("/updateProductDetailsById", productDetailsController.updateProductDetails);
-router.delete("/deleteProductDetailsById", productDetailsController.deleteProductDetailsById);
+router.patch("/disableProductDetailsById", productDetailsController.disableProduct);
+router.patch("/enableProductDetailsById", productDetailsController.enableProduct);
 router.get("/getAllProductDetails", productDetailsController.getAllProductDetails);
-router.get("/getProductDetailsById", productDetailsController.getProductDetailsById);
+router.get("/getAllInhabilitados", productDetailsController.getAllInhabilitados);
 router.get('/catalog', productDetailsController.getCatalogProducts); // Nuevo endpoint para el catálogo
 
 export default router;
