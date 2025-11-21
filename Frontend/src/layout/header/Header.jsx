@@ -7,7 +7,7 @@ import { FaCartShopping } from 'react-icons/fa6';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import WishlistSidebar from "../../components/WishListSidebar";
-
+import Wishlist from '../../pages/wishlist/WishList';
 const popularSearches = [
   "Balón",
   "Guayos",
@@ -185,7 +185,7 @@ const Header = () => {
         </div>
       </div>
     </header>
-    <WishlistSidebar
+    <Wishlist
         isOpen={wishlistOpen}
         onClose={() => setWishlistOpen(false)}
       />

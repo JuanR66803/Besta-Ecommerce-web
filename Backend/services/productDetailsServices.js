@@ -53,8 +53,13 @@ export class ProductDetailsService {
   }
 
   //metodo para eliminar una sub categoria
-  async deleteProductDetailsById(id_product_details) {
-    return await productDetailsModel.deleteProductDetailsById(
+  async disableProduct(id_product_details) {
+    return await productDetailsModel.disableProduct(
+      id_product_details
+    );
+  }
+  async enableProduct(id_product_details) {
+    return await productDetailsModel.enableProduct(
       id_product_details
     );
   }
@@ -67,6 +72,9 @@ export class ProductDetailsService {
   //metodo para obtener todas las sub categorias
   async getAllProductDetails() {
     return await productDetailsModel.getAllProductDetails();
+  }
+  async getAllInhabilitados() {
+    return await productDetailsModel.getAllInhabilitados();
   }
 
   // metodo para obtener el catalogo

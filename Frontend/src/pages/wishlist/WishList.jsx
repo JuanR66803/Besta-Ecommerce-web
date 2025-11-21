@@ -21,7 +21,11 @@ const Wishlist = () => {
   const { wishlist, loading, wishlistCount, removeFromWishlist } = useWishlist();
   const { addToCart } = useCartItem();
   const navigate = useNavigate();
+const [sidebarOpen, setSidebarOpen] = React.useState(false);
 
+const toggleSidebar = () => {
+  setSidebarOpen(!sidebarOpen);
+};
   const handleRemoveFromWishlist = async (productId, productName) => {
     const success = await removeFromWishlist(productId);
     if (success) {
@@ -145,6 +149,7 @@ const Wishlist = () => {
       </div>
     </div>
   );
+  
 };
 
 export default Wishlist;

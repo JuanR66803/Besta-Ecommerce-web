@@ -57,11 +57,17 @@ export class ProductDetailsModel {
   }
 
   //funcion que me permite eliminar una sub categoria
-  async deleteProductDetailsById(id_product_details) {
-    const query = `DELETE FROM product_details where id_product_details= $1`;
+  async disableProduct(id_product_details) {
+    const query = `UPDATE product_details SET id_product_state = 2 WHERE id_product_details= $1`;
     const result = await pool.query(query, [id_product_details]);
     return result.rows[0];
   }
+  async enableProduct(id_product_details) {
+    const query = `UPDATE product_details SET id_product_state = 1 WHERE id_product_details= $1`;
+    const result = await pool.query(query, [id_product_details]);
+    return result.rows[0];
+  }
+
 
   //funcion que me permite obtener una sub categoria por su id
   async getProductDetailsById(id_product_details) {
@@ -106,6 +112,7 @@ export class ProductDetailsModel {
           INNER JOIN category c ON sc.id_category = c.id_category
           INNER JOIN product_image pi ON p.id_product = pi.id_product
           INNER JOIN url_image ui ON pi.id_url_image = ui.id_url_image
+          WHERE pd.id_product_state = 1
           GROUP BY 
               pd.id_product_details,
               pd.product_price, 
@@ -121,6 +128,43 @@ export class ProductDetailsModel {
     const result = await pool.query(query);
     return result.rows;
   }
+  async getAllInhabilitados() {
+    const query = `
+       SELECT 
+          pd.id_product_details,
+          pd.product_price, 
+          pd.stock, 
+          pd.product_size, 
+          pd.public_objetive AS public_objetive,
+          pd.expertice,
+          p.product_name,
+          p.description,
+          sc.sub_category_name,
+          c.category_name,
+          ARRAY_AGG(ui.url_image) AS images
+          FROM product_details pd
+          INNER JOIN product p ON pd.id_product = p.id_product
+          INNER JOIN sub_category sc ON p.id_sub_category = sc.id_sub_category
+          INNER JOIN category c ON sc.id_category = c.id_category
+          INNER JOIN product_image pi ON p.id_product = pi.id_product
+          INNER JOIN url_image ui ON pi.id_url_image = ui.id_url_image
+          WHERE pd.id_product_state = 2
+          GROUP BY 
+              pd.id_product_details,
+              pd.product_price, 
+              pd.stock, 
+              pd.product_size, 
+              pd.public_objetive,
+              pd.expertice,
+              p.product_name,
+              p.description,
+              sc.sub_category_name,
+              c.category_name
+              `;
+    const result = await pool.query(query);
+    return result.rows;
+  }
+
 
   //  eMetodo Específico para el catálogo con filtros
   async getCatalogProducts(queryParams = {}) {
