@@ -19,7 +19,7 @@ export class ShoppingCarModel {
 
   async createShoppingCar(id_user, date, total_price) {
     const query = `
-            INSERT INTO shopping_cart (id_user, modification_date, total_price)
+            INSERT INTO shopping_cart (id_users, modification_date, total_price)
             VALUES ($1, $2, $3)
             RETURNING *;
         `;
@@ -32,13 +32,13 @@ export class ShoppingCarModel {
                 SELECT
                     sci.id_shopping_cart_item,
                     p.product_name,
-                    p.url_image,
                     p.description,
                     pd.product_price,
                     pd.stock,
                     pd.product_size,
                     sci.quantity,
-                    sc.total_price
+                    sc.total_price,
+                    ARRAY_AGG(ui.url_image) AS images
                 FROM 
                     shopping_cart_item AS sci 
                 INNER JOIN 
@@ -47,8 +47,21 @@ export class ShoppingCarModel {
                     product_details AS pd ON sci.id_product_details = pd.id_product_details 
                 INNER JOIN 
                     product AS p ON pd.id_product = p.id_product 
+                INNER JOIN
+                    product_image AS pi ON p.id_product = pi.id_product
+                INNER JOIN
+                    url_image AS ui ON pi.id_url_image = ui.id_url_image
                 WHERE 
-                    sc.id_user = $1
+                    sc.id_users = $1
+                GROUP BY
+                    sci.id_shopping_cart_item,
+                    p.product_name,
+                    p.description,
+                    pd.product_price,
+                    pd.stock,
+                    pd.product_size,
+                    sci.quantity,
+                    sc.total_price
             `;
       const result = await pool.query(query, [id_user]);
       return result.rows;

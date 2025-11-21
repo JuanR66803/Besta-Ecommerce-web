@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import './index.css';
 import Layout from './layout/Layout';
 import SignUp from './pages/auth/sign-up/SignUp';
 import PanelAdmin from './pages/admin/PanelAdmin';
@@ -13,7 +14,7 @@ import AdminRoute from './components/AdminRoute';
 import Home from './pages/home/Home';
 import Catalog from './pages/catalog/Catalog';
 import Principal from './pages/home/Principal';
-import Wishlist from './pages/wishlist/Wishlist'; 
+import Wishlist from './pages/wishlist/WishList'; 
 import { ToastContainer } from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css';
 

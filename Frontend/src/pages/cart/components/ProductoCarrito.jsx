@@ -124,7 +124,7 @@ const ProductoCarrito = ({ producto, onProductoSeleccionado, deleteCartItem, set
         />
         <div className="contenedor-imagen">
           <img
-            src={producto.url_image}
+            src={producto.images[0]}
             alt="Producto"
             className="imagen-producto"
           />

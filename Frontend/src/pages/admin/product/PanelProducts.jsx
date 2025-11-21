@@ -115,7 +115,7 @@ const PanelProducts = () => {
                                     <td>{product.sub_category_name}</td>
                                     <td>
                                         <img
-                                            src={product.images[0]}
+                                            src={product.images[1]}
                                             alt={product.product_name}
                                             style={{ width: "50px", height: "50px", objectFit: "cover" }}
                                         />

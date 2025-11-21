@@ -1,6 +1,6 @@
 import React from 'react';
-import './Wishlist.css';
-import { useWishlist } from './hooks/useWishlist';
+import './WishList.css';
+import { useWishlist } from './hooks/useWishList';
 import { FaHeart, FaShoppingCart, FaTrash } from 'react-icons/fa';
 import { useCartItem } from '../catalog/hooks/useAddCartItem';
 import { toast } from 'react-toastify';
