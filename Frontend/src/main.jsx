@@ -27,7 +27,7 @@ createRoot(document.getElementById('root')).render(
           {/*Rutas Publicas */}
           <Route path="/sign-up" element={<PublicRoute><SignUp /></PublicRoute>} />
           <Route path="/sign-in" element={<PublicRoute><SignIn /></PublicRoute>} />
-          <Route path="/catalogo" element={<PublicRoute><Catalog /></PublicRoute>} />
+          <Route path="/catalogo" element={<Catalog />} />
           {/*Rutas Protegidas */}
           <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
           <Route path="/wishlist" element={<ProtectedRoute><Wishlist /></ProtectedRoute>} />
