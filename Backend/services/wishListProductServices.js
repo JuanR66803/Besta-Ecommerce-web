@@ -1,33 +1,124 @@
-import {WishListProductModel} from "../models/wishListProductModel.js" ;
+import { WishListProductModel } from '../models/wishListProductModel.js';
 
 const wishListProductModel = new WishListProductModel();
 
-export class WishListProductService{
-    
-    //metodo para crear un producto de la lista de deseados
-    async createWishListProduct(id_product_details, id_users){
-        // se crea la categoría sin comprobar si ya existe, hay que agregar un condicional
-        return (await wishListProductModel.createWishListProduct(id_product_details, id_users));
-    };
+export class WishListProductService {
+  /**
+   * Crear un producto en la wishlist
+   * Verifica duplicados antes de agregar
+   */
+  async createWishListProduct(id_product_details, id_users) {
+    try {
+      // Verificar si ya existe
+      const exists = await wishListProductModel.isInWishList(
+        id_users,
+        id_product_details
+      );
 
-    //metodo para acrualizar un producto de la lista de deseados
-    async updateWishListProduct(id_wish_list_product, id_product_details, id_users){
-        return (await wishListProductModel.updateWishListProductById(id_wish_list_product, id_product_details, id_users));
-    };
+      if (exists) {
+        throw new Error('El producto ya está en tu lista de deseos');
+      }
 
-    //metodo para eliminar un producto de la lista de deseados
-    async deleteWishListProductById(id_wish_list_product){
-        return (await wishListProductModel.deleteWishListProductById(id_wish_list_product));
-    };
+      return await wishListProductModel.createWishListProduct(
+        id_product_details,
+        id_users
+      );
+    } catch (error) {
+      console.error('[WishListService] Error al crear:', error);
+      throw error;
+    }
+  }
 
-    //metodo para obtener un producto de la lista de deseados con su id
-    async getWishListProductById(id_wish_list_product){
-        return (await wishListProductModel.getWishListProductById(id_wish_list_product));
-    };
+  /**
+   * Actualizar un producto de la wishlist
+   */
+  async updateWishListProduct(
+    id_wish_list_products,
+    id_product_details,
+    id_users
+  ) {
+    return await wishListProductModel.updateWishListProductById(
+      id_wish_list_products,
+      id_product_details,
+      id_users
+    );
+  }
 
-    //metodo para obtener todas los productos en la lista de deseados
-    async getAllWishListProducts(){
-        return (await wishListProductModel.getAllWishListProducts())
-    };
+  /**
+   * Eliminar por ID de wishlist
+   */
+  async deleteWishListProductById(id_wish_list_products) {
+    return await wishListProductModel.deleteWishListProductById(
+      id_wish_list_products
+    );
+  }
+
+  /**
+   * Eliminar por usuario y producto
+   */
+  async deleteByUserAndProduct(id_users, id_product_details) {
+    const result = await wishListProductModel.deleteByUserAndProduct(
+      id_users,
+      id_product_details
+    );
+
+    if (!result) {
+      throw new Error('El producto no está en tu lista de deseos');
+    }
+
+    return result;
+  }
+
+  /**
+   * Obtener por ID
+   */
+  async getWishListProductById(id_wish_list_products) {
+    return await wishListProductModel.getWishListProductById(
+      id_wish_list_products
+    );
+  }
+
+  /**
+   * Obtener wishlist de un usuario
+   */
+  async getWishListByUser(id_users) {
+    return await wishListProductModel.getWishListByUser(id_users);
+  }
+
+  /**
+   * Obtener todas las wishlists (admin)
+   */
+  async getAllWishListProducts() {
+    return await wishListProductModel.getAllWishListProducts();
+  }
+
+  /**
+   * Verificar si un producto está en la wishlist
+   */
+  async isInWishList(id_users, id_product_details) {
+    return await wishListProductModel.isInWishList(
+      id_users,
+      id_product_details
+    );
+  }
+
+  /**
+   * Limpiar toda la wishlist de un usuario
+   */
+  async clearWishList(id_users) {
+    const result = await wishListProductModel.clearWishListByUser(id_users);
+
+    if (result.length === 0) {
+      throw new Error('La lista de deseos ya está vacía');
+    }
+
+    return result;
+  }
+
+  /**
+   * Obtener conteo de productos en wishlist
+   */
+  async getWishListCount(id_users) {
+    return await wishListProductModel.getWishListCount(id_users);
+  }
 }
-

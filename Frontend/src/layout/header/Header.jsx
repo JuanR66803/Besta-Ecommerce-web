@@ -21,6 +21,7 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const searchRef = useRef(null);
+  const [isAdminServer, setIsAdminServer] = React.useState(false);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -70,6 +71,32 @@ const Header = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Verificar en el servidor si el usuario autenticado es el admin específico
+  useEffect(() => {
+    const checkAdmin = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setIsAdminServer(false);
+        return;
+      }
+      try {
+        const baseURL = import.meta.env.VITE_API_URL || '';
+        const url = baseURL ? `${baseURL}/api/auth/verify-admin` : '/api/auth/verify-admin';
+        const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+        if (!res.ok) {
+          setIsAdminServer(false);
+          return;
+        }
+        const data = await res.json();
+        setIsAdminServer(Boolean(data.allowed));
+      } catch (err) {
+        console.error('Error verificando admin en header:', err);
+        setIsAdminServer(false);
+      }
+    };
+    checkAdmin();
+  }, [user]);
+
   const handleLogout = () => {
     logout();
     navigate('/sign-in');
@@ -90,6 +117,11 @@ const Header = () => {
             <li>
               <NavLink to="/novedades">Novedades</NavLink>
             </li>
+            {(isAdminServer || user?.role === 'admin') && (
+              <li>
+                <NavLink to="/panel-admin">Dashboard Admin</NavLink>
+              </li>
+            )}
           </ul>
         </div>
 

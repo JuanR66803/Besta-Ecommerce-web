@@ -12,11 +12,7 @@ import saleOrderItemRoutes from "./routes/saleOrderItemRoutes.js"
 import userAddressRoutes from "./routes/userAddressRoutes.js" 
 import wishListProductRoutes from "./routes/wishListProductRoutes.js" 
 import productRoutes from './routes/productRoutes.js';
-import paymentRoute from './routes/paymenRoute.js';
 import shoppingCarRoutes from './routes/shoppingCarRoutes.js';
-import faqRoutes from './routes/faqRoutes.js';
-import chatRoutes from "./routes/chatRoutes.js";
-import contactoRoutes from "./routes/contactoController.js";
 
 dotenv.config();
 
@@ -30,7 +26,7 @@ if (!process.env.DATABASE_URI) {
 
 app.use(cors({
     origin: process.env.FRONTEND_ORIGIN || "http://localhost:5173",
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    methods: ["GET", "POST", "PUT", "DELETE","PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true
 }));
@@ -49,10 +45,6 @@ app.use("/api/userAddressItem", userAddressRoutes)//enrutamiento a las direccion
 app.use("/api/wishListProduct", wishListProductRoutes)//enrutamiento a los productos en la lista de deseados
 app.use("/api/shoppingCar", shoppingCarRoutes)//enrutamiento carrito de compras
 app.use('/api/product', productRoutes);
-
-app.use('/api/payments', paymentRoute);
-app.use("/api/chat", chatRoutes);
-app.use("/api/contacto", contactoRoutes);
 
 app.get("/", (req, res) => {
     res.json({ message: "backend funcionando correctamente" });

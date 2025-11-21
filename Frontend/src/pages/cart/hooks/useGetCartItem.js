@@ -16,6 +16,7 @@ export const useGetCartItems = () => {
 
     try {
       setLoading(true);
+      console.log("Usuario logueado:", user);
       const baseURL = import.meta.env.VITE_API_URL;
 
       const response = await fetch(`${baseURL}/api/shoppingCar/getCar`, {

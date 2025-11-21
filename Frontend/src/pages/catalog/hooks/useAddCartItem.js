@@ -25,7 +25,7 @@ export const useCartItem = () => {
         price: product.price,
       };
 
-      console.log("📦 Body final antes del fetch:", JSON.stringify(body, null, 2));
+      console.log("📦Body final antes del fetch:", JSON.stringify(body, null, 2));
 
       const baseURL = import.meta.env.VITE_API_URL;
   

@@ -3,46 +3,75 @@ import { CiSearch } from "react-icons/ci";
 import { useState, useEffect } from "react";
 import ModalProducts from "./components/modal-products/ModalProducts";
 import { useGetProducts } from "../hooks/useGetProducts.js";
-import { useDeleteProducts } from "../hooks/useDeleteProducts.js";
+import { useDeleteProducts } from "../hooks/useUpdateStateProducts.js";
 import ComboBoxCategory from "./components/ComboBox/ComboBoxCategory.jsx";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash, FaCheckCircle } from "react-icons/fa";
+import { TbRadarOff } from "react-icons/tb";
+import { MdOutlineSecurity } from "react-icons/md";
 
 const PanelProducts = () => {
     const API_URL_BASE = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
     const [query, setQuery] = useState("");
     const [openModalProduct, setOpenModalProduct] = useState(false);
-    const [category, setCategory] = useState(""); // Estado para la categoría seleccionada
-    const { getProducts, products, loading, error } = useGetProducts();
-    const { deleteProduct, loading: deleting, error: deleteError } = useDeleteProducts();
+    const [category, setCategory] = useState("");
+    const [showInhabilitados, setShowInhabilitados] = useState(false);
+
+    const { getProductsInhabilitados, getProducts, products, loading, error } = useGetProducts();
+    // Se asume que useDeleteProducts provee reactivateProduct para habilitar
+    const { disableProduct, enableProduct, loading: deleting, error: deleteError } = useDeleteProducts();
 
     useEffect(() => {
         const fetchProducts = async () => {
-            await getProducts();
-            console.log(products);
+            if (showInhabilitados) {
+                await getProductsInhabilitados();
+            } else {
+                await getProducts();
+            }
         };
         fetchProducts();
-    }, []);
+    }, [showInhabilitados]);
 
     const toggleModal = () => {
         setOpenModalProduct((prev) => !prev);
     };
 
-    // Filtrar productos por búsqueda y categoría
     const filteredProducts = products.filter((product) => {
         const matchesQuery = product.product_name.toLowerCase().includes(query.toLowerCase());
-        const matchesCategory = category === "" || product.id_category === Number(category); // Convierte category a número
+        const matchesCategory = category === "" || product.id_category === Number(category);
         return matchesQuery && matchesCategory;
     });
 
-    const handleDelete = async (id) => {
-        const confirmDelete = window.confirm("¿Estás seguro de que deseas eliminar este producto?");
-        if (!confirmDelete) return;
-        const success = await deleteProduct(id);
-        if (success) {
-            alert("Producto eliminado correctamente");
-            await getProducts();
+    const toggleView = () => {
+        setShowInhabilitados((prev) => !prev);
+        setQuery("");
+        setCategory("");
+    };
+
+    const handleAction = async (id, isCurrentlyInhabilitado) => {
+        let success = false;
+        let actionMessage = "";
+
+        if (isCurrentlyInhabilitado) {
+            const confirmReactivate = window.confirm("¿Estás seguro de que deseas habilitar este producto?");
+            if (!confirmReactivate) return;
+            success = await enableProduct(id);
+            actionMessage = "Producto habilitado correctamente";
         } else {
-            alert("Error al eliminar el producto");
+            const confirmDelete = window.confirm("¿Estás seguro de que deseas inhabilitar este producto?");
+            if (!confirmDelete) return;
+            success = await disableProduct(id);
+            actionMessage = "Producto inhabilitado correctamente";
+        }
+
+        if (success) {
+            alert(actionMessage);
+            if (showInhabilitados) {
+                await getProductsInhabilitados();
+            } else {
+                await getProducts();
+            }
+        } else {
+            alert(`Error al realizar la acción. ${deleteError || ""}`);
         }
     };
 
@@ -58,7 +87,7 @@ const PanelProducts = () => {
                 </button>
             </section>
             <section className="content__panel-products">
-                <h3>Lista de Productos</h3>
+                <h3>Lista de Productos ({showInhabilitados ? "Inhabilitados" : "Habilitados"})</h3>
                 <div className="filters__products">
                     <div className="filters__options">
                         <div className="search__product">
@@ -67,16 +96,25 @@ const PanelProducts = () => {
                                 type="text"
                                 placeholder="Buscar producto..."
                                 onChange={(e) => setQuery(e.target.value)}
+                                value={query}
                             />
                         </div>
-                        <div className="filter__category">
+                        {/* <div className="filter__category">
                             <ComboBoxCategory
+                                className = "combo__box-category"
                                 name="category"
                                 value={category}
-                                onChange={(e) => setCategory(e.target.value)} // Actualiza el estado de categoría
+                                onChange={(e) => setCategory(e.target.value)}
                                 apiUrlBase={API_URL_BASE}
                             />
-                        </div>
+                        </div> */}
+                        <button 
+                            className="btn__toggle-view" 
+                            title={showInhabilitados ? "Ver Productos Habilitados" : "Ver Productos Inhabilitados"}
+                            onClick={toggleView}
+                        >
+                            {showInhabilitados ? <MdOutlineSecurity /> : <TbRadarOff />}
+                        </button>
                     </div>
                 </div>
             </section>
@@ -115,7 +153,7 @@ const PanelProducts = () => {
                                     <td>{product.sub_category_name}</td>
                                     <td>
                                         <img
-                                            src={product.images[0]}
+                                            src={product.images[1]}
                                             alt={product.product_name}
                                             style={{ width: "50px", height: "50px", objectFit: "cover" }}
                                         />
@@ -123,15 +161,22 @@ const PanelProducts = () => {
                                     <td>{product.product_price}</td>
                                     <td>{product.stock}</td>
                                     <td>
-                                        <button className="btn__edit"><FaEdit /></button>
-                                        <button className="btn__delete" onClick={() => handleDelete(product.id_product_details)}><FaTrash /></button>
+                                        <button title="Editar producto" className="btn__toggle-view"><FaEdit /></button>
+                                        
+                                        <button 
+                                            title={showInhabilitados ? "Habilitar producto" : "Inhabilitar producto"} 
+                                            className="btn__toggle-view"
+                                            onClick={() => handleAction(product.id_product_details, showInhabilitados)}
+                                        >
+                                            {showInhabilitados ? <FaCheckCircle /> : <FaTrash />}
+                                        </button>
                                     </td>
                                 </tr>
                             ))}
                     </tbody>
                 </table>
             </section>
-            {openModalProduct && <ModalProducts onClose={toggleModal} refreshTable={getProducts} />}
+            {openModalProduct && <ModalProducts onClose={toggleModal} refreshTable={showInhabilitados ? getProductsInhabilitados : getProducts} />}
         </div>
     );
 };
