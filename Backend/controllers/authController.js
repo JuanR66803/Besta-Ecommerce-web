@@ -110,4 +110,28 @@ export default class AuthController {
             });
         }
     }
+
+    async verifyAdmin(req, res) {
+        try {
+            // req.user viene del middleware verifyToken
+            const email = req.user?.email;
+            if (!email) return res.status(400).json({ allowed: false, message: 'No se proporcionó email en token' });
+
+            const user = await authService.getUserByEmail(email);
+            if (!user) return res.status(404).json({ allowed: false, message: 'Usuario no encontrado' });
+
+            // Comprueba que el correo coincida con el admin específico
+            const adminEmail = 'juancrg2004@hotmail.com';
+            const isAdminEmail = (user.email && user.email.toLowerCase() === adminEmail.toLowerCase());
+
+            if (isAdminEmail) {
+                return res.status(200).json({ allowed: true, user });
+            }
+
+            return res.status(403).json({ allowed: false, message: 'No autorizado' });
+        } catch (error) {
+            console.error('Error en verifyAdmin:', error);
+            return res.status(500).json({ allowed: false, message: 'Error del servidor' });
+        }
+    }
 }

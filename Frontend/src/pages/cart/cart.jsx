@@ -39,7 +39,7 @@ const Cart = () => {
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        const data = await getCartItems(); // solo es para mostrar los datos que trae el carrito
+        const data = await getCartItems(); 
         console.log("Datos del carrito del usuario registrado:", data);
         setCartData(data.carItems || []);
       } catch (error) {

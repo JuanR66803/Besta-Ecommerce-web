@@ -2,13 +2,15 @@ import pool from "../config/db.js";
 
 export class ProductModel {
 
-  //funcion que me permite crear un producto
-  async createProduct(id_sub_category, product_name, url_image, description) {
-    const query = `INSERT INTO product(id_sub_category, product_name, url_image, description) VALUES($1,$2,$3,$4) RETURNING *`;
-    const values = [id_sub_category, product_name, url_image, description];
-    const result = await pool.query(query, values);
-    return result.rows[0];
-  }
+    //funcion que me permite crear un producto
+    async createProduct(id_sub_category, product_name, description){
+        const query = `INSERT INTO product(id_sub_category, product_name, description) VALUES($1,$2,$3) RETURNING *`;
+        const values= [id_sub_category, product_name, description];
+        const result = await pool.query(query,values);
+        return result.rows[0];
+}
+
+
 
   //funcion que me permite actualizar un producto
   async updateProductById(id_product, id_sub_category, product_name, url_image, description) {

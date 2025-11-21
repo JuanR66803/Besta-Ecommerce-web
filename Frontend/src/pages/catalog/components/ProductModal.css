@@ -7,253 +7,394 @@
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
   display: flex;
   justify-content: center;
-  align-items: center; /* Centra el modal en pantallas grandes */
+  align-items: center;
   z-index: 10000;
   animation: fadeIn 0.3s ease;
-  overflow: hidden; /* El overlay no debe tener scroll */
-  padding: 0; /* Sin padding en móvil */
+  overflow: hidden;
+  padding: 0;
 }
 
 .product-modal {
   background: white;
   width: 100%;
-  height: 100%; /* Ocupa toda la pantalla en móvil */
+  height: 100%;
   max-width: 100%;
   max-height: 100%;
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* Clave para que el contenido no se salga */
+  overflow: hidden;
   position: relative;
-  animation: slideUp 0.4s ease-out;
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
 
 .modal-close-btn {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(4px);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 50%;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 10; /* Debe estar sobre el contenido */
-  font-size: 1rem;
+  z-index: 20;
+  font-size: 1.25rem;
   color: #333;
   transition: all 0.3s ease;
-}
-
-.modal-close-btn:hover {
-  background: white;
-  transform: rotate(90deg) scale(1.1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .modal-content {
-  flex-grow: 1; /* Ocupa todo el espacio vertical disponible */
-  overflow-y: auto; /* ESTA es la única parte que tendrá scroll */
+  flex-grow: 1;
+  overflow-y: auto; /* Mantenemos esto pero con contenido optimizado */
   padding: 1rem;
-  padding-top: 4.5rem; /* Espacio para el botón de cerrar */
+  padding-top: 4.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem; /* Reducido */
 }
 
+/* Sección de imagen más compacta */
 .modal-image-section {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* Reducido */
+  align-items: center;
+  justify-content: center;
 }
 
 .modal-image-container {
+  position: relative;
   width: 100%;
+  max-width: 350px; /* Reducido */
   aspect-ratio: 1 / 1;
-  background-color: #f7f7f7;
-  border-radius: 8px;
   overflow: hidden;
+  border-radius: 10px; /* Reducido */
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  box-shadow: 0 6px 15px -4px rgba(0, 0, 0, 0.1); /* Reducido */
+}
+
+/* Botones del carrusel */
+.carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.95);
+  color: #1a1a1a;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  width: 36px; /* Reducido */
+  height: 36px; /* Reducido */
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  font-size: 0.9rem; /* Reducido */
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.1); /* Reducido */
+}
+
+.carousel-prev {
+  left: 8px;
+}
+
+.carousel-next {
+  right: 8px;
+}
+
+.carousel-indicator {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  color: white;
+  padding: 3px 10px; /* Reducido */
+  border-radius: 14px; /* Reducido */
+  font-size: 11px; /* Reducido */
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.3); /* Reducido */
 }
 
 .modal-product-image {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
 }
 
+.modal-image-thumbnails {
+  display: flex;
+  gap: 6px; /* Reducido */
+  overflow-x: auto;
+  padding: 3px 0; /* Reducido */
+  max-width: 100%;
+  justify-content: center;
+}
+
+.modal-image-thumbnails .thumbnail {
+  width: 50px; /* Reducido */
+  height: 50px; /* Reducido */
+  object-fit: cover;
+  border-radius: 6px; /* Reducido */
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.modal-image-thumbnails .thumbnail.active {
+  border-color: #1a1a1a;
+}
+
+/* Sección de información optimizada - SIN SCROLL */
 .modal-info-section {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.75rem; /* Reducido */
+  overflow-y: visible;
 }
 
+/* Título más compacto */
 .modal-product-name {
-  font-size: 1.5rem;
+  font-size: 1.3rem; /* Reducido */
   font-weight: 700;
   line-height: 1.2;
+  color: #1a1a1a;
+  margin-bottom: 0.25rem; /* Reducido */
+}
+
+/* Precio más compacto */
+.modal-price {
+  margin-bottom: 0.25rem; /* Reducido */
 }
 
 .current-price {
-  font-size: 1.75rem;
-  font-weight: 700;
+  font-size: 1.5rem; /* Reducido */
+  font-weight: 800;
+  color: #1a1a1a;
+}
+
+/* Descripción más compacta */
+.modal-description {
+  padding: 0.5rem 0; /* Reducido */
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
 }
 
 .modal-description h3 {
-  font-size: 1rem;
+  font-size: 0.95rem; /* Reducido */
   font-weight: 600;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem; /* Reducido */
+  color: #1a1a1a;
 }
 
 .modal-description p {
-  color: #555;
-  line-height: 1.6;
+  color: #666;
+  line-height: 1.4; /* Reducido */
+  font-size: 0.85rem; /* Reducido */
+  margin: 0;
 }
 
+/* Detalles más compactos */
 .modal-details {
-  border-top: 1px solid #eee;
-  padding-top: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.6rem; /* Reducido */
+  padding: 0.5rem 0; /* Reducido */
 }
 
 .detail-item {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 1rem;
+  gap: 0.4rem; /* Reducido */
+  padding: 0.2rem 0; /* Reducido */
 }
 
 .detail-item strong {
   font-weight: 600;
-  color: #333;
-  flex-shrink: 0; /* Evita que el texto se comprima */
+  color: #1a1a1a;
+  flex-shrink: 0;
+  font-size: 0.85rem; /* Reducido */
+  min-width: 90px; /* Reducido */
 }
 
 .detail-item span {
   text-align: right;
-  color: #555;
+  color: #666;
+  font-size: 0.85rem; /* Reducido */
+  line-height: 1.3; /* Reducido */
 }
 
 .color-swatches {
   display: flex;
-  gap: 0.5rem;
+  gap: 5px; /* Reducido */
   flex-wrap: wrap;
   justify-content: flex-end;
 }
 
 .color-swatch {
-  width: 22px;
-  height: 22px;
+  width: 20px; /* Reducido */
+  height: 20px; /* Reducido */
   border-radius: 50%;
-  border: 2px solid #ddd;
+  border: 2px solid #e0e0e0;
+}
+
+/* Botones más compactos */
+.modal-actions {
+  display: flex;
+  gap: 0.6rem; /* Reducido */
+  margin: 0.75rem 0 0.5rem 0; /* Ajustado */
+  position: relative;
+  z-index: 5;
 }
 
 .add-to-cart-button {
-  background-color: #1a1a1a;
+  flex: 1;
+  background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
   color: white;
   border: none;
-  padding: 0.9rem 1rem;
-  font-size: 1rem;
+  padding: 0.75rem 1rem; /* Reducido */
+  font-size: 0.9rem; /* Reducido */
   font-weight: 600;
-  border-radius: 8px;
+  border-radius: 8px; /* Reducido */
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  width: 100%;
-  margin-top: 1rem;
+  transition: all 0.3s ease;
+  min-height: 44px; /* Reducido */
 }
 
 .add-to-cart-button:hover {
-  background-color: #333;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.2);
 }
 
 .add-to-cart-button:disabled {
-  background-color: #ccc;
+  background: #ccc;
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
-.modal-info {
-  background-color: #f9f9f9;
-  padding: 1rem;
-  border-radius: 8px;
-  text-align: center;
-  border: 1px solid #eee;
+.wishlist-button {
+  width: 44px; /* Reducido */
+  height: 44px; /* Reducido */
+  background: white;
+  border: 2px solid #1a1a1a;
+  border-radius: 8px; /* Reducido */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem; /* Reducido */
+  color: #1a1a1a;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
-.modal-info p {
-  margin: 0.25rem 0;
-  color: #666;
-  font-size: 0.9rem;
+.wishlist-button:hover {
+  background: #1a1a1a;
+  color: white;
+  transform: scale(1.05);
 }
 
-.store-availability {
-  font-weight: 600;
-  color: #1a1a1a !important;
+.wishlist-button.active {
+  background: #ff4757;
+  border-color: #ff4757;
+  color: white;
 }
 
 /* --- Media Query para Tablets (768px y más) --- */
 @media (min-width: 768px) {
   .product-modal-overlay {
-    padding: 2rem; /* Añadimos padding para que el modal no toque los bordes */
+    padding: 1.5rem; /* Reducido */
   }
 
   .product-modal {
-    border-radius: 12px;
+    border-radius: 16px; /* Reducido */
     width: 100%;
-    height: auto; /* La altura se adapta al contenido */
-    max-width: 720px; /* Ancho máximo para tablets */
-    max-height: 90vh; /* Altura máxima para que siempre quepa en pantalla */
+    height: auto;
+    max-width: 850px; /* Reducido */
+    max-height: 85vh; /* Reducido */
   }
 
   .modal-content {
-    flex-direction: row; /* Lado a lado */
-    padding: 2rem;
-    padding-top: 2rem; /* Ya no necesitamos el padding extra arriba */
-    gap: 2rem;
+    flex-direction: row;
+    padding: 2rem; /* Reducido */
+    padding-top: 2rem;
+    gap: 1.5rem; /* Reducido */
+    max-height: none;
+    overflow-y: visible; /* Eliminamos scroll en tablet/desktop */
   }
 
   .modal-image-section {
-    flex: 1; /* Ocupa 1 parte del espacio */
+    flex: 1;
+    min-height: auto;
   }
 
   .modal-info-section {
-    flex: 1; /* Ocupa 1 parte del espacio */
+    flex: 1;
+    overflow-y: visible; /* Sin scroll */
+    max-height: none; /* Sin altura máxima */
+    padding-right: 0;
+    gap: 1rem; /* Reducido */
   }
 
   .modal-product-name {
-    font-size: 1.75rem;
+    font-size: 1.5rem; /* Ajustado */
+  }
+
+  .current-price {
+    font-size: 1.75rem; /* Ajustado */
+  }
+
+  .carousel-button {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
   }
 }
 
 /* --- Media Query para Laptops y Desktops (1024px y más) --- */
 @media (min-width: 1024px) {
   .product-modal {
-    max-width: 960px; /* Ancho máximo para pantallas grandes */
+    max-width: 950px; /* Reducido */
   }
 
   .modal-content {
-    gap: 3rem;
+    gap: 2rem; /* Reducido */
+    padding: 2.5rem; /* Reducido */
   }
 
   .modal-image-section {
-    flex: 2; /* La imagen ocupa más espacio */
+    flex: 1.1;
   }
 
   .modal-info-section {
-    flex: 3; /* La info ocupa más espacio */
+    flex: 0.9;
   }
 
   .modal-product-name {
-    font-size: 2rem;
+    font-size: 1.7rem; /* Ajustado */
   }
 
   .current-price {
-    font-size: 2.25rem;
+    font-size: 2rem; /* Ajustado */
   }
 }
 
-/* --- Animaciones (sin cambios) --- */
+/* --- Animaciones --- */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -265,7 +406,7 @@
 
 @keyframes slideUp {
   from {
-    transform: translateY(30px);
+    transform: translateY(50px);
     opacity: 0;
   }
   to {
