@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { FaFilter } from 'react-icons/fa';
 import { useEffect } from 'react';
-import { useMemo } from 'react'; // Importante
+import { useMemo } from 'react';
 import { useRef } from 'react';
 import './Catalog.css';
 import ProductModal from './components/ProductModal';
-import useProducts from './hooks/useProducts';
+// ❌ ELIMINADO: import useProducts from './hooks/useProducts';
+// ✅ AÑADIDO: Nuevo hook para el catálogo
+import { useProductsCatalog } from './hooks/useProductsCatalog';
 import useCategories from './hooks/useCategories';
 import useFilters from './hooks/useFilters';
 import FilterSidebar from './components/FilterSidebar';
@@ -14,7 +16,7 @@ import ProductGrid from './components/ProductGrid';
 import Pagination from './components/Pagination';
 import { useSearchParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import React from "react";
+import React from 'react';
 
 const useResponsiveItemsPerPage = () => {
   const getItems = () => {
@@ -38,7 +40,6 @@ const useResponsiveItemsPerPage = () => {
   return itemsPerPage;
 };
 
-
 const Catalog = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -51,18 +52,18 @@ const Catalog = () => {
   const subcategoryId = searchParams.get('subcategory');
   const searchTerm = searchParams.get('search') || '';
 
-  const urlFilters = useMemo(() => ({
-    categoryId: categoryId ? parseInt(categoryId) : null,
-    subcategoryId: subcategoryId ? parseInt(subcategoryId) : null,
-    search: searchTerm
-  }), [categoryId, subcategoryId, searchTerm]);
+  const urlFilters = useMemo(
+    () => ({
+      categoryId: categoryId ? parseInt(categoryId) : null,
+      subcategoryId: subcategoryId ? parseInt(subcategoryId) : null,
+      search: searchTerm,
+    }),
+    [categoryId, subcategoryId, searchTerm]
+  );
 
   const itemsPerPage = useResponsiveItemsPerPage();
 
-  const {
-    openedCategories,
-    toggleCategoryExpansion,
-  } = useFilters();
+  const { openedCategories, toggleCategoryExpansion } = useFilters();
 
   const {
     categories,
@@ -70,24 +71,25 @@ const Catalog = () => {
     error: errorCategories,
   } = useCategories();
 
+  // Usar elhook de useProductscatalog
   const {
     products,
     loading: loadingProducts,
     error: errorProducts,
     totalPages,
     totalProducts,
-  } = useProducts(urlFilters, currentPage, itemsPerPage);
+  } = useProductsCatalog(currentPage, itemsPerPage);
 
   const toggleFilter = () => setIsFilterOpen(!isFilterOpen);
   const closeFilter = () => setIsFilterOpen(false);
 
-  const handleCategoryClick = (categoryId) => {
+  const handleCategoryClick = categoryId => {
     window.dispatchEvent(new Event('clearSearch'));
     setSearchParams({ category: categoryId.toString() }, { replace: true });
     setCurrentPage(1);
   };
 
-  const handleSubCategoryClick = (subcategoryId) => {
+  const handleSubCategoryClick = subcategoryId => {
     const parentCategory = categories.find(cat =>
       cat.subcategories?.some(sub => sub.id_sub_category === subcategoryId)
     );
@@ -128,7 +130,7 @@ const Catalog = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleProductClick = (product) => {
+  const handleProductClick = product => {
     setSelectedProduct(product);
     setIsModalOpen(true);
   };
@@ -157,7 +159,6 @@ const Catalog = () => {
 
   return (
     <div className="catalog-container">
-
       {/* Botón de filtros para móvil */}
       <div className="mobile-filters">
         <button

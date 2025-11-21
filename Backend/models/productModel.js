@@ -10,6 +10,11 @@ export class ProductModel {
         return result.rows[0];
 }
 
+<<<<<<< HEAD
+=======
+  
+
+>>>>>>> f5f17921b2e210d2ee207b8eabdc74e28d66ef68
 
   //funcion que me permite actualizar un producto
   async updateProductById(id_product, id_sub_category, product_name, url_image, description) {
