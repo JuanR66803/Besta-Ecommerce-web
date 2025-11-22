@@ -2,15 +2,30 @@ import React, { useState, useRef, useEffect } from "react";
 import "./PanelCuponesCarrito.css";
 import { FaCaretDown } from "react-icons/fa";
 import Cupones from "./Cupones.jsx";
-const PanelCuponesCarrito = ({
-  total, cantidadTotal
-  }) => {
+import { useNavigate } from "react-router-dom";
+
+const PanelCuponesCarrito = ({ total, cantidadTotal, productosSeleccionados }) => {
+  const navigate = useNavigate();
   const [abierto, setAbierto] = useState(false);
   const botonRef = useRef(null);
   const menuRef = useRef(null);
 
   const toggleDesplegable = () => {
     setAbierto(!abierto);
+  };
+
+  const handleContinue = () => {
+    if (cantidadTotal === 0) {
+      alert("Selecciona al menos un producto para continuar");
+      return;
+    }
+
+    navigate("/checkout/payment-method", {
+      state: {
+        productosSeleccionados,
+        total
+      }
+    });
   };
 
   useEffect(() => {
@@ -70,7 +85,6 @@ const PanelCuponesCarrito = ({
           <button className="accion-texto-carrito">Eliminar</button>
           <button className="accion-texto-carrito">Mover a deseos</button>
         </div>
-
         {/* DERECHA (resumen y acción) */}
         <div className="derecha-inferior-carrito">
           <div className="total-articulos-carrito">
@@ -78,9 +92,12 @@ const PanelCuponesCarrito = ({
             {console.log("Cantidad Total en PanelCuponesCarrito:", cantidadTotal)}
           </div>
           {console.log("Total General en PanelCuponesCarrito:", total)}
+
           <div className="valor-total-carrito">${total?.toFixed(2) ?? 0}</div>
+
           <button
             className="boton-continuar-carrito"
+            onClick={handleContinue}
             type="button"
           >
             Continuar

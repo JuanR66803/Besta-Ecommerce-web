@@ -11,7 +11,7 @@ export class PaymentMethodService{
     };
 
     //metodo para actualizar un metodo de pago
-    async updatePaymentMethod(id_payment_method,method_name){
+    async updatePaymentMethodById(id_payment_method,method_name){
         return (await paymentMethodModel.updatePaymentMethodById(id_payment_method, method_name));
     };
 

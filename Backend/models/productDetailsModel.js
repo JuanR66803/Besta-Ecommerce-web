@@ -199,9 +199,16 @@ export class ProductDetailsModel {
       const params = [];
       let paramIndex = 1;
 
-      if (id_category) {
-        conditions.push(`c.id_category = $${paramIndex}`);
-        params.push(id_category);
+            if (id_category) {
+        // Si envía número, filtra por ID
+        if (!isNaN(id_category)) {
+          conditions.push(`c.id_category = $${paramIndex}`);
+          params.push(Number(id_category));
+        } else {
+          // Si envía texto (Guayos, Zapatillas…)
+          conditions.push(`LOWER(c.category_name) = LOWER($${paramIndex})`);
+          params.push(id_category);
+        }
         paramIndex++;
       }
 

@@ -39,7 +39,7 @@ const Cart = () => {
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        const data = await getCartItems(); 
+        const data = await getCartItems();
         console.log("Datos del carrito del usuario registrado:", data);
         setCartData(data.carItems || []);
       } catch (error) {
@@ -94,7 +94,11 @@ const Cart = () => {
         )}
       </div>
       <div className="div-pago">
-        <PanelCuponesCarrito total={total} cantidadTotal={cantidadTotal} />
+        <PanelCuponesCarrito
+          total={total}
+          cantidadTotal={cantidadTotal}
+          productosSeleccionados={productosSeleccionados}
+        />
       </div>
     </div>
   );
