@@ -10,6 +10,9 @@
   z-index: 1000;
   display: flex;
   flex-direction: column;
+  /* Agregado para scroll */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* Suaviza el scroll en móviles */
 }
 
 .wishlist-sidebar.open {

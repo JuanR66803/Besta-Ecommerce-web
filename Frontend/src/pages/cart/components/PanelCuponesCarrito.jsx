@@ -3,7 +3,11 @@ import "./PanelCuponesCarrito.css";
 import { FaCaretDown } from "react-icons/fa";
 import Cupones from "./Cupones.jsx";
 import PaymentReceipt from "./PaymentReceipt.jsx";
-const PanelCuponesCarrito = ({ total, cantidadTotal }) => {
+const PanelCuponesCarrito = ({
+  total,
+  cantidadTotal,
+
+}) => {
   const [abierto, setAbierto] = useState(false);
   const botonRef = useRef(null);
   const menuRef = useRef(null);
@@ -63,12 +67,7 @@ const PanelCuponesCarrito = ({ total, cantidadTotal }) => {
         <div className="izquierda-inferior-carrito">
           <label className="check-wrapper-carrito">
             <input type="checkbox" className="check-input-carrito" />
-            <span className="check-caja-carrito" />
           </label>
-
-          <button className="accion-texto-carrito">Seleccionar todo</button>
-          <button className="accion-texto-carrito">Eliminar</button>
-          <button className="accion-texto-carrito">Mover a deseos</button>
         </div>
 
         {/* DERECHA (resumen y acción) */}

@@ -20,10 +20,7 @@ const PaymentReceipt = ({ totalArticulos, totalPagar, onClose }) => {
           <div><strong>Total de artículos:</strong> {totalArticulos ?? 0}</div>
           <div><strong>Total a pagar:</strong> ${totalPagar ?? 0}</div>
           <div><strong>Fecha:</strong> {new Date().toLocaleDateString()}</div>
-        <PaymentProductItem />
-          <PaymentProductItem />
-          <PaymentProductItem />
-          <PaymentProductItem />
+
         </div>
         </div>
 

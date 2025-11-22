@@ -5,7 +5,8 @@ import { FaSearch } from "react-icons/fa";
 import PanelCuponesCarrito from "./components/PanelCuponesCarrito.jsx";
 import { useGetCartItems } from "./hooks/useGetCartItem.js";
 const Cart = () => {
-  const { getCartItems, deleteCartItem } = useGetCartItems();
+  const { getCartItems, deleteCartItem, updateCartItemQuantity } =
+    useGetCartItems();
   const [cartData, setCartData] = useState([]);
   const [productosSeleccionados, setProductosSeleccionados] = useState([]);
 
@@ -39,7 +40,7 @@ const Cart = () => {
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        const data = await getCartItems(); 
+        const data = await getCartItems();
         console.log("Datos del carrito del usuario registrado:", data);
         setCartData(data.carItems || []);
       } catch (error) {
@@ -49,7 +50,16 @@ const Cart = () => {
 
     fetchCart();
   }, []);
-
+  // Función para actualizar localmente solo el item
+  const actualizarItemLocal = (id_shopping_cart_item, nuevaCantidad) => {
+    setCartData((prev) =>
+      prev.map((item) =>
+        item.id_shopping_cart_item === id_shopping_cart_item
+          ? { ...item, quantity: nuevaCantidad }
+          : item
+      )
+    );
+  };
   return (
     <div className="cart-container">
       <div className="header-carrito">
@@ -87,6 +97,9 @@ const Cart = () => {
               onProductoSeleccionado={manejarSeleccionProducto}
               deleteCartItem={deleteCartItem}
               setCartData={setCartData}
+              updateCartItemQuantity={updateCartItemQuantity}
+              getCartItems={getCartItems}
+              actualizarItemLocal={actualizarItemLocal}
             />
           ))
         ) : (
@@ -94,7 +107,11 @@ const Cart = () => {
         )}
       </div>
       <div className="div-pago">
-        <PanelCuponesCarrito total={total} cantidadTotal={cantidadTotal} />
+        <PanelCuponesCarrito
+          total={total}
+          cantidadTotal={cantidadTotal}
+
+        />
       </div>
     </div>
   );
