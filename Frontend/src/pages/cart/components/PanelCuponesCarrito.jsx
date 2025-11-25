@@ -2,10 +2,10 @@ import React, { useState, useRef, useEffect } from "react";
 import "./PanelCuponesCarrito.css";
 import { FaCaretDown } from "react-icons/fa";
 import Cupones from "./Cupones.jsx";
-import { useNavigate } from "react-router-dom";
 
-const PanelCuponesCarrito = ({ total, cantidadTotal, productosSeleccionados }) => {
-  const navigate = useNavigate();
+
+const PanelCuponesCarrito = ({ total, cantidadTotal, productosSeleccionados,onContinue }) => {
+
   const [abierto, setAbierto] = useState(false);
   const botonRef = useRef(null);
   const menuRef = useRef(null);
@@ -19,13 +19,7 @@ const PanelCuponesCarrito = ({ total, cantidadTotal, productosSeleccionados }) =
       alert("Selecciona al menos un producto para continuar");
       return;
     }
-
-    navigate("/checkout/payment-method", {
-      state: {
-        productosSeleccionados,
-        total
-      }
-    });
+    onContinue(productosSeleccionados, total, cantidadTotal);
   };
 
   useEffect(() => {
