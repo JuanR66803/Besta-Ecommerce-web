@@ -1,0 +1,74 @@
+/* GENERAL LAYOUT */
+.help-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+  padding: 40px 80px;
+  font-family: 'Inter', Arial, sans-serif;
+}
+
+.help-left, .help-right {
+  flex: 1;
+}
+
+/* Make the left and right areas look like cards */
+.help-left, .help-right {
+  background: #fff;
+  border-radius: 12px;
+  padding: 28px;
+  box-shadow: 0 10px 30px rgba(17,17,17,0.04);
+}
+
+/* When FAQ should occupy the full page, center the left card and expand it */
+.faq-full {
+  justify-content: center;
+}
+
+.faq-full .help-left {
+  flex: none;
+  width: 100%;
+  max-width: 980px;
+}
+
+/* TITLE */
+.help-left h1 {
+  font-size: 32px;
+  font-weight: 900;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+/* SEARCH BAR */
+.search-bar input {
+  width: 80%;
+  padding: 13px 20px;
+  border: 1px solid #000;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.search-bar input:focus {
+  border-color: #111;
+  box-shadow: 0px 0px 8px rgba(0,0,0,0.1);
+}
+
+/* FAQ Section */
+.faq-section h3 {
+  font-weight: 900;
+  margin: 40px 0 20px;
+  font-size: 17px;
+}
+
+/* Ensure the right card (chat) is not too narrow */
+.help-right {
+  max-width: 520px;
+}
+
+@media(max-width: 900px){
+  .help-container{
+    flex-direction: column;
+    padding: 40px;
+  }
+}

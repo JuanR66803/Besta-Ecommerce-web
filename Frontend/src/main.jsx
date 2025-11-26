@@ -12,6 +12,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import PublicRoute from './components/PublicRoute';
 import AdminRoute from './components/AdminRoute';
 import Catalog from './pages/catalog/Catalog';
+import Contact from './pages/contact/Contact';
 import Principal from './pages/home/Principal';
 import Wishlist from './pages/wishlist/WishList'; 
 import { ToastContainer } from 'react-toastify'; 
@@ -28,9 +29,11 @@ createRoot(document.getElementById('root')).render(
           <Route path="/sign-up" element={<PublicRoute><SignUp /></PublicRoute>} />
           <Route path="/sign-in" element={<PublicRoute><SignIn /></PublicRoute>} />
           <Route path="/catalogo" element={<Catalog />} />
+          <Route path="/contacto" element={<Contact />} />
           {/*Rutas Protegidas */}
           <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
           <Route path="/wishlist" element={<ProtectedRoute><Wishlist /></ProtectedRoute>} />
+          {/* <Route path="/contacto" element={<ProtectedRoute><catalog /></ProtectedRoute>} /> */}
           {/*Rutas Admin */}
           <Route element={<AdminRoute />}>
             <Route path="/panel-admin" element={<PanelAdmin />} />
