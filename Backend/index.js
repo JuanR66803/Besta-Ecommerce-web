@@ -13,6 +13,7 @@ import userAddressRoutes from "./routes/userAddressRoutes.js"
 import wishListProductRoutes from "./routes/wishListProductRoutes.js" 
 import shoppingCarRoutes from './routes/shoppingCarRoutes.js';
 import reportRoutes from "./routes/reportRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ app.use(express.json());
 
 app.use("/api/category", categoryRoutes)//enrutamiento a las categorias
 app.use("/api/auth", authRoutes);//enrutamiento a la autenticacion
+app.use("/api/user", userRoutes);//enrutamiento a los usuarios
 app.use("/api/subCategory", subCategoryRoutes)//enrutamiento a las sub categorias
 app.use("/api/productDetails", productDetailsRoutes)//enrutamiento a los detalles de los productos
 app.use("/api/paymentMethod", paymentMethodRoutes)//enrutamiento a metodos de pago

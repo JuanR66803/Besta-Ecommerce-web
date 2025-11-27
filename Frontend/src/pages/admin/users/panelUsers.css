@@ -1,0 +1,171 @@
+/*==================================
+  VARIABLES (Generalmente en :root)
+====================================*/
+:root {
+  /* 🎨 Colores principales */
+  --color-bg: #ffffff;
+  --color-text: #333333;
+  --color-border: #cccccc;
+  --color-primary: #000000;
+  --color-primary-hover: #525252;
+  --color-danger: #d00000;
+  --color-success: #008000; /* Añadido para acciones de check */
+
+  /* 💫 Sombras y transiciones */
+  --transition: 0.3s ease;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.6);
+
+  /* Bordes y espaciado */
+  --radius: 10px;
+  --radius-small: 8px;
+  --padding-base: 10px;
+  --padding-section: 20px;
+
+  /* Tipografía */
+  --font-size-base: 1rem;
+  --font-size-title: 1.5rem;
+}
+
+/*==================================
+  PANEL DE USUARIOS (.panel__users)
+====================================*/
+.panel__users {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: var(--color-bg);
+}
+
+/* Header */
+.header__panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--padding-section);
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.text__header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+  margin-left: 30px;
+}
+
+.title__panel {
+  margin: 0;
+  font-size: var(--font-size-title);
+  color: var(--color-text);
+}
+
+/* Botones principales (Agregar Usuario) */
+.btn__ {
+  padding: var(--padding-base) 15px;
+  height: 50px;
+  background-color: var(--color-primary);
+  color: var(--color-bg);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background-color var(--transition);
+}
+
+.btn__add-product:hover {
+  background-color: var(--color-primary-hover);
+}
+
+/*==================================
+  CONTENIDO / FILTROS (.content__panel-users)
+====================================*/
+.content__panel-users {
+  padding: var(--padding-section);
+  display: flex;
+  justify-content: space-between;
+}
+
+.filters__users { /* Contenedor general de filtros */
+  width: 100%; /* Ocupar todo el ancho si no hay más elementos a la derecha */
+}
+
+.filters__options {
+  display: flex;
+  gap: 20px;
+}
+
+.search__users { /* Se cambió de search__product a search__users */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--color-border);
+  padding: 5px 16px;
+  border-radius: var(--radius);
+}
+
+.search__users input {
+  border: none;
+  outline: none;
+  font-size: var(--font-size-base);
+}
+
+/*==================================
+  TABLA DE USUARIOS (.table__users)
+====================================*/
+.table__users {
+  width: 100%;
+  overflow-x: auto;
+  padding: 0 var(--padding-section) var(--padding-section); /* Espaciado lateral e inferior */
+}
+
+.table__users table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table__users th,
+.table__users td {
+  padding: 12px 15px;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: var(--font-size-base);
+}
+
+.table__users th {
+  font-weight: 600;
+  background-color: #f7f7f7; /* Fondo ligero para cabecera */
+}
+
+/* Estilos para los botones de Acción (Editar/Eliminar) */
+.btn__toggle-view {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 5px;
+  margin: 0 5px;
+  transition: color var(--transition);
+}
+
+/* Color para el botón de Edición */
+.btn__toggle-view:first-of-type {
+  color: var(--color-primary); /* Negro estándar */
+}
+.btn__toggle-view:first-of-type:hover {
+  color: var(--color-primary-hover);
+}
+
+/* Color para el botón de Eliminación (FaTrash) */
+.btn__toggle-view:last-of-type {
+  color: var(--color-danger);
+}
+.btn__toggle-view:last-of-type:hover {
+  opacity: 0.8;
+}
+
+/* Si tuvieras un botón FaCheckCircle para habilitar, usarías esto: */
+/* .btn__toggle-view .fa-check-circle {
+  color: var(--color-success);
+} */
