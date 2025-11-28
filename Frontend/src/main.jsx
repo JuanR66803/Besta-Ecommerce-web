@@ -14,6 +14,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 import PublicRoute from './components/PublicRoute';
 import AdminRoute from './components/AdminRoute';
 import { ToastContainer } from 'react-toastify';
+import Catalog from './pages/catalog/Catalog';
+import Contact from './pages/contact/Contact';
 import Principal from './pages/home/Principal';
 import CheckoutPage from './pages/payment/CheckoutPage.jsx';
 
@@ -37,7 +39,20 @@ createRoot(document.getElementById('root')).render(
           <Route path='/home' element={<ProtectedRoute><Home /></ProtectedRoute>} />
           <Route path='/cart' element={<ProtectedRoute><Cart /></ProtectedRoute>} />
 
-          {/* Rutas de usario administrador */}
+          {/* Rutas de usuario administrador */}
+        
+          <Route path="/" element={<Principal />} />
+          {/*Rutas Publicas */}
+          <Route path="/sign-up" element={<PublicRoute><SignUp /></PublicRoute>} />
+          <Route path="/sign-in" element={<PublicRoute><SignIn /></PublicRoute>} />
+          <Route path="/catalogo" element={<Catalog />} />
+          <Route path="/contacto" element={<Contact />} />
+          {/*Rutas Protegidas */}
+          <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
+          <Route path="/wishlist" element={<ProtectedRoute><Wishlist /></ProtectedRoute>} />
+          {/* <Route path="/contacto" element={<ProtectedRoute><catalog /></ProtectedRoute>} /> */}
+          {/*Rutas Admin */}
+
           <Route element={<AdminRoute />}>
             <Route path='/panel-admin/' element={<PanelAdmin />} />
           </Route>

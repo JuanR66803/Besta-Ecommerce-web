@@ -13,7 +13,7 @@ const PublicRoute = ({ children }) => {
   // 2. Si, después de cargar, SÍ hay un usuario, lo redirigimos
   if (user) {
     // Lógica de redirección: si es admin, al panel; si no, a home.
-    const redirectTo = user.role_name === 'admin' ? '/panel-admin' : '/home';
+    const redirectTo = user.role_name === 'admin' ? '/panel-admin' : '/';
     return <Navigate to={redirectTo} replace />;
   }
 

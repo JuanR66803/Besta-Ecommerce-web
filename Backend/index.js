@@ -13,7 +13,9 @@ import userAddressRoutes from "./routes/userAddressRoutes.js"
 import wishListProductRoutes from "./routes/wishListProductRoutes.js" 
 import shoppingCarRoutes from './routes/shoppingCarRoutes.js';
 import faqRoutes from "./routes/faqRoutes.js";
-
+import reportRoutes from "./routes/reportRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import contactRoutes from "./routes/contactRoutes.js";
 
 dotenv.config();
 
@@ -37,6 +39,7 @@ app.use(express.json());
 
 app.use("/api/category", categoryRoutes)//enrutamiento a las categorias
 app.use("/api/auth", authRoutes);//enrutamiento a la autenticacion
+app.use("/api/user", userRoutes);//enrutamiento a los usuarios
 app.use("/api/subCategory", subCategoryRoutes)//enrutamiento a las sub categorias
 app.use("/api/productDetails", productDetailsRoutes)//enrutamiento a los detalles de los productos
 app.use("/api/paymentMethod", paymentMethodRoutes)//enrutamiento a metodos de pago
@@ -46,6 +49,8 @@ app.use("/api/userAddressItem", userAddressRoutes)//enrutamiento a las direccion
 app.use("/api/wishListProduct", wishListProductRoutes)//enrutamiento a los productos en la lista de deseados
 app.use("/api/shoppingCar", shoppingCarRoutes)//enrutamiento carrito de compras
 app.use('/api/product', productDetailsRoutes);
+app.use("/api/reports", reportRoutes);//reportes agregados para panel admin
+app.use("/api/contact", contactRoutes);
 
 app.get("/", (req, res) => {
     res.json({ message: "backend funcionando correctamente" });

@@ -1,0 +1,35 @@
+.message-input {
+    display: flex;
+    gap: 10px;
+    margin-top: auto; /* Asegura que la entrada de mensaje esté al final */
+}
+
+.message-input__input {
+    flex: 1;
+    padding: 14px 18px;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    font-size: 1em;
+}
+
+.message-input__input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+}
+
+.message-input__button {
+    padding: 14px 30px;
+    background-color: #1a1a1a; 
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.message-input__button:hover {
+    background-color: #333; 
+    transform: translateY(-2px);
+}

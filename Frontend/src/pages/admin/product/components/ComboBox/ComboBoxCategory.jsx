@@ -1,4 +1,4 @@
-import { useCategories } from "../../../hooks/useCategories.js";
+import { useCategories } from "../../hooks/useCategories.js";
 const ComboBoxCategory = ({ name, value, onChange, apiUrlBase }) => {
     const { categories, loadingCategories } = useCategories(apiUrlBase);
 

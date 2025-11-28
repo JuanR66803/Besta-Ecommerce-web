@@ -1,0 +1,78 @@
+.chat-card {
+  border: 1px solid #000;
+  border-radius: 8px;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  border-bottom: 1px solid #000;
+  font-size: 14px;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  background-color: #19d600;
+  border-radius: 100%;
+  display: inline-block;
+}
+
+.chat-messages {
+  padding: 15px;
+  flex: 1;
+  overflow-y: auto;
+  font-size: 14px;
+}
+
+.chat-message {
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  max-width: 75%;
+}
+
+.chat-message--agent {
+  background-color: #f3f3f3;
+  align-self: flex-start;
+}
+
+.chat-message--user {
+  background-color: #111;
+  color: #fff;
+  align-self: flex-end;
+}
+
+.chat-input-box {
+  display: flex;
+  border-top: 1px solid #000;
+}
+
+.chat-input-box input {
+  flex: 1;
+  border: none;
+  padding: 12px;
+  outline: none;
+}
+
+.chat-input-box button {
+  border: none;
+  background: #000;
+  color: #fff;
+  padding: 0 20px;
+  font-size: 12px;
+  cursor: pointer;
+  letter-spacing: .5px;
+  transition: 0.2s;
+}
+
+.chat-input-box button:hover {
+  background: #222;
+}
