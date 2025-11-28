@@ -73,6 +73,13 @@ async createMercadoPagoPreference(req, res) {
         const preference = new Preference(mpClient);
         const FRONTEND_BASE = process.env.FRONTEND_ORIGIN;
 
+        // 🛑 CONSOLE.LOGS DE DIAGNÓSTICO AÑADIDOS 🛑
+        console.log("-----------------------------------------");
+        console.log(`Token MP: ${process.env.MP_ACCESS_TOKEN ? 'DEFINIDO' : '⚠️ NO DEFINIDO'}`);
+        console.log(`FRONTEND_BASE: ${process.env.FRONTEND_ORIGIN}`);
+        console.log("Datos de Items Recibidos:", items);
+        console.log("-----------------------------------------");
+        
         const response = await preference.create({
             body: {
                 items: items.map(i => ({
