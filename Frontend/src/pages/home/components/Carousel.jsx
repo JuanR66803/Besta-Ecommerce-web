@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import "./carousel.css";
+import "./Carousel.css";
 
 const Carousel = ({ title = "Galería", images = [] }) => {
   const trackRef = useRef(null);

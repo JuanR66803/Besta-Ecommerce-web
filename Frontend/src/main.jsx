@@ -14,11 +14,10 @@ import ProtectedRoute from './components/ProtectedRoute';
 import PublicRoute from './components/PublicRoute';
 import AdminRoute from './components/AdminRoute';
 import { ToastContainer } from 'react-toastify';
-import Catalog from './pages/catalog/Catalog';
 import Contact from './pages/contact/Contact';
 import Principal from './pages/home/Principal';
 import CheckoutPage from './pages/payment/CheckoutPage.jsx';
-
+import  Wishlist from './pages/wishlist/WishList.jsx';
 import 'react-toastify/dist/ReactToastify.css';
 
 createRoot(document.getElementById('root')).render(
