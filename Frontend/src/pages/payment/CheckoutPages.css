@@ -1,0 +1,165 @@
+:root {
+  --color-bg: #ffffff;
+  --color-text: #333333;
+  --color-text-button: #ffffff;
+
+  --color-border: #e2e2e2;
+
+  --color-primary: #000000;
+  --color-primary-hover: #525252;
+  --color-danger: #d00000;
+
+  --transition: 0.3s ease;
+  --shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.25);
+
+  --radius: 12px;
+  --radius-small: 8px;
+
+  --padding-base: 12px;
+  --padding-section: 24px;
+
+  --font-size-base: 1rem;
+  --font-size-title: 1.8rem;
+
+  --font-family: "Poppins", Arial, sans-serif;
+}
+
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  background: var(--color-bg);
+  font-family: var(--font-family);
+  color: var(--color-text);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Layout General */
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.layout-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: var(--padding-section);
+  gap: 1.2rem;
+  text-align: center;
+}
+
+.layout-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background-color: #f4f4f4;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+/* Títulos */
+.title {
+  font-size: var(--font-size-title);
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+  letter-spacing: 0.5px;
+}
+
+/* Botones */
+.button {
+  padding: 12px 22px;
+  background: var(--color-primary);
+  color: var(--color-text-button);
+  border: none;
+  border-radius: var(--radius-small);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: var(--transition);
+  box-shadow: var(--shadow);
+}
+
+.button:hover {
+  background: var(--color-primary-hover);
+  box-shadow: var(--shadow-hover);
+}
+
+.button-danger {
+  background: var(--color-danger);
+}
+
+.button-danger:hover {
+  opacity: 0.9;
+}
+
+/* Tarjetas */
+.card {
+  width: 100%;
+  max-width: 500px;
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: var(--padding-section);
+  text-align: left;
+  transition: var(--transition);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+/* Inputs y Formularios */
+.input {
+  width: 100%;
+  padding: 12px;
+  border-radius: var(--radius-small);
+  border: 1px solid var(--color-border);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  transition: var(--transition);
+}
+
+.input:focus {
+  border-color: var(--color-primary);
+  outline: none;
+  box-shadow: 0 0 6px rgba(0,0,0,0.15);
+}
+
+/* Secciones */
+.section {
+  width: 100%;
+  max-width: 900px;
+  padding: var(--padding-section);
+  margin: 2rem auto;
+}
+
+.center {
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .title {
+    font-size: 1.4rem;
+  }
+
+  .card {
+    padding: 18px;
+  }
+
+  .button {
+    width: 100%;
+  }
+}

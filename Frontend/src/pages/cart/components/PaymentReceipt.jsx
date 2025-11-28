@@ -1,12 +1,26 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 import './PaymentReceipt.css';
 import PaymentProductItem from './PaymentProductItem.jsx';
-const PaymentReceipt = ({ totalArticulos, totalPagar, onClose }) => {
+
+const PaymentReceipt = ({ totalArticulos, totalPagar, productosSeleccionados, onClose }) => {
+
+  const navigate = useNavigate();
+
   // Cierra el modal si se hace clic fuera del contenido
   const handleBackgroundClick = (e) => {
     if (e.target.classList.contains('payment-modal')) {
       onClose();
     }
+  };
+
+  const handlePay = () => {
+    navigate("/checkout/payment-method", {
+      state: {
+        productosSeleccionados,
+        total: totalPagar
+      }
+    });
   };
 
   return (
@@ -15,17 +29,16 @@ const PaymentReceipt = ({ totalArticulos, totalPagar, onClose }) => {
         <button className="close-btn" onClick={onClose}>✕</button>
 
         <h2 className="payment-title">Comprobante de pago</h2>
+
         <div className='payment-content'>
-                    <div className="payment-info">
-          <div><strong>Total de artículos:</strong> {totalArticulos ?? 0}</div>
-          <div><strong>Total a pagar:</strong> ${totalPagar ?? 0}</div>
-          <div><strong>Fecha:</strong> {new Date().toLocaleDateString()}</div>
-
+          <div className="payment-info">
+            <div><strong>Total de artículos:</strong> {totalArticulos ?? 0}</div>
+            <div><strong>Total a pagar:</strong> ${totalPagar ?? 0}</div>
+            <div><strong>Fecha:</strong> {new Date().toLocaleDateString()}</div>
+          </div>
         </div>
-        </div>
 
-          
-        <button className="payment-button">Pagar</button>
+        <button className="payment-button" onClick={handlePay}>Pagar</button>
       </div>
     </div>
   );

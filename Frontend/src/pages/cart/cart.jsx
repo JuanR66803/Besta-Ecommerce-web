@@ -19,6 +19,7 @@ const Cart = () => {
       const filtrados = prev.filter(
         (p) => p && p.id_shopping_cart_item !== producto.id_shopping_cart_item
       );
+      
 
       if (seleccionado) {
         return [...filtrados, producto];
@@ -110,7 +111,7 @@ const Cart = () => {
         <PanelCuponesCarrito
           total={total}
           cantidadTotal={cantidadTotal}
-
+          productosSeleccionados={productosSeleccionados}
         />
       </div>
     </div>
