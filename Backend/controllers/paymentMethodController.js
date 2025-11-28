@@ -1,10 +1,10 @@
-import mercadopago from "mercadopago";
+import { MercadoPagoConfig, Preference } from "mercadopago";
 import { v4 as uuidv4 } from "uuid";
 import { PaymentMethodService } from "../services/paymentMethodServices.js";
 
-// Configurar Mercado Pago (MODO TEST)
-mercadopago.configure({
-    access_token: process.env.MP_ACCESS_TOKEN  // tu token TEST
+// Crear cliente de Mercado Pago (MODO TEST)
+const mpClient = new MercadoPagoConfig({
+    accessToken: process.env.MP_ACCESS_TOKEN
 });
 
 export class PaymentMethodController {
@@ -13,14 +13,14 @@ export class PaymentMethodController {
     }
 
     // ------------------------------
-    // CRUD de Métodos de Pago
+    // CRUD PAYMENT METHODS
     // ------------------------------
 
     async createPaymentMethod(req, res) {
         try {
             const newPaymentMethod = await this.paymentMethodService.createPaymentMethod(req.body);
             res.json(newPaymentMethod);
-        } catch (error) {
+        } catch {
             res.status(500).json({ message: "Error creando método de pago" });
         }
     }
@@ -29,7 +29,7 @@ export class PaymentMethodController {
         try {
             const updated = await this.paymentMethodService.updatePaymentMethod(req.body);
             res.json(updated);
-        } catch (error) {
+        } catch {
             res.status(500).json({ message: "Error actualizando método de pago" });
         }
     }
@@ -38,7 +38,7 @@ export class PaymentMethodController {
         try {
             const deleted = await this.paymentMethodService.deletePaymentMethodById(req.body.id);
             res.json(deleted);
-        } catch (error) {
+        } catch {
             res.status(500).json({ message: "Error eliminando método de pago" });
         }
     }
@@ -47,7 +47,7 @@ export class PaymentMethodController {
         try {
             const list = await this.paymentMethodService.getAllPaymentMethods();
             res.json(list);
-        } catch (error) {
+        } catch {
             res.status(500).json({ message: "Error obteniendo métodos de pago" });
         }
     }
@@ -56,38 +56,40 @@ export class PaymentMethodController {
         try {
             const method = await this.paymentMethodService.getPaymentMethodById(req.query.id);
             res.json(method);
-        } catch (error) {
+        } catch {
             res.status(500).json({ message: "Error obteniendo método de pago" });
         }
     }
 
     // ------------------------------
-    // MÉTODOS DE PAGO REALES
+    // MÉTODOS DE PAGO
     // ------------------------------
 
-    // 🔵 MERCADO PAGO (MODO TEST)
+    // 🔵 MERCADO PAGO (SDK NUEVA)
     async createMercadoPagoPreference(req, res) {
         try {
-            const { items, total } = req.body;
+            const { items } = req.body;
 
-            const preference = {
-                items: items.map(i => ({
-                    title: i.title,
-                    quantity: i.quantity,
-                    currency_id: "COP",
-                    unit_price: Number(i.price)
-                })),
-                back_urls: {
-                    success: "http://localhost:5173/checkout/success",
-                    failure: "http://localhost:5173/checkout/failure",
-                    pending: "http://localhost:5173/checkout/pending"
-                },
-                auto_return: "approved"
-            };
+            const preference = new Preference(mpClient);
 
-            const response = await mercadopago.preferences.create(preference);
+            const response = await preference.create({
+                body: {
+                    items: items.map(i => ({
+                        title: i.title,
+                        quantity: i.quantity,
+                        currency_id: "COP",
+                        unit_price: Number(i.price)
+                    })),
+                    back_urls: {
+                        success: "http://localhost:5173/checkout/success",
+                        failure: "http://localhost:5173/checkout/failure",
+                        pending: "http://localhost:5173/checkout/pending"
+                    },
+                    auto_return: "approved"
+                }
+            });
 
-            res.json({ init_point: response.body.init_point });
+            res.json({ init_point: response.init_point });
 
         } catch (error) {
             console.error("MercadoPago error:", error);
@@ -100,21 +102,18 @@ export class PaymentMethodController {
         try {
             const { total } = req.body;
 
-            // Generar código simulado
             const paymentCode = "EFY-" + uuidv4().split("-")[0].toUpperCase();
 
-            const simulatedPayment = {
+            res.json({
                 code: paymentCode,
                 total,
                 status: "pendiente",
-                message: "Presenta este código en un punto Efecty para realizar el pago (simulado)"
-            };
-
-            res.json(simulatedPayment);
+                message: "Presenta este código en Efecty para pagar (simulado)"
+            });
 
         } catch (error) {
             console.error("Efecty error:", error);
-            res.status(500).json({ message: "Error generando pago Efecty simulado" });
+            res.status(500).json({ message: "Error generando pago Efecty" });
         }
     }
 }
