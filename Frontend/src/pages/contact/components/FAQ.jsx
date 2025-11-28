@@ -6,25 +6,19 @@ const DATA = [
     title: "Envíos y Seguimiento",
     questions: [
       { q: "¿Cuánto tarda el envío?", a: "Normalmente 3-7 días hábiles según la región." },
-      { q: "¿Puedo rastrear mi pedido?", a: "Sí, recibes un número de rastreo cuando se despacha." }
-    ]
-  },
-  {
-    title: "Devoluciones y Cambios",
-    questions: [
-      { q: "¿Cómo devuelvo un producto?", a: "Solicita la devolución desde 'Mis pedidos' y sigue los pasos." }
+      { q: "¿Mi pedido tiene orden de compra?", a: "Sí, recibes un número de pedido cuando se despacha." }
     ]
   },
   {
     title: "Pagos y Facturación",
     questions: [
-      { q: "¿Qué medios de pago aceptan?", a: "Tarjetas, PSE y pago contra entrega (según ciudad)." }
+      { q: "¿Qué medios de pago aceptan?", a: "Tarjetas o pagos mediante PSE." }
     ]
   },
   {
     title: "Cuenta y Pedidos",
     questions: [
-      { q: "¿Dónde veo mis pedidos?", a: "En tu perfil dentro de 'Mis Compras'." }
+      { q: "¿Como puedo comprar?", a: "Dirigete al catalogo selecciona un producto y añadelo al carrito." }
     ]
   }
 ];

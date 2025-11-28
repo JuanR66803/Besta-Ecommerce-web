@@ -64,6 +64,74 @@
 /* Ensure the right card (chat) is not too narrow */
 .help-right {
   max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  max-width: 400px;
+  background: #f8f9fa;
+  padding: 32px 28px;
+  border-radius: 14px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.07);
+}
+
+.contact-form input,
+.contact-form textarea {
+  font-size: 16px;
+  padding: 13px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #fff;
+  resize: none;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0,123,255,0.13);
+}
+
+.contact-form button {
+  padding: 14px 0;
+  background: linear-gradient(90deg,#1a3047 0%,#1f5996 100%);
+  color: #fff;
+  font-size: 17px;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  box-shadow: 0 2px 8px rgba(0,123,255,0.08);
+}
+
+.contact-form button:disabled {
+  background: #b0b0b0;
+  cursor: not-allowed;
+}
+
+.contact-form button:hover:not(:disabled) {
+  background: linear-gradient(90deg,#0056b3 0%,#007bff 100%);
+  transform: translateY(-2px);
+}
+
+.success-msg {
+  margin-top: 10px;
+  color: #2e7d32;
+  background: #eafaf1;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 15px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(46,125,50,0.07);
 }
 
 @media(max-width: 900px){
