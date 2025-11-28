@@ -15,7 +15,8 @@ const handleCheckoutOnline = async () => {
       product_price: Number(p.product_price)
     }));
 
-    const res = await fetch("http://localhost:3000/api/paymentMethod/create_preference", {
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+    const res = await  await fetch(`${API_BASE_URL}/api/paymentMethod/create_preference`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ items })
