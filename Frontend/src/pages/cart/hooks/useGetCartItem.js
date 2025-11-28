@@ -62,7 +62,7 @@ export const useGetCartItems = () => {
       setLoading(false);
     }
   };
-  const updateCartItemQuantity = async (id_cart_item, quantity) => {
+  const updateCartItemQuantity = async (id_shopping_cart_item, quantity) => {
     if (!user || !user.id_users) {
       setError('Debes iniciar sesión para modificar el carrito');
       return false;
@@ -70,10 +70,10 @@ export const useGetCartItems = () => {
 
     try {
       setLoading(true);
-      const response = await fetch(`${baseURL}/api/shoppingCar/updateItemQuantity`, {
+      const response = await fetch(`${baseURL}/api/shoppingCar/updateQuantity`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id_cart_item, quantity, id_user: user.id_users }),
+        body: JSON.stringify({ id_shopping_cart_item, quantity, id_user: user.id_users }),
       });
 
       const data = await response.json();
@@ -88,6 +88,5 @@ export const useGetCartItems = () => {
     }
   };
 
-  return { deleteCartItem,
-    updateCartItemQuantity,getCartItems, loading, error };
+  return { deleteCartItem,updateCartItemQuantity,getCartItems, loading, error };
 };

@@ -1,12 +1,42 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./ProductoCarrito.css";
 import { FaCaretDown, FaBox, FaTicketAlt } from "react-icons/fa";
-import skyblue from "../../../../public/guayos-skyblue.png";
 import Tallas from "./Tallas.jsx";
 import Cupones from "./Cupones.jsx";
-const ProductoCarrito = ({ producto, onProductoSeleccionado, deleteCartItem, setCartData }) => {
+import { toast } from "react-hot-toast";
+
+const ProductoCarrito = ({
+  producto,
+  onProductoSeleccionado,
+  deleteCartItem,
+  setCartData,
+  updateCartItemQuantity,
+  actualizarItemLocal
+}) => {
   const [seleccionado, setSeleccionado] = useState(false);
   const [cantidad, setCantidad] = useState(producto.quantity || 1);
+
+ const handleActualizar = async () => {
+  if (!updateCartItemQuantity || !actualizarItemLocal) return;
+
+  const id = producto.id_shopping_cart_item;
+  const cantidadAnterior = producto.quantity ?? 1; // cantidad actual del backend
+  const nuevaCantidad = cantidad; // cantidad elegida por el usuario
+
+  // 🔹 1. Actualización optimista (cambia localmente de inmediato)
+  actualizarItemLocal(id, nuevaCantidad);
+
+  // 🔹 2. Llamada real a la API
+  const success = await updateCartItemQuantity(id, nuevaCantidad);
+
+  if (success) {
+    toast.success("Cantidad actualizada correctamente");
+  } else {
+    // 🔹 3. Revertir si falló
+    actualizarItemLocal(id, cantidadAnterior);
+    toast.error("No se pudo actualizar la cantidad. Se revirtió el cambio");
+  }
+};
 
   const handleEliminar = async () => {
     try {
@@ -20,8 +50,11 @@ const ProductoCarrito = ({ producto, onProductoSeleccionado, deleteCartItem, set
 
       if (exito) {
         // 🔄 Si se eliminó correctamente, puedes actualizar la vista
-        setCartData(prev =>
-          prev.filter(item => item.id_shopping_cart_item !== producto.id_shopping_cart_item)
+        setCartData((prev) =>
+          prev.filter(
+            (item) =>
+              item.id_shopping_cart_item !== producto.id_shopping_cart_item
+          )
         );
       } else {
         console.error("No se pudo eliminar el producto");
@@ -156,7 +189,7 @@ const ProductoCarrito = ({ producto, onProductoSeleccionado, deleteCartItem, set
           <button
             onClick={decrementar}
             className="boton-contador"
-            disabled={cantidad <= producto.quantity}
+            disabled={cantidad === 1}
           >
             −
           </button>
@@ -180,7 +213,9 @@ const ProductoCarrito = ({ producto, onProductoSeleccionado, deleteCartItem, set
           <button className="boton-accion-eliminar" onClick={handleEliminar}>
             Eliminar
           </button>
-          <button className="boton-accion-buscar">Actualizar</button>
+          <button className="boton-accion-buscar" onClick={handleActualizar}>
+            Actualizar
+          </button>
         </div>
       </div>
 

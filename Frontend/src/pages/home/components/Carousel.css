@@ -1,0 +1,137 @@
+/* carousel.css (sin px fijos, pensado para no romper layout) */
+
+* { box-sizing: border-box; }
+
+/* contenedor general */
+.carousel-root {
+  width: 100%;              /* ocupa la mayor parte pero deja margen lateral */
+  margin: 1.25rem auto;
+  background: #fff;
+  border-radius: 0.8rem;
+  padding: 2% 1.4%;
+  box-shadow: 0 0.6rem 1.8rem rgba(0,0,0,0.06);
+  overflow: hidden;        /* evita que cualquier hijo provoque scroll horizontal */
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* TOP: título a la izquierda, flechas a la derecha */
+.carousel-top{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2%;
+  margin-bottom: 0.8rem;
+}
+
+.carousel-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #111;
+}
+
+/* flechas */
+.carousel-arrows { display:flex; gap: 0.8rem; }
+
+.arrow-btn {
+  background: #f2f2f2;
+  border: 0.15rem solid #eee;
+  border-radius: 0.5rem;
+  padding: 0.45% 0.9%;
+  cursor: pointer;
+  font-size: 2.05rem;
+  line-height: 1;
+  color: #222;
+  transition: transform .12s ease, background .12s ease;
+}
+.arrow-btn:hover { transform: translateY(-2px); background: #e8e8e8; }
+
+/* BOTTOM: track + slider */
+.carousel-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+/* Wrapper: controla overflow visual */
+.carousel-track-wrapper {
+  width: 100%;
+  overflow: hidden;       /* las imágenes que queden fuera se ocultan */
+  border-radius: 0.6rem;
+}
+
+/* track: scroll horizontal, pero contenido no empuja layout */
+.carousel-track {
+  display: flex;
+  gap: 2%;
+  padding: 0.6% 0;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  /* evita que el contenido fuerce una anchura mayor al contenedor */
+  min-width: 0;
+}
+
+/* scrollbar discreto */
+.carousel-track::-webkit-scrollbar { height: 0.6rem; }
+.carousel-track::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.12);
+  border-radius: 1rem;
+}
+
+/* cada item ahora con anchura relativa y aspecto fijo.
+   Ajusta el porcentaje según cuantas miniaturas quieras ver. */
+.carousel-item {
+  flex: 0 0 22%;          /* ocupa ~22% del ancho del track (4 items aprox) */
+  height: auto;
+  aspect-ratio: 16 / 10;  /* altura automática según la anchura; mantiene proporción */
+  border-radius: 0.6rem;
+  overflow: hidden;       /* la img no puede sobresalir del item */
+  background: #f7f7f7;
+  box-shadow: 0 0.25rem 0.6rem rgba(0,0,0,0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* imagen ocupa exactamente el item y se recorta si es necesario */
+.carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;      /* cubre y recorta, no distorsiona */
+  display: block;
+}
+
+/* SLIDER: usa unidades relativas para el thumb */
+.carousel-slider {
+  width: 100%;
+  appearance: none;
+  height: 0.5rem;
+  border-radius: 0.5rem;
+  background: linear-gradient(90deg,#d0d0d0,#cfcfcf);
+  outline: none;
+  cursor: pointer;
+}
+
+/* thumb */
+.carousel-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  background: #333;
+  box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.2);
+}
+
+/* responsive: en pantallas medias mostrar más o menos items */
+@media (max-width: 1100px) {
+  .carousel-item { flex: 0 0 28%; }  /* ~3 items */
+}
+@media (max-width: 800px) {
+  .carousel-item { flex: 0 0 40%; }  /* ~2 items */
+}
+@media (max-width: 480px) {
+  .carousel-item { flex: 0 0 60%; }  /* ~1-2 items según pantalla */
+  .carousel-top { gap: 3%; }
+  .carousel-title { font-size: 0.98rem; }
+  .arrow-btn { padding: 0.6% 1%; font-size: 1rem; }
+}

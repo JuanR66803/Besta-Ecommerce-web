@@ -1,0 +1,142 @@
+/* GENERAL LAYOUT */
+.help-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+  padding: 40px 80px;
+  font-family: 'Inter', Arial, sans-serif;
+}
+
+.help-left, .help-right {
+  flex: 1;
+}
+
+/* Make the left and right areas look like cards */
+.help-left, .help-right {
+  background: #fff;
+  border-radius: 12px;
+  padding: 28px;
+  box-shadow: 0 10px 30px rgba(17,17,17,0.04);
+}
+
+/* When FAQ should occupy the full page, center the left card and expand it */
+.faq-full {
+  justify-content: center;
+}
+
+.faq-full .help-left {
+  flex: none;
+  width: 100%;
+  max-width: 980px;
+}
+
+/* TITLE */
+.help-left h1 {
+  font-size: 32px;
+  font-weight: 900;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+/* SEARCH BAR */
+.search-bar input {
+  width: 80%;
+  padding: 13px 20px;
+  border: 1px solid #000;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.search-bar input:focus {
+  border-color: #111;
+  box-shadow: 0px 0px 8px rgba(0,0,0,0.1);
+}
+
+/* FAQ Section */
+.faq-section h3 {
+  font-weight: 900;
+  margin: 40px 0 20px;
+  font-size: 17px;
+}
+
+/* Ensure the right card (chat) is not too narrow */
+.help-right {
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  max-width: 400px;
+  background: #f8f9fa;
+  padding: 32px 28px;
+  border-radius: 14px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.07);
+}
+
+.contact-form input,
+.contact-form textarea {
+  font-size: 16px;
+  padding: 13px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #fff;
+  resize: none;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0,123,255,0.13);
+}
+
+.contact-form button {
+  padding: 14px 0;
+  background: linear-gradient(90deg,#1a3047 0%,#1f5996 100%);
+  color: #fff;
+  font-size: 17px;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  box-shadow: 0 2px 8px rgba(0,123,255,0.08);
+}
+
+.contact-form button:disabled {
+  background: #b0b0b0;
+  cursor: not-allowed;
+}
+
+.contact-form button:hover:not(:disabled) {
+  background: linear-gradient(90deg,#0056b3 0%,#007bff 100%);
+  transform: translateY(-2px);
+}
+
+.success-msg {
+  margin-top: 10px;
+  color: #2e7d32;
+  background: #eafaf1;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 15px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(46,125,50,0.07);
+}
+
+@media(max-width: 900px){
+  .help-container{
+    flex-direction: column;
+    padding: 40px;
+  }
+}

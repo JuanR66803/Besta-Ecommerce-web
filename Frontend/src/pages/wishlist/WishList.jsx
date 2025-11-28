@@ -1,27 +1,33 @@
-import React from 'react';
-import './WishList.css';
-import { useWishlist } from './hooks/useWishList';
-import { FaHeart, FaShoppingCart, FaTrash } from 'react-icons/fa';
-import { useCartItem } from '../catalog/hooks/useAddCartItem';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from "react";
+import "./WishList.css";
+import { useWishlist } from "./hooks/useWishList";
+import { FaHeart, FaShoppingCart, FaTrash } from "react-icons/fa";
+import { useCartItem } from "../catalog/hooks/useAddCartItem";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
-const formatPrice = price => {
-  if (typeof price !== 'number') {
+const formatPrice = (price) => {
+  if (typeof price !== "number") {
     price = Number(price) || 0;
   }
-  return new Intl.NumberFormat('es-CO', {
-    style: 'currency',
-    currency: 'COP',
+  return new Intl.NumberFormat("es-CO", {
+    style: "currency",
+    currency: "COP",
     maximumFractionDigits: 0,
   }).format(price);
 };
 
-const Wishlist = () => {
-  const { wishlist, loading, wishlistCount, removeFromWishlist } = useWishlist();
+const Wishlist = ({ isOpen }) => {
+  const { wishlist, loading, wishlistCount, removeFromWishlist, refetch } =
+    useWishlist();
   const { addToCart } = useCartItem();
   const navigate = useNavigate();
-
+  // Cada vez que el sidebar se abre, recarga la wishlist
+  useEffect(() => {
+    if (isOpen) {
+      refetch();
+    }
+  }, [isOpen, refetch]);
   const handleRemoveFromWishlist = async (productId, productName) => {
     const success = await removeFromWishlist(productId);
     if (success) {
@@ -34,7 +40,7 @@ const Wishlist = () => {
     if (success) {
       toast.success(`"${product.name}" añadido al carrito!`);
     } else {
-      toast.error('No se pudo añadir al carrito');
+      toast.error("No se pudo añadir al carrito");
     }
   };
 
@@ -66,8 +72,10 @@ const Wishlist = () => {
           </div>
           <p className="wishlist-count">
             {wishlistCount === 0
-              ? 'No tienes productos favoritos'
-              : `${wishlistCount} ${wishlistCount === 1 ? 'producto' : 'productos'}`}
+              ? "No tienes productos favoritos"
+              : `${wishlistCount} ${
+                  wishlistCount === 1 ? "producto" : "productos"
+                }`}
           </p>
         </div>
 
@@ -76,24 +84,27 @@ const Wishlist = () => {
           <div className="empty-wishlist">
             <FaHeart className="empty-icon" />
             <h2>Tu lista de deseos está vacía</h2>
-            <p>Explora nuestro catálogo y guarda tus productos favoritos aquí</p>
+            <p>
+              Explora nuestro catálogo y guarda tus productos favoritos aquí
+            </p>
             <button
               className="btn-explore"
-              onClick={() => navigate('/catalogo')}
+              onClick={() => navigate("/catalogo")}
             >
               Explorar Catálogo
             </button>
           </div>
         ) : (
           <div className="wishlist-grid">
-            {wishlist.map(product => (
+            {wishlist.map((product) => (
               <div key={product.id} className="wishlist-card">
                 {/* Imagen del producto */}
                 <div
                   className="wishlist-card-image"
                   onClick={() => handleProductClick(product)}
                 >
-                  <img src={product.url_image} alt={product.name} />
+                  <img src={product.images?.[0] || '/Frontend/public/logo_fiera.png'} alt={product.name} />
+                  {console.log(product.images)}
                   <button
                     className="btn-remove-wishlist"
                     onClick={(e) => {
@@ -135,7 +146,9 @@ const Wishlist = () => {
                     disabled={product.total_stock === 0}
                   >
                     <FaShoppingCart />
-                    {product.total_stock > 0 ? 'Añadir al carrito' : 'No disponible'}
+                    {product.total_stock > 0
+                      ? "Añadir al carrito"
+                      : "No disponible"}
                   </button>
                 </div>
               </div>

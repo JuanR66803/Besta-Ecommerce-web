@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useAuth } from '../../../context/AuthContext';
-import { toast } from 'react-toastify';
+import { useState, useEffect, useCallback } from "react";
+import { useAuth } from "../../../context/AuthContext";
+import { toast } from "react-toastify";
 
 /**
  * Hook personalizado para gestionar la lista de deseos
@@ -30,7 +30,9 @@ export const useWishlist = () => {
       setLoading(true);
       setError(null);
 
-      const response = await fetch(`${baseURL}/api/wishListProduct/${user.id_users}`);
+      const response = await fetch(
+        `${baseURL}/api/wishListProduct/${user.id_users}`
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}`);
@@ -40,12 +42,12 @@ export const useWishlist = () => {
 
       if (data.success) {
         // Formatear productos con la misma estructura del catálogo
-        const formattedWishlist = data.data.map(item => ({
+        const formattedWishlist = data.data.map((item) => ({
           id: item.id_product_details,
           wishlistId: item.id_wish_list_product,
           name: item.product_name,
           description: item.description,
-          url_image: item.url_image || '/placeholder-product.png',
+          images: item.images || [], // <-- aquí
           price: Number(item.product_price) || 0,
           sizes: item.product_size ? [item.product_size] : [],
           colors: [],
@@ -63,10 +65,10 @@ export const useWishlist = () => {
         setWishlist(formattedWishlist);
         setWishlistCount(formattedWishlist.length);
       } else {
-        throw new Error(data.message || 'Error al cargar la wishlist');
+        throw new Error(data.message || "Error al cargar la wishlist");
       }
     } catch (err) {
-      console.error('[useWishlist] Error:', err);
+      console.error("[useWishlist] Error:", err);
       setError(err.message);
       // No mostrar toast aquí para evitar notificaciones al cargar
     } finally {
@@ -79,14 +81,14 @@ export const useWishlist = () => {
    */
   const addToWishlist = async (productId) => {
     if (!user?.id_users) {
-      toast.error('Debes iniciar sesión para agregar a favoritos');
+      toast.error("Debes iniciar sesión para agregar a favoritos");
       return false;
     }
 
     try {
       const response = await fetch(`${baseURL}/api/wishListProduct/add`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           id_users: user.id_users,
           id_product_details: productId,
@@ -96,14 +98,14 @@ export const useWishlist = () => {
       const data = await response.json();
 
       if (!response.ok || !data.success) {
-        throw new Error(data.message || 'Error al agregar a favoritos');
+        throw new Error(data.message || "Error al agregar a favoritos");
       }
 
       // Recargar la wishlist
       await fetchWishlist();
       return true;
     } catch (err) {
-      console.error('[useWishlist] Error al agregar:', err);
+      console.error("[useWishlist] Error al agregar:", err);
       toast.error(err.message);
       return false;
     }
@@ -119,8 +121,8 @@ export const useWishlist = () => {
 
     try {
       const response = await fetch(`${baseURL}/api/wishListProduct/remove`, {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           id_users: user.id_users,
           id_product_details: productId,
@@ -130,14 +132,14 @@ export const useWishlist = () => {
       const data = await response.json();
 
       if (!response.ok || !data.success) {
-        throw new Error(data.message || 'Error al eliminar de favoritos');
+        throw new Error(data.message || "Error al eliminar de favoritos");
       }
 
       // Recargar la wishlist
       await fetchWishlist();
       return true;
     } catch (err) {
-      console.error('[useWishlist] Error al eliminar:', err);
+      console.error("[useWishlist] Error al eliminar:", err);
       toast.error(err.message);
       return false;
     }
@@ -147,7 +149,7 @@ export const useWishlist = () => {
    * Verificar si un producto está en la wishlist (LOCAL)
    */
   const isInWishlist = (productId) => {
-    return wishlist.some(item => item.id === productId);
+    return wishlist.some((item) => item.id === productId);
   };
 
   /**

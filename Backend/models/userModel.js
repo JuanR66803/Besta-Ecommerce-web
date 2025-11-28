@@ -15,5 +15,15 @@ export class UserModel{
         console.log("resultado de la query: ",result,"email recibido: ",email)
         return result.rows[0];
     }
+    async getAllUsers(){
+        const query = `
+        SELECT * FROM users 
+            INNER JOIN role ON users.id_role = role.id_role
+            INNER JOIN gender ON users.id_gender = gender.id_gender
+            INNER JOIN user_address ON users.id_user_address = user_address.id_user_address`;
+        const result = await pool.query(query);
+        return result.rows;
+    }
+    
     
 }
