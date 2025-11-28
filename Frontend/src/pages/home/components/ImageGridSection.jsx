@@ -6,25 +6,25 @@ const ImageGridSection = () => {
   // 🔹 Datos quemados (luego puedes reemplazar por props o datos del backend)
   const banners = [
     {
-      imageUrl: "/public/guayos.png",
+      imageUrl: "/guayos.png",
       line1: "Colección Invierno",
       line2: "Explora lo nuevo",
       buttonText: "Comprar"
     },
     {
-      imageUrl: "/public/balon.png",
+      imageUrl: "/balon.png",
       line1: "Estilo urbano",
       line2: "Comodidad y diseño",
       buttonText: "Ver más"
     },
     {
-      imageUrl: "/public/accesorios.jpg",
+      imageUrl: "/accesorios.jpg",
       line1: "Deportivos premium",
       line2: "Máximo rendimiento",
       buttonText: "Descubrir"
     },
     {
-      imageUrl: "/public/camisa.jpg",
+      imageUrl: "/camisa.jpg",
       line1: "Ofertas exclusivas",
       line2: "Hasta 50% off",
       buttonText: "Aprovechar"

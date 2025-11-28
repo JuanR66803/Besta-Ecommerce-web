@@ -7,7 +7,7 @@ const VideoBanner = () => {
       {/* 🎬 Video de fondo */}
       <video
         className="video-banner__video"
-        src="../../public/SOCCER INTRO.mp4" // reemplázala con tu URL
+        src="/SOCCER INTRO.mp4" // reemplázala con tu URL
         autoPlay
         muted
         loop
