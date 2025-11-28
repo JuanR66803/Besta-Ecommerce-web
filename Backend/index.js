@@ -12,6 +12,7 @@ import saleOrderItemRoutes from "./routes/saleOrderItemRoutes.js"
 import userAddressRoutes from "./routes/userAddressRoutes.js" 
 import wishListProductRoutes from "./routes/wishListProductRoutes.js" 
 import shoppingCarRoutes from './routes/shoppingCarRoutes.js';
+import faqRoutes from "./routes/faqRoutes.js";
 import reportRoutes from "./routes/reportRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
@@ -47,6 +48,7 @@ app.use("/api/saleOrderItem", saleOrderItemRoutes)//enrutamiento a los items de 
 app.use("/api/userAddressItem", userAddressRoutes)//enrutamiento a las direcciones del usuario
 app.use("/api/wishListProduct", wishListProductRoutes)//enrutamiento a los productos en la lista de deseados
 app.use("/api/shoppingCar", shoppingCarRoutes)//enrutamiento carrito de compras
+app.use('/api/product', productDetailsRoutes);
 app.use("/api/reports", reportRoutes);//reportes agregados para panel admin
 app.use("/api/contact", contactRoutes);
 
@@ -55,7 +57,9 @@ app.get("/", (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(` https:localhost:${PORT}`);
+    console.log(` http:localhost:${PORT}`);
 });
+
+app.use("/api/faq", faqRoutes);
 
 export default app;
