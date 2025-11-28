@@ -6,6 +6,7 @@ import PaymentReceipt from "./PaymentReceipt.jsx";
 const PanelCuponesCarrito = ({
   total,
   cantidadTotal,
+  productosSeleccionados
 
 }) => {
   const [abierto, setAbierto] = useState(false);
@@ -92,6 +93,7 @@ const PanelCuponesCarrito = ({
             <PaymentReceipt
               totalArticulos={cantidadTotal}
               totalPagar={total}
+              productosSeleccionados={productosSeleccionados}
               onClose={() => setShowReceipt(false)}
             />
           )}

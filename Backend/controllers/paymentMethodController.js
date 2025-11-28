@@ -66,36 +66,37 @@ export class PaymentMethodController {
     // ------------------------------
 
     // 🔵 MERCADO PAGO (SDK NUEVA)
-    async createMercadoPagoPreference(req, res) {
-        try {
-            const { items } = req.body;
+async createMercadoPagoPreference(req, res) {
+    try {
+        const { items } = req.body;
 
-            const preference = new Preference(mpClient);
+        const preference = new Preference(mpClient);
 
-            const response = await preference.create({
-                body: {
-                    items: items.map(i => ({
-                        title: i.title,
-                        quantity: i.quantity,
-                        currency_id: "COP",
-                        unit_price: Number(i.price)
-                    })),
-                    back_urls: {
-                        success: "http://localhost:5173/checkout/success",
-                        failure: "http://localhost:5173/checkout/failure",
-                        pending: "http://localhost:5173/checkout/pending"
-                    },
-                    auto_return: "approved"
-                }
-            });
+        const response = await preference.create({
+            body: {
+                items: items.map(i => ({
+                    title: i.product_name,               // ← antes: i.title
+                    quantity: Number(i.quantity),        // ← asegurar número
+                    currency_id: "COP",
+                    unit_price: Number(i.product_price)  // ← antes: i.price
+                })),
+                back_urls: {
+                    success: "http://localhost:5173/checkout/success",
+                    failure: "http://localhost:5173/checkout/failure",
+                    pending: "http://localhost:5173/checkout/pending"
+                },
+                // auto_return ELIMINADO
+            }
+        });
 
-            res.json({ init_point: response.init_point });
+        res.json({ init_point: response.init_point });
 
-        } catch (error) {
-            console.error("MercadoPago error:", error);
-            res.status(500).json({ message: "Error creando preferencia de Mercado Pago" });
-        }
+    } catch (error) {
+        console.error("MercadoPago error:", error);
+        res.status(500).json({ message: "Error creando preferencia de Mercado Pago" });
     }
+}
+
 
     // 🟡 EFECTY (SIMULADO)
     async createEfectyPayment(req, res) {
