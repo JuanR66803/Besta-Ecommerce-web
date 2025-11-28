@@ -51,7 +51,7 @@ const SignIn = () => {
             if (data.user.role_name === "admin") {
                 navigate("/panel-admin");
             } else {
-                navigate("/home");
+                navigate("/");
             }
         } catch (err) {
             setError(err.message);

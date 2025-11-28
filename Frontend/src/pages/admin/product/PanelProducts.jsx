@@ -2,8 +2,8 @@ import "./PanelProducts.css";
 import { CiSearch } from "react-icons/ci";
 import { useState, useEffect } from "react";
 import ModalProducts from "./components/modal-products/ModalProducts";
-import { useGetProducts } from "../hooks/useGetProducts.js";
-import { useDeleteProducts } from "../hooks/useUpdateStateProducts.js";
+import { useGetProducts } from "./hooks/useGetProducts.js";
+import { useDeleteProducts } from "./hooks/useUpdateStateProducts.js";
 import ComboBoxCategory from "./components/ComboBox/ComboBoxCategory.jsx";
 import { FaEdit, FaTrash, FaCheckCircle } from "react-icons/fa";
 import { TbRadarOff } from "react-icons/tb";
@@ -153,7 +153,7 @@ const PanelProducts = () => {
                                     <td>{product.sub_category_name}</td>
                                     <td>
                                         <img
-                                            src={product.images[1]}
+                                            src={product.images[0]}
                                             alt={product.product_name}
                                             style={{ width: "50px", height: "50px", objectFit: "cover" }}
                                         />
