@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import "./WishlistSidebar.css";
+import "./WishListSidebar.css";
 import Wishlist from '../pages/wishlist/WishList';
 
 const WishlistSidebar = ({ isOpen, onClose, wishlistData, refetch }) => {
