@@ -71,6 +71,7 @@ async createMercadoPagoPreference(req, res) {
         const { items } = req.body;
 
         const preference = new Preference(mpClient);
+        const FRONTEND_BASE = process.env.FRONTEND_ORIGIN;
 
         const response = await preference.create({
             body: {
@@ -81,9 +82,9 @@ async createMercadoPagoPreference(req, res) {
                     unit_price: Number(i.product_price)  // ← antes: i.price
                 })),
                 back_urls: {
-                    success: "http://localhost:5173/checkout/success",
-                    failure: "http://localhost:5173/checkout/failure",
-                    pending: "http://localhost:5173/checkout/pending"
+                    success: `${FRONTEND_BASE}/checkout/success`, 
+                    failure: `${FRONTEND_BASE}/checkout/failure`, 
+                    pending: `${FRONTEND_BASE}/checkout/pending`
                 },
                 // auto_return ELIMINADO
             }
