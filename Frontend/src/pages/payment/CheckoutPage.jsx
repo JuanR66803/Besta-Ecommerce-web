@@ -4,6 +4,7 @@ import "./CheckoutPages.css";
 function CheckoutPage() {
   const { state } = useLocation();
   const { productosSeleccionados, total } = state || {};
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   
 const handleCheckoutOnline = async () => {
@@ -15,7 +16,7 @@ const handleCheckoutOnline = async () => {
       product_price: Number(p.product_price)
     }));
 
-    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+    
     const res = await  await fetch(`${API_BASE_URL}/api/paymentMethod/create_preference`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -35,6 +36,7 @@ const handleCheckoutOnline = async () => {
   }
 };
 
+{/*
 
   const handleCheckoutEfecty = async () => {
     try {
@@ -53,6 +55,7 @@ const handleCheckoutOnline = async () => {
     }
   };
 
+*/}
   return (
     <div className="layout">
       <div className="layout-content">
@@ -95,7 +98,7 @@ const handleCheckoutOnline = async () => {
             Pagar Online (Mercado Pago)
           </button>
 
- {/*
+{/*
 // ---------------- Efecty Button ----------------
           <button
             className="button"
