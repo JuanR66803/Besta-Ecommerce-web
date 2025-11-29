@@ -4,7 +4,7 @@ import "./CheckoutPages.css";
 function CheckoutPage() {
   const { state } = useLocation();
   const { productosSeleccionados, total } = state || {};
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
 
   
 const handleCheckoutOnline = async () => {
@@ -17,7 +17,7 @@ const handleCheckoutOnline = async () => {
     }));
 
     
-    const res = await  await fetch(`${API_BASE_URL}/api/paymentMethod/create_preference`, {
+    const res = await fetch(`${API_BASE_URL}/api/paymentMethod/create_preference`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ items })
